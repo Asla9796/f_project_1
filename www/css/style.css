@@ -1,0 +1,17 @@
+/* Empty. Add your own CSS if you like */
+/*a, u {
+    text-decoration: none;
+}
+
+.custom-icon {
+   color : #04B404;
+}
+
+.custom-icon-main {
+  color: ;
+}*/
+@mediascreen and (max-width: 400px){
+.scroll{
+	padding-top: 30%;
+}
+}
