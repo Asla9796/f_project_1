@@ -1,0 +1,51 @@
+//========================================
+// $Maximum Width Demo
+//========================================
+
+.max {
+  background: #e78629;
+}
+
+
+// Max-Width Length Values
+// ========================================
+
+// maximum 600px
+.max600 {
+  width: 80%;
+  max-width: 600px;
+}
+
+// maximum 320px
+.max320 {
+  width: 100%;
+  max-width: 320px;
+}
+
+// maximum 50%
+.max-percent {
+  width: 100%;
+  max-width: 50%;
+}
+
+// maximum 40em
+.em40 {
+  width: 100%;
+  max-width: 40em;
+}
+
+// maximum 40rem
+.rem40 {
+  width: 100%;
+  max-width: 40rem;
+}
+
+
+// Max-Width TABLES
+// ========================================
+
+// maximum 30em
+.maxtable {
+  width: 100%;
+  max-width: 600px;
+}

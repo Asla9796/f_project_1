@@ -1,47 +1,425 @@
-// // var server = "http://litsoc.saarang.org/";
-// // var server = "http://10.21.209.31:9000/";
-angular.module('starter.controllers', [])
+var server = "http://data.lingerie91.hasura-app.io/api/";
 
-.service('loadResto', function() {
-    // Get a database reference to our posts 
-  var resto;
-  var addResto = function(newResto) {
-    resto = newResto;
+angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services', 
+                                        'angular-svg-round-progressbar', 'starter.directives', 
+                                        'ui.timepicker'])
+
+//Controller for login.html
+.controller('loginCtrl',function($scope, $location, $http, $ionicPopup, $ionicLoading, $window) {
+
+  var storageTestKey = 'sTest',
+  storage = window.sessionStorage;
+
+   $scope.showAlert = function(user) {
+    // $localStorage.user = user;
+    window.localStorage.setItem('user', user);
+  
+   // An alert dialog
+   $scope.showAlert = function(user) {
+     
+     var password = user.password;
+     var email = user.email;
+     var data = { email: email, password: password};
+     if (email && password){
+       $ionicLoading.show({
+        content: 'Loading',
+        animation: 'fade-in',
+        showBackdrop: true,
+        maxWidth: 200,
+        showDelay: 0
+      });
+  		
+      var loginReq = {
+       method: 'POST',
+       url: 'http://auth.lingerie91.hasura-app.io/login',
+       data : data
+      // transformR,equest: function(obj) {
+      //   var str = [];
+      //   for(var p in obj)
+      //   str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+      //   return str.join("&");
+      //   },
+    };
+    // console.log(data);
+      $http( loginReq).
+          then(function(response) {
+          // this callback will be called asynchronously
+          // when the response is availa 
+          console.log(response);
+          var user = response.data;
+         
+
+          window.localStorage.setItem('data', response.data);
+          window.localStorage.setItem('token', response.data.auth_token);
+          window.localStorage.setItem('currentUserId', response.data.hasura_id);
+          
+          location.replace('index.html');
+        },
+         function(response) {
+          console.log("Error");
+          console.log(response);
+          var Popup = (response.data.message);
+          $ionicLoading.hide();
+          var alertPopup = $ionicPopup.alert({
+           title: 'Error!',
+           template: Popup
+          });
+          
+        });	
+    }
+     else{
+
+        $ionicLoading.hide();
+        var alertPopup = $ionicPopup.alert({
+       title: 'Error!',
+       template: 'Invalid e-mail and password'
+    });
+     }
+   
+   };
   };
-  var getResto = function(){
-    return resto;
+   
+  // $scope.loginGmail = function() {
+  //   window.location.href = 'https://accounts.google.com/o/oauth2/v2/auth?scope=email%20profile&response_type=token&client_id=885627976500-crfrti03r4pu40nh577s5oopp2nqhel0.apps.googleusercontent.com&redirect_uri=http://127.0.0.1:31999/project_3_hasura/www/index.html';
+    
+  // };
+   
+  // $scope.loginFacebook = function() {
+     
+  // };
+   
+   $scope.signUp = function() {
+     location.replace('signUp.html');
+   };
+   
+})
+
+.controller('signUpCtrl', function($scope, $location, $http, $ionicPopup, $ionicLoading, $window, userDetails) {
+  
+  $scope.showAlert = function(user) {
+  
+   // An alert dialog
+   $scope.showAlert = function() {
+
+     
+     var username = user.name;
+     var mobile = user.mobile;
+     var email = user.email;
+     var password = user.password;
+     console.log(user);
+     
+     if(user.password == user.passwordRetype){
+       
+      // $ionicLoading.show({
+      //   content: 'Loading',
+      //   animation: 'fade-in',
+      //   showBackdrop: true,
+      //   maxWidth: 200,
+      //   showDelay: 0
+      // });
+      
+      var data = { 
+       'username': username,
+       'email': email, 
+       'mobile': mobile,
+       'password': password
+      };
+  		
+      var signUpReq = {
+       method: 'POST',
+       url: 'http://auth.lingerie91.hasura-app.io/signup',
+       data : data
+    };
+    // console.log(data);
+      $http( signUpReq).
+          then(function(response) {
+          // this callback will be called asynchronously
+          // when the response is availa 
+          console.log(response);
+         
+          window.localStorage.setItem('data', response.data);
+          window.localStorage.setItem('currentUserId', response.data.hasura_id);
+          window.localStorage.setItem('token', response.data.auth_token);
+          $scope.addUser(data);
+
+          window.location.href = 'index.html';
+        },
+        function(response) {
+          console.log("Error");
+          console.log(response);
+          // console.log(response);
+          var Popup = (response.data.message);
+          $ionicLoading.hide();
+          var alertPopup = $ionicPopup.alert({
+          title: 'Error!',
+          template: Popup
+          });
+          
+        });	
+
+     }
+     else {
+       var alertPopup = $ionicPopup.alert({
+         title: 'Error!',
+         template: 'Passwords do not match'
+       });
+    
+       alertPopup.then(function(res) {
+         console.log('passwords do not match');
+       });
+     }
+    };
   };
   
-  return {
-    addResto : addResto,
-    getResto : getResto
+  $scope.addUser = function(newUser){
+    console.log(newUser);
+    
+      var addUserReq = {
+            method: 'POST',
+            url: server + '/1/table/users/insert',
+            data: {
+              "objects":[{
+                'id': parseInt(window.localStorage['currentUserId']),
+                'name': newUser.username,
+                'phone' : parseInt(newUser.mobile),
+                'email' : newUser.email
+              }]
+            },
+            headers: {
+              'Authorization': 'Hasura ' + window.localStorage['token']
+            }
+          };
+          $http(addUserReq).then(function(response){
+          
+              },
+            function(response){
+                console.log(response);
+              });
   };
   
 })
 
-.controller('HomeCtrl', function($scope, loadResto, $ionicModal, $firebaseObject) {
+.controller('tabsCtrl', function($scope, $window){
+  var screenWidth = $window.innerWidth;
+    
+    if (screenWidth < 700){
+        $scope.isMobile = true;
+    }else{
+        $scope.isMobile = false;
+    }
+    console.log($scope.isMobile);
+})
+//Controller for home tab
+.controller('HomeCtrl', function($scope, $http, outlets, $window, userDetails, $location) {
+        
+  console.log(window.localStorage['token']);
+  console.log(window.localStorage['currentUserId']);
   
-  var ref = new Firebase("https://fproject1.firebaseio.com/caterer");
-// sync as an array for ng-repeat
-  $scope.resto = $firebaseObject(ref); 
-  console.log($scope.resto);
+  var screenWidth = $window.innerWidth;
+    
+    if (screenWidth < 700){
+        $scope.isMobile = true;
+    }else{
+        $scope.isMobile = false;
+    }
+    
+    $scope.images = [{"url": "img/1.1.jpg"}, {"url": "img/2.jpg"}];
+  // console.log($scope.isMobile);
+  $scope.current = 0;
+  var userReq = {
+            method: 'POST',
+            url: server + '1/table/users/select',
+            data: {
+              'columns': ['*'],
+              'where': {'id': parseInt(window.localStorage['currentUserId'])}
+            },
+            headers: {
+              'Authorization': 'Hasura ' + window.localStorage['token']
+            }
+          };
+          $http(userReq).then(function(response){
+            console.log(response.data);
+            userDetails.addUser(response.data[0]);
+            $scope.user = userDetails.getUser();
+            // window.localStorage.setItem('currentUser', response.data);
+            // window.localStorage.setItem('currentUserId', response.data.hasura_id);
+          
+        },
+          function(response){
+            console.log(response);
+    });
   
-  $scope.openRestoDetails = function(object) {
-    loadResto.addResto(object);
-  };
-  
-  $ionicModal.fromTemplateUrl('modal.html', function($ionicModal) {
-        $scope.modal = $ionicModal;
-    }, {
-        // Use our scope for the scope of the modal to keep it simple
-        scope: $scope,
-        // The animation we want to use for the modal entrance
-        animation: 'slide-in-up'
-    });  
-  
+  var outletsReq = {
+      method: 'POST',
+      url: server + '1/table/outlets/select',
+      data: {
+        "columns": ["*"]
+      }
+    };
+    $http(outletsReq).then(function(response){
+          console.log(response.data);
+          $scope.$evalAsync(function(){
+            $scope.outletsList = response.data;  
+          });
+          
+          window.localStorage.setItem('outlets', response.data);
+        },
+      function(response){
+          // $scope.scorecard = scorecard;
+          console.log(response);
+        });
+    
+    $scope.openOutlet = function(object) {
+      if(window.localStorage['token'] === '' | window.localStorage['token'] === undefined ){
+        console.log(window.localStorage['token']);
+        location.replace('login.html');
+      }
+      else{
+        outlets.addOutlet(object); 
+        location.href = "#/tab/resto";
+      }
+    };
+    
+    $scope.imagesOutlets = [{
+      "url":"3.jpg"
+    },{
+      "url":"4.jpg"
+    }];
+
 })
 
-.controller('AccountCtrl', function($scope) {
+//controller to load menu
+.controller("RestoDetailsCtrl", ['$scope', 'favourites', 'cart', 'outlets', '$http', 'userDetails', '$ionicPopup', '$window',
+
+    function ($scope, favourites, cart, outlets, $http, userDetails, $ionicPopup, $window) {
+   
+  
+    if(window.localStorage['token'] === '' | window.localStorage['token'] === undefined){
+      location.replace('login.html');
+    }
+    else {
+     $scope.user = userDetails.getUser();
+     $scope.currentOutlet = outlets.getOutlet();
+     
+     $scope.details = [{
+       "objects":[1]
+     }];
+  
+      var menuReq = {
+          method: 'POST',
+          url: server + '1/table/items/select',
+          data: {
+            "columns": ["*"],
+            "where": {"outletId": $scope.currentOutlet.id}
+          }
+        };
+        $http(menuReq).then(function(response){
+              window.localStorage.setItem('menuItems', response.data);
+              var i, j, unsortedMenu = response.data;
+              
+              $scope.groups = [];
+              
+              for( i=0; i<unsortedMenu.length; i++) {
+                  $scope.groups[i] = {};
+                  $scope.groups[i].type = unsortedMenu[i].type;
+              }
+              
+            
+              for( i=0; i< unsortedMenu.length; i++){
+                for( j=i+1; j<$scope.groups.length; j++){
+                  if($scope.groups[i].type == $scope.groups[j].type){
+                    $scope.groups.splice(j, 1);
+                  }
+                }
+              }
+              
+              for( i=0; i<$scope.groups.length; i++){
+                $scope.groups[i].items = [];
+                for(j=0; j<unsortedMenu.length; j++){
+                  if( $scope.groups[i].type == unsortedMenu[j].type){
+                    $scope.groups[i].items.push(unsortedMenu[j]);
+                  }
+                }
+              
+              }
+            },
+          function(response){
+              console.log(response);
+            });
+            
+        $scope.addToFavourites = function(check, newFavouriteItem) {
+          
+          if(check === true){
+            favourites.addToFavourites(newFavouriteItem);
+          }
+          else {
+            favourites.removeFavourites(newFavouriteItem);
+          }
+        };
+        
+        $scope.addToCart = function(item) {
+          $scope.currentOutlet = outlets.getOutlet();
+          var count = cart.addToCart(item, $scope.currentOutlet.id);
+          
+          $scope.$evalAsync(function(){
+            $scope.itemsNo = count;
+            console.log($scope.itemsNo);
+          });
+          if(count == 1){
+            var alertCart = $ionicPopup.alert({
+              title: 'Item has been added to cart!',
+              template: 'You can continue to add items or checkout by clicking the cart icon in the bottom tab bar'
+            });
+                    
+                       alertCart.then(function(res) {
+                     });
+            
+          }
+          // console.log('item sent to cart');
+        };
+        
+        $scope.removeFromCart = function(item) {
+          $scope.currentOutlet = outlets.getOutlet();
+          cart.removeFromCart(item, $scope.currentOutlet.id);
+          console.log('item sent to remove from cart');
+        };
+        
+        $scope.deleteFromCart = function(item) {
+          cart.deleteFromCart(item);
+        };
+        
+        $scope.toggleGroup = function(group) {
+          group.show = !group.show;
+        };
+        $scope.isGroupShown = function(group) {
+          return group.show;
+        };
+        
+        $scope.toggleDetail = function(group) {
+          group.show = !group.show;
+        };
+        $scope.isDetailShown = function(group) {
+          return group.show;
+        };
+      
+    }
+
+}])
+
+.controller('AccountCtrl', function($scope, $ionicPopup, $http, $window, userDetails) {
+  
+    $scope.user = userDetails.getUser();
+    $scope.returnToken = function() {
+      var check, token = window.localStorage['token'];
+      if(token.length === 0 | token === undefined){
+        check = false;
+      } 
+      else {
+        check = true;
+      }
+      // console.log(check, token);
+      return check;
+    };
   
     $scope.leftButtons = [{
     type: 'button-icon icon ion-navicon',
@@ -50,613 +428,1394 @@ angular.module('starter.controllers', [])
     }
   }];
   
-})
 
-.controller('MenuCtrl', function($scope){
-  
-  $scope.groups = [];
-  for (var i=0; i<5; i++) {
-    $scope.groups[i] = {
-      name: i,
-      items: [],
-      show: false
+    $scope.showConfirm = function() {
+      
+      // var confirmPopup = $ionicPopup.confirm({
+      //   title: 'Consume Ice Cream',
+      //   template: 'Are you sure you want to eat this ice cream?'
+      // });
+       
+      // confirmPopup.then(function(res) {
+      //   if(res) {
+      //     console.log('You are sure');
+      //   } else {
+      //     console.log('You are not sure');
+      //   }
+      // });
     };
-    for (var j=0; j<3; j++) {
-      $scope.groups[i].items.push(j);
-    }
-  }
-  
-  /*
-   * if given group is the selected group, deselect it
-   * else, select the given group
-   */
-  $scope.toggleGroup = function(group) {
-    group.show = !group.show;
-  };
-  $scope.isGroupShown = function(group) {
-    return group.show;
-  };
+    
+    $scope.showConfirm = function() {
+      
+      var confirmPopup = $ionicPopup.confirm({
+          title: 'Delete Account',
+          template: 'Are you sure you want to delete your account?'
+        });
+      
+        confirmPopup.then(function(res) {
+          if(res) {
+            $scope.showPopup();
+            console.log('You are sure');
+          } else {
+            console.log('You are not sure');
+          }
+        });
+    };
+    
+    $scope.deleteAccount = { password: 'password'};   
+    
+    $scope.showPopup = function() {
+       $scope.data = {};
+    
+       // An elaborate, custom popup
+       var myPopup = $ionicPopup.show({
+         templateUrl : 'templates/popUp.html',
+         title:'Re-enter your password',
+         scope: $scope,
+         buttons: [
+           { text: 'Cancel',
+             onTap: function(e) {
+               var check = 0;
+              // alert($scope.deleteAccount.password);
+               return {
+                 check: check
+               };
+             }
+           },
+           {
+             text: '<b>Delete</b>',
+             type: 'button-positive',
+             onTap: function(e) {
+               var check = 1;
+              // alert($scope.deleteAccount.password);
+               return {
+                 check: check,
+                 password: $scope.deleteAccount.password
+               };
+             }
+           },
+         ]
+       });
+       
+       myPopup.then(function(res) {
+           if( res.check === 0){
+             console.log('okay will not delete');
+           }
+           else if (res.check === 1 ){
+            console.log(res.check, res.password);
+              var deleteAccountReq = {
+                
+              method: 'POST',
+              url: 'http://auth.lingerie91.hasura-app.io/user/account/delete',
+              data: {
+              "password": res.password
+              },
+              headers: {
+                'Authorization': 'Hasura ' + window.localStorage['token']
+              }
+            };
+                    
+            $http(deleteAccountReq).then(function(response){
+                console.log(response); 
+                window.localStorage('token','');
+                window.localStorage.setItem('currentUser', '');
+                window.localStorage.setItem('currentUserId', '');
+              },
+                function(response){
+                console.log(response);
+            });
+          }
+       });
+      };
+      
+    $scope.logout = function() {
+      
+      var confirmPopup = $ionicPopup.confirm({
+          title: 'Delete Account',
+          template: 'Are you sure you want to logout??'
+        });
+      
+        confirmPopup.then(function(res) {
+          if(res) {
+            var logoutReq = {
+              method: 'GET',
+              url: 'http://auth.lingerie91.hasura-app.io/user/logout',
+              headers: {
+                'Authorization': 'Hasura ' + window.localStorage['token']
+              }
+            };
+            $http(logoutReq).then(function(response){
+                console.log(response); 
+                window.localStorage.setItem('token', '');
+                window.localStorage.setItem('currentUser', '');
+                window.localStorage.setItem('currentUserId', '');
+                location.replace('index.html');
+          },
+            function(response){
+                console.log(response);
+              });
+          } else {
+            console.log('not logged out');
+          }
+        });
+      };
+
 })
 
-.controller('RestoDetailsCtrl', function(loadResto, $scope) {
+.controller('CartCtrl', [ '$scope', 'cart', '$http', '$window', '$ionicPopup', '$location', 'orders', 'userDetails',
   
-  $scope.resto = loadResto.getResto();
-  console.log($scope.resto);
-  
-  $scope. currentTime = new Date();
-  var currentMilli = $scope.currentTime.getTime();
-  console.log($scope.currentTime);
-  console.log(currentMilli);
+  function($scope, cart, $http, $window, $ionicPopup, $location, orders, userDetails) {
+    
+    // if(window.localStorage['token'] === '' | window.localStorage['token'] === undefined){
+    //   location.replace('login.html');
+    // }
+      $scope.user = userDetails.getUser();
+    
+        $scope.placeOrder = function(cartList, paymentMethod, isParcel, isDelivery, takeAwayHour, takeAwayMinute, address, isImmediate) {
 
-});
-
-
-
-// .controller('EventsCtrl', function($scope, loadDetails, $http, $ionicLoading) {
-  
-//     $ionicLoading.show({
-//       content: 'Loading',
-//       animation: 'fade-in',
-//       showBackdrop: true,
-//       maxWidth: 200,
-//       showDelay: 0
-//     });
-  
-//   // Request to get all events
-//     var eventsReq = {
-//       method: 'GET',
-//       url: server + 'api/events',
-//       headers: {
-//         'Authorization': 'Bearer ' + window.localStorage['token'],
-//       }
-//     };
-//     $http(eventsReq).then(function(response){
-//           // console.log(response);
-//           window.localStorage.setItem('events', response.data);
-//           $scope.events = response.data;
-//           loadDetails.addEventSchedule($scope.events);
-//           // console.log($localStorage.events);
+        console.log(cartList);
+        console.log('order placing');
+        console.log(window.localStorage['currentUserId']);
+        currentUserId = parseInt(window.localStorage['currentUserId']);
+        $scope.orderedOutlets = [];
+        var i,j;
           
-//           var currentTime = new Date();
-//           var currentMilli = currentTime.getTime();
-//           var i;
-//           for(i=0; $scope.events[i]!== undefined; i++){
-//             var utc = $scope.events[i].time;
-//             var utcMilli = Date.parse(utc);
-//             $scope.events[i].timeDifference = Math.abs(utcMilli - currentMilli);
-//             // console.log($scope.events[i].timeDifference);
-//           }
-//           function compare(a,b) {
-//             if (a.timeDifference < b.timeDifference)
-//               return -1;
-//             if (a.timeDifference > b.timeDifference)
-//               return 1;
-//             return 0;
-//           }
-
-//           $scope.events.sort(compare);
-//           $ionicLoading.hide();
-
-//       // console.log($scope.events);
-//         }, 
-//         function(response){
-//             // console.log(response);
-//             $ionicLoading.hide();
-
-//             if (response.status == 401){
-//             location.replace('login.html');
-//             $scope.events = events;
+          for( i=0; i<cartList.length; i++) {
+              $scope.orderedOutlets[i] = {};
+              $scope.orderedOutlets[i].outletId = cartList[i].outletId;
+          }
+          
+          for( i=0; i< $scope.orderedOutlets.length; i++){
+            for( j=i+1; j< $scope.orderedOutlets.length; j++){
+              if($scope.orderedOutlets[i].outletId == $scope.orderedOutlets[j].outletId){
+                $scope.orderedOutlets.splice(j, 1);
+              }
+            }
+          }
+          
+          for( i=0; i<$scope.orderedOutlets.length; i++){
+            $scope.orderedOutlets[i].items = [];
+            for(j=0; j<cartList.length; j++){
+              if( $scope.orderedOutlets[i].outletId == cartList[j].outletId){
+                $scope.orderedOutlets[i].items.push(cartList[j]);
+              }
+            }
+          }
+          
+          for( i=0; i< $scope.orderedOutlets.length; i++){
+            $scope.orderedOutlets[i].billAmount = 0;
+            for(j=0; j<$scope.orderedOutlets[i].items.length; j++){
+              $scope.orderedOutlets[i].billAmount += $scope.orderedOutlets[i].items[j].price*$scope.orderedOutlets[i].items[j].quantity;
+            }
+          }
+          console.log($scope.orderedOutlets);
+          var timestamp = new Date();
+          
+          orders.addTimeStamp(timestamp);
+          for(i=0; i<$scope.orderedOutlets.length; i++){
+            $scope.separatedList($scope.orderedOutlets[i], paymentMethod, isParcel, isDelivery, takeAwayHour, takeAwayMinute, address, timestamp, isImmediate);
+          }
+    };
+    
+    $scope.separatedList = function(cartList, paymentMethod, isParcel, isDelivery, takeAwayHour, takeAwayMinute, address, timestamp, isImmediate){
+      console.log(cartList.items);
+      
+          var orderReq = {
+            method: 'POST',
+            url: server + '1/table/orders/insert',
+            data: {
+              "objects": [{
+                'userId': parseInt(window.localStorage['currentUserId']),
+                'totalAmount': 0,
+                'billAmount': cartList.billAmount,
+                'status':'pending',
+                'paymentMethod': paymentMethod,
+                'isDelivery': isDelivery,
+                'isParcel': isParcel,
+                'takeAwayHour': takeAwayHour,
+                'takeAwayMinute': takeAwayMinute,
+                'deliveryAddress': address,
+                'outletId': parseInt(cartList.outletId),
+                'timestamp': timestamp,
+                'token': '',
+                'packing_charge': 0,
+                'delivery_charge': 0,
+                'conv_charge': 0,
+                'payment_status': 'not paid',
+                'isImmediate': isImmediate,
+                'hash_string': ''
+              }],
+              "returning" : ["id"]
+            },
+            headers: {
+              'Authorization': 'Hasura ' + window.localStorage['token']
+            }
+          };
+        $http(orderReq).then(function(response){
+            console.log(response); 
+            console.log('order placed');
+            $scope.addItems(response.data.returning[0].id, cartList.items, paymentMethod, timestamp);
             
-//             var currentTime = new Date();
-//             var currentMilli = currentTime.getTime();
-//             var i;
-//             for(i=0; $scope.events[i]!== undefined; i++){
-//               var utc = $scope.events[i].time;
-//               var utcMilli = Date.parse(utc);
-//               $scope.events[i].timeDifference = Math.abs(utcMilli - currentMilli);
-//               // console.log($scope.events[i].timeDifference);
-//             }
+                  var getToken = function() {
+                    var text = "";
+                    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+                    for(var i = 0; i < 6; i++) {
+                        text += possible.charAt(Math.floor(Math.random() * possible.length));
+                    }
+                    return text;
+                  };
+                  var updateTokenReq = {
+                      method: 'POST',
+                      url: server + '1/table/orders/update',
+                      data: {
+                        "$set":{"token": response.data.returning[0].id+getToken()},
+                        "where": {"id": response.data.returning[0].id}
+                      },
+                      headers: {
+                        'Authorization': 'Hasura ' + window.localStorage['token']
+                      }
+                    };
+                  
+                  $http(updateTokenReq).then(function(response){
+                      console.log(response); 
+                    },
+                    function(response){
+                        console.log(response);
+                  });
+
+            },
+          function(response){
+              console.log(response);
+        });
+        };
+            
+        $scope.addItems = function(currentOrderId, cartListItems, paymentMethod, timestamp){
+                    var insertCart = [], i, j;
+                    
+                    console.log(currentOrderId);
+                    
+                    for( i=0; i< cartListItems.length; i++){
+                      var dummyCartItem = {};
+                      
+                      dummyCartItem.orderId = parseInt(currentOrderId);
+                      dummyCartItem.userId = parseInt(window.localStorage['currentUserId']);
+                      dummyCartItem.itemId = parseInt(cartListItems[i].id);
+                      dummyCartItem.outletId = parseInt(cartListItems[i].outletId);
+                      dummyCartItem.quantity = parseInt(cartListItems[i].quantity);
+                      dummyCartItem.timestamp = timestamp;
+                      dummyCartItem.isAvailable = true;
+                      insertCart.push(dummyCartItem);
+                    }
+                    
+                    console.log(insertCart);
+                    
+                    //split cartlist such that it is usable by orderedItemsReq
+                    var orderedItemsReq = {
+                      method: 'POST',
+                      url: server + '1/table/orderedItems/insert',
+                      data: {
+                        "objects": insertCart
+                      },
+                      headers: {
+                        'Authorization': 'Hasura ' + window.localStorage['token']
+                      }
+                    };
+                  
+                  $http(orderedItemsReq).then(function(response){
+                      console.log(response); 
+                      if( paymentMethod != 'cashOnDelivery'){
+                       location.href ='#/tab/awaitingConfirmation'; 
+                      }
+                    },
+                    function(response){
+                        console.log(response);
+                      });
+            };   
+    
+    $scope.cartList = cart.cartList;
+    
+    var totalAmount;
+    $scope.getTotal = function() {
+      var i, total=0;
+      for( i=0; i<$scope.cartList.length; i++) {
+        total += $scope.cartList[i].price*$scope.cartList[i].quantity;
+      }
+      totalAmount = total;
+      return total;
+    };
+    
+    $scope.isCartEmpty = function (){
+      if( $scope.cartList.length ===0 ){
+        return true;
+      }
+      else {
+        return false;
+      }
+    };
+    
+    var getPadded = function(val){
+      return val < 10 ? ('0' + val) : val;
+    };
+    
+    var timeFormat = function(val){
+      return val > 12 ? ( val-12 ): val; 
+    };
+    
+    $scope.getMinTime = function(cartList) {
+      var i, largest=60, smallest=0;
+      
+      for(i=1; i<cartList.length; i++){
+        if(largest > cartList[i].minTime){
+          largest = cartList[i].minTime;
+        }
+        if(smallest < cartList[i].minTime){
+          smallest = cartList[i].minTime;
+        }
+      }
+
+      minTime = largest;
+         
+      var currentTime = new Date();
+      $scope.currentHour = currentTime.getHours();
+      $scope.currentMinutes = currentTime.getMinutes();
+      
+      if( (minTime+$scope.currentMinutes) >= 60){
+        $scope.minHour = $scope.currentHour + 1;
+        $scope.minMinutes = minTime+$scope.currentMinutes-60;
+      }
+      else {
+        $scope.minHour = $scope.currentHour;
+        $scope.minMinutes = minTime + $scope.currentMinutes;
+      }
+
+      cart.addMinTime(minTime);
+      cart.addMinMinutes($scope.minMinutes);
+      cart.addMinHour($scope.minHour);
+      
+      return timeFormat(($scope.minHour))+':'+ getPadded($scope.minMinutes);
+      
+    };
+    
+
+    $scope.delivery = function(cartList) {
+      $scope.choice = '';
+      
+       var deliveryPopup = $ionicPopup.show({
+         templateUrl : 'templates/deliveryPopup.html',
+         title:'Please select payment method :',
+         scope: $scope,
+         buttons: [
+           { text: 'Cancel',
+             onTap: function(e) {
+               var check = 0;
+              // alert($scope.deleteAccount.password);
+               return {
+                 check: check
+               };
+             }
+           },
+           {
+             text: '<b>OK</b>',
+             type: 'button-positive',
+             onTap: function(e) {
+               var check = 1;
+               choice = $scope.choice;
+               console.log(choice);
+              // alert($scope.deleteAccount.password);
+               return {
+                 check: check,
+                 choice: $scope.choice
+               };
+             }
+           },
+         ]
+       });
+       
+       deliveryPopup.then(function(res) {
+
+           if( res.check === 0){
+             console.log('payment canceled');
+           }
+           else if (res.check === 1 ){
+             
+            var deliveryAddressPopup = $ionicPopup.show({
+               templateUrl : 'templates/deliveryAddressPopup.html',
+               title:'Please enter your delivery address :',
+               scope: $scope,
+               buttons: [
+                 { text: 'Cancel',
+                   onTap: function(e) {
+                     var check = 0;
+                    // alert($scope.deleteAccount.password);
+                     return {
+                       check: check
+                     };
+                   }
+                 },
+                 {
+                   text: '<b>OK</b>',
+                   type: 'button-positive',
+                   onTap: function(e) {
+                     var check = 1;
+                     console.log(choice);
+                    // alert($scope.deleteAccount.password);
+                     return {
+                       check: check
+                     };
+                   }
+                 },
+               ]
+             });
+             
+             deliveryAddressPopup.then(function(res){
+               if(res.check ===0 ){
+                 console.log('no address');
+               }
+               else if(res.check === 1){
+                var choice = cart.getChoice();
+                var address = cart.getAddress();
+                
+                if(choice=== ''){
+                   var alertChoice = $ionicPopup.alert({
+                        title: 'Invalid Choice!',
+                        template: 'Please choose a valid choice'
+                      });
+                    
+                      alertChoice.then(function(res) {
+                        // console.log('Thank you for not eating my delicious ice cream cone');
+                      });
+                }
+              else{
+                if(address === ''){
+                     var alertAddressPopup = $ionicPopup.alert({
+                       title: 'Invalid Address!',
+                       template: 'Please enter a valid address'
+                     });
+                  
+                     alertAddressPopup.then(function(res) {
+                      console.log('empty address');
+                     });                  
+                }
+                else{
+                
+                if( choice == 'onlinePayment'){
+                  // $scope.checkfn();
+                    // $scope.placeOrder( cartList, choice, true, true, 0, 0, address, false);
+                  }
+                  else if( choice == 'cashOnDelivery'){
+                    // $scope.checkfn();
+                    // $scope.placeOrder( cartList, choice, true, true, 0, 0, address, false);
+                      var alertCoDPopup = $ionicPopup.alert({
+                      title: 'Your order has been successfully placed!',
+                      template: 'You can track your order status on Account >> Order History'
+                    });
+                  
+                    alertCoDPopup.then(function(res) {
+                      // console.log('Thank you for not eating my delicious ice cream cone');
+                      location.replace('index.html');
+                  });
+                  }
+                }
+              }
+               }
+               
+             });
+          }
+      });
+    };
+    
+    $scope.takeAway = function(cartList) {
+      
+      $scope.choice = '';
+      var takeAwayPopup = $ionicPopup.show({
+         templateUrl : 'templates/takeAwayPopup.html',
+         title:'Please select your take-away mode :',
+         scope: $scope,
+         buttons: [
+           { text: 'Cancel',
+             onTap: function(e) {
+               var check = 0;
+              // alert($scope.deleteAccount.password);
+               return {
+                 check: check
+               };
+             }
+           },
+           {
+             text: '<b>OK</b>',
+             type: 'button-positive',
+             onTap: function(e) {
+               var check = 1;
+              // alert($scope.deleteAccount.password);
+               return {
+                 check: check
+               };
+             }
+           },
+         ]
+       });
+
+       takeAwayPopup.then(function(res) {
+         
+           if( res.check === 0){
+             console.log('payment canceled');
+           }
+           else if (res.check === 1 ){
+            
+             var takeAwayTimePopup = $ionicPopup.show({
+               templateUrl : 'templates/takeAwayTimePopup.html',
+               title:'Please enter take-away time :',
+               scope: $scope,
+               buttons: [
+                 { text: 'Cancel',
+                   onTap: function(e) {
+                     var check = 0;
+                    // alert($scope.deleteAccount.password);
+                     return {
+                       check: check
+                     };
+                   }
+                 },
+                 {
+                   text: '<b>OK</b>',
+                   type: 'button-positive',
+                   onTap: function(e) {
+                     var check = 1;
+                     return {
+                       check: check
+                     };
+                   }
+                 },
+               ]
+             });       
+             
+             takeAwayTimePopup.then(function(res) {
+                
+                var takeAwayHour = cart.getHour();
+                var takeAwayMinute = cart.getMinute();
+                var choice = cart.getChoice();
+                var minHour = cart.getMinHour();
+                var minMinute = cart.getMinMinutes();
+                
+                if(choice === ''){
+                      var alertChoice = $ionicPopup.alert({
+                        title: 'Invalid Choice!',
+                        template: 'Please choose a valid choice'
+                      });
+                    
+                      alertChoice.then(function(res) {
+                        // console.log('Thank you for not eating my delicious ice cream cone');
+                      });
+                }
+                else{
+                  if( res.check === 0){
+                    console.log('payment canceled');
+                  }
+                  else if (res.check === 1 ){
+                    
+                    if( ((takeAwayHour - minHour)<3) && ((takeAwayHour - minHour)>0) ){
+                      if( choice == 'dineIn'){
+                        console.log('being placed');
+                        // $scope.checkfn();
+                          $scope.placeOrder( cartList, 'onlinePayment', false, false, takeAwayHour, takeAwayMinute, '', false);
+                        }
+                        else if( choice == 'parcel'){
+                          console.log('being placed');
+                          // $scope.checkfn();
+                          $scope.placeOrder( cartList, 'onlinePayment', true, false, takeAwayHour, takeAwayMinute, '', false);
+                        }
+                    }
+                    else if( takeAwayHour == minHour){
+                      if( takeAwayMinute >= minMinute){
+                        if( choice == 'dineIn'){
+                          console.log('being placed');
+                          // $scope.checkfn();
+                            $scope.placeOrder( cartList, 'onlinePayment', false, false, takeAwayHour, takeAwayMinute, '', false);
+                          }
+                          else if( choice == 'parcel'){
+                            console.log('being placed');
+                            // $scope.checkfn();
+                            $scope.placeOrder( cartList, 'onlinePayment', true, false, takeAwayHour, takeAwayMinute, '', false);
+                          }
+                      }
+                    }
+                    else {
+                      var alertPopup = $ionicPopup.alert({
+                        title: 'Invalid Time!',
+                        template: 'Order can only be placed within 3 hours of estimated take away time'
+                      });
+                    
+                      alertPopup.then(function(res) {
+                        // console.log('Thank you for not eating my delicious ice cream cone');
+                      });
+                    }
+                      console.log('order can be placed');
+                  }  
+                }
+         
+              });
+
+          }
+      
+      });
+    };
+    $scope.immediateOrder = function(cartList) {
+      
+      $scope.choice = '';
+      var takeAwayPopup = $ionicPopup.show({
+         templateUrl : 'templates/takeAwayPopup.html',
+         title:'Please select your dining mode :',
+         scope: $scope,
+         buttons: [
+           { text: 'Cancel',
+             onTap: function(e) {
+               var check = 0;
+              // alert($scope.deleteAccount.password);
+               return {
+                 check: check
+               };
+             }
+           },
+           {
+             text: '<b>OK</b>',
+             type: 'button-positive',
+             onTap: function(e) {
+               var check = 1;
+              // alert($scope.deleteAccount.password);
+               return {
+                 check: check
+               };
+             }
+           },
+         ]
+       });
+
+       takeAwayPopup.then(function(res) {
+         var choice = cart.getChoice();
+         var takeAwayHour = 0;
+         var takeAwayMinute = 0;
+         
+        if(choice === ''){
+                      var alertChoice = $ionicPopup.alert({
+                        title: 'Invalid Choice!',
+                        template: 'Please choose a valid choice'
+                      });
+                    
+                      alertChoice.then(function(res) {
+                        // console.log('Thank you for not eating my delicious ice cream cone');
+                      });
+        }
+        else{
+          if( res.check === 0){
+             console.log('payment canceled');
+           }
+           else if (res.check === 1 ){
+                  
+                      if( choice == 'dineIn'){
+                        console.log('being placed');
+                        // $scope.checkfn();
+                          $scope.placeOrder( cartList, 'onlinePayment', false, false, takeAwayHour, takeAwayMinute, '', true);
+                        }
+                        else if( choice == 'parcel'){
+                          console.log('being placed');
+                          // $scope.checkfn();
+                          $scope.placeOrder( cartList, 'onlinePayment', true, false, takeAwayHour, takeAwayMinute, '', true);
+                        }
+          }
+        }
+      
+      });
+    };
+      
+  
+}])
+
+.controller('FavouritesCtrl', [ '$scope', 'favourites', '$http', 'outlets', 'cart', '$ionicPopup', '$interval', 
+  
+  function($scope, favourites, $http, outlets, cart, $ionicPopup, $interval) {
+    
+    if(window.localStorage['token'] === '' | window.localStorage['token'] === undefined){
+      location.replace('login.html');
+    }
+    
+    var favouritesfn = function(){
+      var favouritesReq = {
+        method: 'POST',
+        url: server + '1/table/favourites/select',
+        data: {
+          "columns":["*", {
+            "name": "item",
+            "columns" : ["*"]
+          }],
+          "where": { "userId": parseInt(window.localStorage['currentUserId'])}
+        },
+          headers: {
+            'Authorization': 'Hasura ' + window.localStorage['token']
+        }
+      };
+                  
+      $http(favouritesReq).then(function(response){
+        // console.log(response); 
+        $scope.$evalAsync(function(){
+          $scope.favList = response.data;
+          $scope.favourites_length = response.data.length;
+        });
+        
+      }, function(response){
+          console.log(response);
+      });
+    };
+    
+    favouritesfn();
+    
+
+    $scope.removeFromFav = function(id){
+      var removeFromFavReq = {
+        method: 'POST',
+        url: server + '1/table/favourites/delete',
+        data: {
+          "where": {"id": id}
+        },
+        headers: {
+          'Authorization': 'Hasura ' + window.localStorage['token']
+        }
+      };
+                  
+      $http(removeFromFavReq).then(function(response){
+        // console.log(response); 
+        var i;
+        for(i=0; i<$scope.favList.length; i++){
+          if($scope.favList.id == id){
+            $scope.favList.splice(i, 1);
+          }
+        }
+      }, function(response){
+          console.log(response);
+      });
+    };
+    
+    $scope.fromFavToCart = function(item){
+      $scope.currentOutlet = outlets.getOutlet();
+      
+      var count = cart.addToCart(item, $scope.currentOutlet.id);
+      
+      // console.log(count);
+      
+      if(count == 1){
+        var alertCart = $ionicPopup.alert({
+          title: 'Item has been added to cart!',
+          template: 'You can continue to add items or checkout by clicking the cart icon in the bottom tab bar'
+        });
+                
+        alertCart.then(function(res) {
+        
+        });
+        
+      }
+    };
+    
+}])
+
+.controller('ProfileCtrl', [ '$scope', '$window', '$ionicPopup', 'userDetails', '$http', 
+  
+  function($scope, $window, $ionicPopup, userDetails, $http) {
+    
+    // $scope.user = window.localStorage['currentUser'];
+
+    
+  var userReq = {
+            method: 'POST',
+            url: server + '1/table/users/select',
+            data: {
+              'columns': ['*'],
+              'where': {'id': parseInt(window.localStorage['currentUserId'])}
+            },
+            headers: {
+              'Authorization': 'Hasura ' + window.localStorage['token']
+            }
+          };
+          $http(userReq).then(function(response){
+            console.log(response.data);
+            userDetails.addUser(response.data[0]);
+            $scope.user = userDetails.getUser();
+            // window.localStorage.setItem('currentUser', response.data);
+            // window.localStorage.setItem('currentUserId', response.data.hasura_id);
+          
+        },
+          function(response){
+            console.log(response);
+    });
+    
+    
+    $scope.addAccount = function() {
+      console.log('add account working');
+    };
+    
+}])
+
+.controller('awaitingConfirmationCtrl', [ '$scope', '$interval', '$timeout', '$window', 'roundProgressService', '$http', '$location', 'userDetails',
+
+  function($scope, $interval, $timeout, $window, roundProgressService, $http, $location, userDetails) {
+    $scope.user = userDetails.getUser();
+    
+            $scope.current =        27;
+            $scope.max =            50;
+            $scope.offset =         0;
+            $scope.timerCurrent =   0;
+            $scope.uploadCurrent =  0;
+            $scope.stroke =         8;
+            $scope.radius =         80;
+            $scope.isSemi =         false;
+            $scope.rounded =        false;
+            $scope.responsive =     false;
+            $scope.clockwise =      true;
+            $scope.currentColor =   '#45ccce';
+            $scope.bgColor =        '#eaeaea';
+            $scope.duration =       800;
+            $scope.currentAnimation = 'easeOutCubic';
+            $scope.animationDelay = 0;
+
+            $scope.increment = function(amount){
+                $scope.current+=(amount || 1);
+            };
+
+            $scope.decrement = function(amount){
+                $scope.current-=(amount || 1);
+            };
+
+            $scope.animations = [];
+
+            angular.forEach(roundProgressService.animations, function(value, key){
+                $scope.animations.push(key);
+            });
+
+            $scope.getStyle = function(){
+                var transform = ($scope.isSemi ? '' : 'translateY(-50%) ') + 'translateX(-50%)';
+
+                return {
+                    'top': $scope.isSemi ? 'auto' : '50%',
+                    'bottom': $scope.isSemi ? '5%' : 'auto',
+                    'left': '50%',
+                    'transform': transform,
+                    '-moz-transform': transform,
+                    '-webkit-transform': transform,
+                    'font-size': $scope.radius/3.5 + 'px'
+                };
+            };
+
+            $scope.getColor = function(){
+                return $scope.gradient ? 'url(#gradient)' : $scope.currentColor;
+            };
+
+            $scope.showPreciseCurrent = function(amount){
+                $timeout(function(){
+                    if(amount <= 0){
+                        $scope.preciseCurrent = $scope.current;
+                    }else{
+                        var math = $window.Math;
+                        $scope.preciseCurrent = math.min(math.round(amount), $scope.max);
+                    }
+                });
+            };
+
+            var getPadded = function(val){
+                return val < 10 ? ('0' + val) : val;
+            };
+            
+            var minutes = 2;
+            var seconds = 59;
+            var orderStatus = '';
+            var minutesInSeconds = 119;
+            
+            var awaitingConfirmation = function(){
+                var date = new Date();
+                // var hours = date.getHours();
+                minutesInSeconds -= 1;
+                if( seconds === 0){
+                  seconds = 60;
+                  minutes -= 1;
+                } 
+                else{
+                  seconds -= 1; 
+                }
+
+                // $scope.hours = hours;
+                $scope.minutesInSeconds = minutesInSeconds;
+                $scope.minutes = minutes;
+                $scope.seconds = seconds;
+                $scope.time = getPadded(minutes-1) + ':' + getPadded(seconds);
+                
+                if(minutes === 0 && seconds === 0){
+                  location.href ='#/tab/confirmation';                  
+                }
+            };
+            
+            var promise = $interval(awaitingConfirmation, 1000);
+            
+            $scope.$on('$destroy',function(){
+                  if(promise)
+                      $interval.cancel(promise);   
+              });
+            
+            setTimeout(function(){
+              location.href = '#/tab/confirmation';
+            }, 120000);
+}])
+
+.controller('confirmationCtrl', ['$scope', '$http', 'orders', '$location', 'userDetails',
+
+  function($scope, $http, orders, $location, userDetails){
+    
+    var user = userDetails.getUser();
+    $scope.name = user.name;
+    $scope.email = user.email;
+    $scope.phone = user.phone;
+    var timestamp = orders.getTimeStamp();
+    console.log(timestamp);
+    
+    var getPadded = function(val){
+      return val < 10 ? ('0' + val) : val;
+    };
+    
+    var confirmationOrdersReq = {
+    method: 'POST',
+    url: server + '1/table/orders/select',
+    data: {
+        "columns":[
+                "*",
+                {
+                    "name": "items",
+                    "columns": [
+                            "*",
+                            {
+                                "name":"item",
+                                "columns": ["*"]
+                            }
+                        ]
+                },
+                {
+                  "name": "outlet",
+                  "columns": ["*"]
+                }
+            ],
+        "where": {
+          "timestamp": timestamp
+        }
+    },
+    headers: {
+        'Authorization': 'Hasura ' + window.localStorage['token']
+      }
+  };
+  
+  $http(confirmationOrdersReq).then(function(response){
+    console.log(response);
+    var orders = response.data;
+    $scope.orders = orders;
+    $scope.timestamp = timestamp;
+    
+    $scope.isDelivery = orders[0].isDelivery;
+    $scope.takeAwayTime = getPadded(orders[0].takeAwayHour)+':'+getPadded(orders[0].takeAwayMinutes);
+    $scope.paymentMethod = response.data[0].paymentMethod;
+      if(orders[0].isDelivery && orders[0].paymentMethod != 'cashOnDelivery'){
+      $scope.isCoD = true;
+    }
+    
+    var i;
+    $scope.total = 0;
+    $scope.packing = 0;
+    $scope.convenience = 0;
+    $scope.delivery = 0;
+    $scope.totalAmount = 0;
+    
+    $scope.confirmedOrders = [];
+    for(i=0; i < orders.length; i++){
+      if(orders[i].status == "confirmed"){
+        $scope.confirmedOrders.push(orders[i]);
+        $scope.totalAmount += orders[i].totalAmount;
+        $scope.packing += orders[i].packing_charge;
+        $scope.delivery += orders[i].delivery_charge;
+        $scope.convenience += orders[i].conv_charge;
+        $scope.total += orders[i].billAmount;
+      }
+    }
+    
+    console.log($scope.confirmedOrders);
+    
+    
+  }, function(response){
+    console.log(response);
+  });
+
+    
+      $scope.sha512 = sha512('gtKFFx'+'|'+$scope.timestamp+'|'+$scope.totalAmount+'|'+'food order'+'|'+$scope.name+
+                      '|'+$scope.email+'|||||||||||'+'eCwWELxi');
+      console.log($scope.sha512);
+      console.log(document.getElementById('payForm'));
+      $scope.submit = function(){
+        
+        var updateHashReq = {
+          method: 'POST',
+          url: server + '1/table/orders/update',
+          data: {
+            "$set":{"hash_string": 'gtKFFx'+'|'+$scope.timestamp+'|'+$scope.totalAmount+'|'+'food order'+'|'+$scope.name+
+                    '|'+$scope.email+'|||||||||||'+'eCwWELxi'},
+            "where": {"timestamp": $scope.timestamp}
+          },
+          headers: {
+            'Authorization': 'Hasura ' + window.localStorage['token']
+          }
+        };
+        
+        $http('updateHashReq').then(function(response){
+          document.getElementById('payForm').submit();
+        }, function(response){
+          console.log(response);
+        });
+      };
+    
+    $scope.returnToMenu = function() {
+      location.replace('index.html');
+    };
+    
+}])
+
+.controller('orderHistoryCtrl', [ '$scope', '$http', '$window', 'orders','userDetails', 
+  
+  function($scope, $http, $window, orders, userDetails) {
+    $scope.user = userDetails.getUser();
+      
+      var outletsReq = {
+        method: 'POST',
+        url: server + '1/table/outlets/select',
+        data: {
+          "columns": ['id', "name"]
+        }
+      };
+      
+      $http(outletsReq).then(function(response){
+            // console.log(response.data);
+            var outlets = response.data;
+            
+            var orderHistoryReq = {
+              method: 'POST',
+              url: server + '1/table/orders/select',
+              data: {
+                "columns": ['outletId', 'status', 'id','timestamp', 'token', 'payment_status'],
+                "where": { 'userId': parseInt(window.localStorage['currentUserId'])}
+              },
+              headers: {
+                'Authorization': 'Hasura ' + window.localStorage['token']
+              }
+            };
+                    
+            $http(orderHistoryReq).then(function(response){
+              $scope.orders = [];
+              var i, j;
               
-//             function compare(a,b) {
-//               if (a.timeDifference < b.timeDifference)
-//                 return -1;
-//               if (a.timeDifference > b.timeDifference)
-//               return 1;
-//             return 0;
-//             }
+              console.log(outlets);
+              var monthNames = [
+                "January", "February", "March",
+                "April", "May", "June", "July",
+                "August", "September", "October",
+                "November", "December"
+              ];
+              
+              for( i=0; i<outlets.length; i++){
+                for( j=0; j< response.data.length; j++){
+                   if(outlets[i].id === response.data[j].outletId){
+                      var dummy = {};
+                      if(response.data[j].timestamp !== undefined && response.data[j].timestamp !== null){
+                        var date = new Date(response.data[j].timestamp);
+                        dummy.time = monthNames[date.getMonth()]+' '+date.getDate()+', '+date.getFullYear();
+                      }
+                      else {
+                        dummy.time = '';
+                      }
+                      dummy.id = parseInt(response.data[j].id);
+                      dummy.name = outlets[i].name;
+                      dummy.status = response.data[j].status;
+                      dummy.token = response.data[j].token;
+                      dummy.paymentStatus = response.data[j].payment_status;
+                      $scope.orders.push(dummy);
+                    } 
+                }
+              }
+              
+              // console.log(response); 
+              // console.log($scope.orders);
+            },function(response){
+                console.log(response);
+            });
 
-//       $scope.events.sort(compare);
-//       // console.log($scope.events);
-//           } else alert(response.data.errors.message);
-//         });
-  
-//     // Request to load all clubs
-//     var clubReq = {
-//       method: 'GET',
-//       url: server + 'api/clubs',
-//       headers: {
-//         'Authorization': 'Bearer ' + window.localStorage['token'],
-//       }
-//     };
-//     $http(clubReq).then(function(response){
-//           // console.log(response);
-//           window.localStorage.setItem('clubs', response.data);
-//           // $localStorage.clubs = response.data;
-//           $scope.clubs = response.data;
-//           loadDetails.addClub($scope.clubs);
-//         },
-//       function(response){
-//         $scope.clubs = clubs;
-//         // console.log(response);
-//         });
-    
-//     //Request to load scoreboard    
-//     var scoreboardReq = {
-//       method: 'GET',
-//       url: server + 'api/scoreboards',
-//       headers: {
-//         'Authorization': 'Bearer ' + window.localStorage['token'],
-//       }
-//     };
-//     $http(scoreboardReq).then(function(response){
-//           // console.log(response);
-//           // console.log(response.data[0].scorecard);
-//           window.localStorage.setItem('scorecard', response.data[0].scorecard);
-//           $scope.scorecard = response.data[0].scorecard;
-//           loadDetails.addScorecard($scope.scorecard);
-//         },
-//       function(response){
-//           $scope.scorecard = scorecard;
-//           // console.log(response);
-//         });
+          },function(response){
+            console.log(response);
+      });
       
+      $scope.openOrderSummary = function(order){
+        orders.addOrders(order);
+      };
+
+}])
+
+.controller('orderSummaryCtrl', ['$scope', '$http', 'orders', 'userDetails',
+
+  function($scope, $http, orders, userDetails){
+    $scope.user = userDetails.getUser();
+    var order = orders.getOrders(order);
+    $scope.order = order;
+    var itemsSummaryReq = {
+      method: 'POST',
+      url: server + '1/table/items/select',
+      data: {
+        "columns": ['*']
+      },
+      headers: {
+        'Authorization': 'Hasura ' + window.localStorage['token']
+      }
+    };
+                        
+    $http(itemsSummaryReq).then(function(response){
+      var items = response.data;
+      
+            var orderSummaryReq = {
+              method: 'POST',
+              url: server + '1/table/orders/select',
+              data: {
+                "columns": ['*'],
+                "where": { 'id': order.id}
+              },
+              headers: {
+                'Authorization': 'Hasura ' + window.localStorage['token']
+              }
+            };
+                    
+            $http(orderSummaryReq).then(function(response){
+              
+                var getPadded = function(val){
+                  return val < 10 ? ('0' + val) : val;
+                };
+                // console.log(response); 
+                
+                $scope.isDelivery = response.data[0].isDelivery;
+                $scope.deliveryTime = getPadded(response.data[0].takeAwayHour)+':'+getPadded(response.data[0].takeAwayMinute);
+                $scope.totalAmount = response.data[0].totalAmount;
+                
+                var orderedItemsSummaryReq = {
+                  method: 'POST',
+                  url: server + '1/table/orderedItems/select',
+                  data: {
+                    "columns": ['*'],
+                    "where": { 'orderId': order.id}
+                  },
+                  headers: {
+                    'Authorization': 'Hasura ' + window.localStorage['token']
+                  }
+                };
+                        
+                $http(orderedItemsSummaryReq).then(function(response){
+                  console.log(response); 
+                  var i, j;
+                  $scope.orderSummary = [];
+                  
+                  for( i=0; i<response.data.length; i++){
+                    for(j=0; j<items.length; j++) {
+                      if(response.data[i].isAvailable === true){
+                          if(items[j].id == response.data[i].itemId){
+                      
+                          var dummy = {};
+                          dummy.name = items[j].name;
+                          dummy.price = items[j].price;
+                          dummy.quantity = response.data[i].quantity;
+                          dummy.minTime = items[j].minTime;
+                          $scope.orderSummary.push(dummy);
+                        }                        
+                      }
+                    }
+                  }
+                  console.log($scope.orderSummary);
+                  
+                },function(response){
+                    console.log(response);
+                });
+              
+            },function(response){
+                console.log(response);
+            });
+    },function(response){
+      console.log(response);
+    });
     
-//     $scope.isEventDate = function(event){
-//       if( event.time === null)
-//         return false;
+}])
+
+.controller('takeAwayTimeCtrl', ['$scope', 'cart', '$ionicPopup',
+  
+  function($scope, cart, $ionicPopup){
+    
+    var nowTime = new Date();
+    $scope.mydatetime = nowTime.getTime()+cart.getMinTime()*60000;
+    // $scope.takeAwayHour = minDeliveryHour;
+    // $scope.takeAwayMinutes = minDeliveryMinutes;
+    
+    // $scope.$watchGroup(['takeAwayMinutes', 'takeAwayHour'], function(newValues, oldValues, scope) {
+      
+    //   // var alertPopup = $ionicPopup.alert({
+    //   //   title: 'Invalid Time!',
+    //   //   template: 'Orders can only be made within 3 hours after expected take-away time'
+    //   // });
+      
+    //   // alertPopup.then(function(res) {
+    //   //   console.log('can not order');
+    //   // });
+      
+    //   cart.addHour($scope.takeAwayHour);
+    //   cart.addMinute($scope.takeAwayMinutes);
+      
+    // }, true);
+    
+    $scope.$watch('mydatetime', function(newValues, oldValues, scope){
+      var time = new Date($scope.mydatetime);
+      cart.addHour(time.getHours());
+      cart.addMinute(time.getMinutes());
+    }, true);
+
+}])
+
+.controller('takeAwayPopupCtrl', ['$scope', 'cart',
+
+  function($scope, cart){
+    $scope.$watch('choice', function(newValues, oldValues, scope) {
+      cart.addChoice($scope.choice);
+    });
+    
+}])
+
+.controller('deliveryPopupCtrl', ['$scope', 'cart',
+
+  function($scope, cart){
+    $scope.$watch('choice', function(newValues, oldValues, scope) {
+      cart.addChoice($scope.choice);
+    });
+    
+}])
+
+.controller('deliveryAddressPopupCtrl', ['$scope', 'cart',
+
+  function($scope, cart){
+    $scope.address = '';
+    $scope.$watch('address', function(newValues, oldValues, scope) {
+      cart.addAddress($scope.address);
+      console.log($scope.address);
+    });
+    
+}])
+
+.controller('changePassPopupCtrl', ['$scope', 'userDetails',
+
+  function($scope, userDetails){
+    $scope.$watch('choice', function(newValues, oldValues, scope) {
+      userDetails.addChangePassword([$scope.oldPassword, $scope.newPassword]);
+    });
+    
+}])
+
+.controller('trialCtrl', ['$scope', '$document', '$http',
+
+  function($scope, $document, $http){
+    $scope.timestamp = '2016-07-12T16:09:38.128d';
+    $scope.totalAmount = 50;
+    $scope.name = 'Arjun';
+    $scope.email = 'arjunrakesh007@gmail.com';
+    $scope.phone = '9605166123';
+    
+      $scope.sha512 = sha512('gtKFFx'+'|'+$scope.timestamp+'|'+$scope.totalAmount+'|'+'food order'+'|'+$scope.name+
+                      '|'+$scope.email+'|||||||||||'+'eCwWELxi');
+      console.log($scope.sha512);
+      console.log(document.getElementById('payForm'));
+      $scope.submit = function(){
+        document.getElementById('payForm').submit();
         
-//       var monthNames = [
-//         "January", "February", "March",
-//         "April", "May", "June", "July",
-//         "August", "September", "October",
-//         "November", "December"
-//       ];
-
-//       var date = new Date(event.time);
-//       var day = date.getDate();
-//       var monthIndex = date.getMonth();
-//       var year = date.getFullYear();
-//       var _date = day + ' ' + monthNames[monthIndex] + ' ' + year;
-
-//       if(_date!== 'NaN undefined NaN')
-//         return true;
-//       else 
-//         return false;
-//     };
-    
-//     $scope.isEventTime = function(event){
-//       if(event.time === null)
-//         return false;
+        // var updateHashReq = {
+        //   method: 'POST',
+        //   url: server + '1/table/orders/update',
+        //   data: {
+        //     "$set":{"hash_string": 'gtKFFx'+'|'+$scope.timestamp+'|'+$scope.totalAmount+'|'+'food order'+'|'+$scope.user.name+
+        //             '|'+$scope.user.email+'|||||||||||'+'eCwWELxi'},
+        //     "where": {"timestamp": $scope.timestamp}
+        //   },
+        //   headers: {
+        //     'Authorization': 'Hasura ' + window.localStorage['token']
+        //   }
+        // };
         
-//       var date = new Date(event.time);
-//       var _time = date.getHours() + ":" + date.getMinutes() ;
-//       console.log(_time);
-//       if(_time!== 'NaN:NaN' || _time!== '16:46')
-//         return true;
-//       else
-//         return false;
-      
-//     };
+        // $http('updateHashReq').then(function(response){
+        //   document.getElementById('payForm').submit();
+        // }, function(response){
+        //   console.log(response);
+        // });
+      };    
     
-    
-//     $scope.isEventVenue = function(event){
-//       if( event.venue === '')
-//         return false;
-      
-//       if(typeof event.venue !== 'undefined')
-//         return true;
-//       else  
-//         return false;
-//     };
-    
-//     $scope.getEventDate = function(event){
+}])
+
+.controller('accountSettingsCtrl', ['$scope', '$http', '$ionicPopup', 'userDetails',
+
+  function($scope, $http, $ionicPopup, userDetails){
+    $scope.user = userDetails.getUser();
+   $scope.changePassword = function(){
      
-//       var monthNames = [
-//         "January", "February", "March",
-//         "April", "May", "June", "July",
-//         "August", "September", "October",
-//         "November", "December"
-//       ];
-
-//       var date = new Date(event.time);
-//       var day = date.getDate();
-//       var monthIndex = date.getMonth();
-//       var year = date.getFullYear();
-
-//       return (day + ' ' + monthNames[monthIndex] + ' ' + year);
-//     };
+     var changePasswordPopup = $ionicPopup.confirm({
+      templateUrl: 'templates/changePasswordPopup.html',
+      title: 'Change Password :',
+      // subTitle: 'Please use normal things',
+      scope: $scope,
+      buttons: [
+           { text: 'Cancel',
+             onTap: function(e) {
+               var check = 0;
+              // alert($scope.deleteAccount.password);
+               return {
+                 check: check
+               };
+             }
+           },
+           {
+             text: '<b>Change</b>',
+             type: 'button-positive',
+             onTap: function(e) {
+               var check = 1;
+              // alert($scope.deleteAccount.password);
+               return {
+                 check: check
+               };
+             }
+           },
+         ]
+    });
+    var changePassword = userDetails.getChangePassword;
     
-//     $scope.getEventTime = function(event){
-//     var date = new Date(event.time);
-//       var _time;
-//       var _time24hr = date.getHours();
-//       var _time12hr = date.getHours()-12 + ":" + date.getMinutes();
-//       if( _time24hr>12)
-//         _time = _time12hr+" pm";
-//       else 
-//         _time = _time12hr+" am";
+    changePasswordPopup.then(function(res) {
       
-//       return _time;
-//     };
-
-//     $scope.openEvent = function(event){
-//       loadDetails.addEvent(event);
-//     };
-    
-// })
-
-// .service('loadDetails',function(){
-  
-//   var event = {name:'event not defined'};
-//   var addEvent = function(newEvent) {
-//     event = newEvent;
-//   };
-//   var getEvent = function(){
-//     return event;
-//   };
-  
-//   var events = {name:'events not defined'};
-//   var addEventSchedule = function(newEvents) {
-//     events = newEvents;
-//   };
-//   var getEventSchedule = function(){
-//     return events;
-//   };
-  
-//   var addClubEvents = function(newEvents){
-//     events = newEvents;
-//   };
-  
-//   var getClubEvents = function(){
-//     return events;
-//   };
-  
-//   var club = [{name:'club not defined'}];
-//   var addClub = function(newClub) {
-//       club = newClub;
-//   };
-//   var getClub = function(){
-//       return club;
-//   };
-  
-//   var clubs = [{name:'clubs not defined'}];
-//   var addClubDetails = function(newClubs) {
-//       clubs = newClubs;
-//   };
-//   var getClubDetails = function(){
-//       return clubs;
-//   };
-  
-//   var scorecard = {name:'event not defined'};
-//   var addScorecard = function(newScorecard) {
-//     scorecard = newScorecard;
-//   };
-//   var getScorecard = function(){
-//     return scorecard;
-//   };
-
-//   return {
-//     addEvent: addEvent,
-//     getEvent: getEvent,
-//     addEventSchedule: addEventSchedule,
-//     getEventSchedule: getEventSchedule,
-//     addClub: addClub,
-//     getClub: getClub,
-//     addClubDetails: addClubDetails,
-//     getClubDetails: getClubDetails,
-//     addScorecard: addScorecard,
-//     getScorecard: getScorecard,
-//     addClubEvents: addClubEvents,
-//     getClubEvents: getClubEvents
-//   };
-
-// })
-
-// .controller('EventDetailsCtrl', function($scope,loadDetails){
-//   $scope.event = loadDetails.getEvent();
-  
-//   $scope.isEventDate = function(time){
-//       // console.log("iseventdate is being called");
-//       if( time === null)
-//         return false;
-//       var monthNames = [
-//         "January", "February", "March",
-//         "April", "May", "June", "July",
-//         "August", "September", "October",
-//         "November", "December"
-//       ];
-
-//       var date = new Date(time);
-//       var day = date.getDate();
-//       var monthIndex = date.getMonth();
-//       var year = date.getFullYear();
-//       var _date = day + ' ' + monthNames[monthIndex] + ' ' + year;
-
-//       if(_date!== 'NaN undefined NaN')
-//         return true;
-//       else
-//         return false;
-//     };
-    
-//     $scope.isEventTime = function(time){
-//       if( time === null)
-//         return false;
-//       var date = new Date(time);
-//       var _time = date.getHours() + ":" + date.getMinutes() ;
-//       if(_time!== 'NaN:NaN' || _time!=='16:46')
-//         return true;
-//       else  
-//         return false;
+      if( res.check == 1){
+       var changePasswordReq = {
+        method: 'POST',
+          url: 'http://auth.lingerie91.hasura-app.io/user/password/change',
+          data: {
+            'password': changePassword[0],
+            'new_password': changePassword[1],
+          },
+            headers: {
+              'Authorization': 'Hasura ' + window.localStorage['token']
+          }
+        };
+                    
+        $http(changePasswordReq).then(function(response){
+          console.log(response); 
+        }, function(response){
+            console.log(response);
+        }) ;
+      }
       
-//     };
-    
-//     $scope.isEventVenue = function(venue){
-//       if( venue === '')
-//         return false;
-//       if(typeof venue !== 'undefined')
-//         return true;
-//       else  
-//         return false;
-//     };
-//   $scope.getEventDate = function(event){
-     
-//       var monthNames = [
-//         "January", "February", "March",
-//         "April", "May", "June", "July",
-//         "August", "September", "October",
-//         "November", "December"
-//       ];
-
-//       var date = new Date(event.time);
-//       var day = date.getDate();
-//       var monthIndex = date.getMonth();
-//       var year = date.getFullYear();
-
-//       return (day + ' ' + monthNames[monthIndex] + ' ' + year);
-//     };
-    
-//     $scope.getEventTime = function(event){
-//     var date = new Date(event.time);
-//       var _time;
-//       var _time24hr = date.getHours();
-//       var _time12hr = date.getHours()-12 + ":" + date.getMinutes();
-//       if( _time24hr>12)
-//         _time = _time12hr+" pm";
-//       else 
-//         _time = _time12hr+" am";
-      
-//       return _time;
-//     };
-
-// })
-
-
-// .controller('CalendarCtrl', function($scope,loadDetails) {
-//   $scope.events = loadDetails.getEventSchedule();
-  
-//     $scope.eventTime = function(time){
-//       var utcMilli = Date.parse(time);
-//       return utcMilli;
-//     };
-    
-//     $scope.currentTime = function(){
-//       var currentTime = new Date();
-//       var currentMilli = currentTime.getTime();
-//       return currentMilli;
-//     };
-    
-//     $scope.getEventDate = function(event){
-
-//       var monthNames = [
-//         "January", "February", "March",
-//         "April", "May", "June", "July",
-//         "August", "September", "October",
-//         "November", "December"
-//       ];
-
-//       var date = new Date(event.time);
-//       var day = date.getDate();
-//       var monthIndex = date.getMonth();
-//       var year = date.getFullYear();
-
-//       return (day + ' ' + monthNames[monthIndex] + ' ' + year);
-//     };
-    
-//     $scope.getEventTime = function(event){
-//       var date = new Date(event.time);
-//       var _time;
-//       var _time24hr = date.getHours();
-//       var _time12hr = date.getHours()-12 + ":" + date.getMinutes();
-     
-//       if( _time24hr>12)
-//         _time = _time12hr+" pm";
-//       else 
-//         _time = _time12hr+" am";
-      
-//       return _time;
-//     };
-
-  
-//   $scope.openEvent = function(event){
-//     loadDetails.addEvent(event);
-//   };
-//   var type;
-//   $scope.eventType = function(event){
-//     if(event.isLitSocEvent) {
-//         if(event.category === 'lit')
-//           type = "LitSoc";
-    
-//       else
-      
-//         if(event.category === 'tech')
-//           type = "TechSoc";
-//       else
-    
-//         if(event.category === 'schroeter')
-//           type = "Schroeter";
-//     }
-//     else{
-//     type = event.club.name;
-  
-//     }
-//   return type;
-//   };
-  
-//   $scope.getColor = function(event){
-//     var color;
-//     if(event.isLitSocEvent) {
-//         if(event.category === 'lit')
-//           color = "#74DF00";
-    
-//       else
-      
-//         if(event.category === 'tech')
-//           color = "#04B4AE";
-//       else
-    
-//         if(event.category === 'schroeter')
-//           color = "#FF0080";
-//     }
-//     else{
-//     color = "#01A9DB";
-  
-//     }
-//   return color;
-//   };
-  
-//   // $scope.getColor = function(){
-//   // var color = ['#FF4000', '#74DF00', '#04B4AE', '#B404AE', ''];
-//   //   return color[Math.floor(Math.random() * color.length)];
-//   // };
-    
-// })
-
-// .controller('ScoreboardCtrl', function($scope, loadDetails) {
-//   $scope.scorecard = loadDetails.getScorecard();
-  
-//   function compare(a,b) {
-//     if (a.score > b.score)
-//       return -1;
-//     if (a.score < b.score)
-//       return 1;
-//     return 0;
-//   }
-
-//   $scope.scorecard.sort(compare);
-  
-//   $scope.getPosition = function(num){
-//     if( $scope.scorecard[num-1]!== undefined){
-//       if( $scope.scorecard[num].score == $scope.scorecard[num-1].score){
-//       $scope.scorecard[num].position = $scope.scorecard[num-1].position;
-//       return $scope.scorecard[num].position;
-//       }
-//       else{
-//         $scope.scorecard[num].position = num+1;
-//         return num+1;
-//       }
-//     }
-//     else
-//       return num+1;
-//   };
-  
-  
-//   $scope.getUserColor = function(hostel){
-//     if(user.hostel === hostel)
-//       return '#22D706';
-//   };
-  
-
-// })
-
-
-// .controller('ClubsCtrl', function($scope, loadDetails) {
-//     $scope.clubs = loadDetails.getClub();
-    
-//     $scope.openClubDetails = function(club){
-  
-//       loadDetails.addClubDetails(club);
-//     };
-    
-//     var subscribe = function(check,club){
-//       club.isSubscribed = check;
-//       // console.log("subscribe is working");
- 
-//     };
-    
-// })
-
-// .controller('ClubDetailsCtrl', function($scope, loadDetails){
-//   $scope.club = loadDetails.getClubDetails();
-//   // console.log($scope.club);
-
-   
-//   $scope.isConvenorsEmpty = function(convenors){
-//     // console.log(convenors.length);
-//     if (convenors.length > 0){
-//       return true;
-//     } else {
-//       return false;
-//     }
-     
-//     // $scope.event = loadDetails.addEvent(event);
-//   };
-// });
-
-
-
-// // .controller('emailCtrl', function($cordovaEmailComposer) {
-  
-// //   $ionicPlatform.ready(function() {
-// //   $cordovaEmailCimposer.open().then(success, error);
-// // });
-  
-// //   $scope.sendEmail = function(convenor,club){
-// //     $scope.clubConvenor = convenor;
-// //     $scope.clubDetails = club;
-// //     $cordovaEmailComposer.isAvailable().then(function() {
-// //     console.log("is available");  
-// //   // is available
-// // }, function () {
-// //   console.log("is not available");
-// //   // not available
-// // });
-
-// //   var email = {
-// //     to: $scope.clubConvenor.email,
-// //     cc: '',
-// //     bcc: '',
-// //     // attachments: [
-// //     //   'file://img/logo.png',
-// //     //   'res://icon.png',
-// //     //   'base64:icon.png//iVBORw0KGgoAAAANSUhEUg...',
-// //     //   'file://README.pdf'
-// //     // ],
-// //     subject: 'Query regarding '+ $scope.clubDetails.name,
-// //     body: '',
-// //     isHtml: true
-// //   };
-
-// // $cordovaEmailComposer.open(email).then(null, function () {
-// //   // user cancelled email
-// // });
-// //   };
-  
-  
-
-// // });
-
-
-
-
+    });
+   };
+}]);
 
 

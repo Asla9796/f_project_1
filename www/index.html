@@ -9,13 +9,14 @@
 
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-    <title></title>
+    <title>sQippr - Home</title>
 
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="img/WhatsApp-Image-20160702.jpeg" sizes="16x16" />
     <link href="css/style.css" rel="stylesheet">
-    <link href="css/ionicons/css/ionicons.css" rel="stylesheet">
     <link rel="stylesheet" href="css/ionic.iosButtons.css">
-  
+    <link rel="stylesheet" href="css/timepicker.css">
+
     <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
     <link href="css/ionic.app.css" rel="stylesheet">
     -->
@@ -28,40 +29,57 @@
     <!--<script src="js/ngCordova/ng-cordova.js"></script>-->
     
     <!-- Firebase -->
-    <script src="https://cdn.firebase.com/js/client/2.2.4/firebase.js"></script>
+    <!--<script src="https://cdn.firebase.com/js/client/2.2.4/firebase.js"></script>-->
     <!-- AngularFire -->
-    <script src="https://cdn.firebase.com/libs/angularfire/1.1.3/angularfire.min.js"></script>
+    <!--<script src="https://cdn.firebase.com/libs/angularfire/1.1.3/angularfire.min.js"></script>-->
+    <!--<script src="//maps.googleapis.com/maps/api/js?v=3.exp&sensor=true"></script>-->
 
     <!-- your app's js -->
     <script src="js/app.js"></script>
     <script src="js/controllers.js"></script>
     <script src="js/services.js"></script>
-    <!--<script src="js/ngStorage.min.js"></script> -->
+    <script src="libs/angular.min.js"></script>
+    <!--<script src="js/angular-filter.js"></script>-->
+    <script src="js/ngStorage.min.js"></script> 
+    <script src="js/directives.js"></script>
+    <script src="js/roundProgress.js"></script>
+    
+    <script src="libs/d3.min.js"></script>
+    <script src="libs/moment.min.js"></script>
+    <script src="libs/angular-moment.min.js"></script>
+    <script src="js/timepicker.directive.js"></script>
+    <script src="js/sha512.min.js"></script>
+        
+    <script>
+        var is_browser = true
+    </script>
+    
   </head>
-  <body ng-app="starter">
+  <body ng-app="starter" class="platform-website" ng-controller="tabsCtrl">
     <!--
       The nav bar that will be updated as we navigate between views.
+      
     -->
-      <ion-nav-bar class=" bar bar-header bar-assertive bar-stable" animation="nav-title-slide-ios7" 
-             type="bar-positive" 
+  <!--<div ng-controller="tabsCtrl">-->
+      <ion-nav-bar class=" bar bar-header bar-assertive-custom bar-stable" animation="nav-title-slide-ios7" 
              back-button-type="button-icon" 
-             back-button-icon="ion-arrow-left-c">
-        <ion-nav-back-button class="button-icon ion-ios-arrow-back">
-        </ion-nav-back-button>
-        
-      <ion-nav-buttons side="right">
-        <button class="button button-icon button-clear ion-android-pin">
-        <button class="button button-icon button-clear ion-android-search" ng-click="modal.show()">
-        </button>
-      </ion-nav-buttons> 
+             back-button-icon="ion-arrow-left-c"
+             ng-if="isMobile">
+      <ion-nav-back-button class="button-icon ion-ios-arrow-back" >
+      </ion-nav-back-button>
+      <!--<ion-nav-buttons side="right">-->
+      <!--  <button ng-controller="LocationCtrl" class="button button-icon button-clear ion-android-pin" ng-click=modal.show()>-->
+      <!--  <button ng-controller="SearchCtrl" class="button button-icon button-clear ion-android-search" ng-click=modal.show()>-->
+      <!--  </button>-->
+      <!--</ion-nav-buttons> -->
 
-         
   <!--    <ion-nav-buttons side="right">-->
   <!--  <button class="button button-icon" ng-click="showMenu($event)">-->
   <!--    <i class="icon ion-ios-arrow-down"></i>-->
   <!--  </button>-->
   <!--</ion-nav-buttons>-->
       </ion-nav-bar>
+  <!--</div>-->
      
       
     <!--<ion-nav-bar class="nav-title-slide-ios7 bar-positive">
@@ -75,21 +93,8 @@
       -->
       <ion-nav-view animation="slide-left-right"></ion-nav-view>
       
-      <script id="modal.html" type="text/ng-template">
-        <div class="modal">
-          <header class="bar bar-header bar-assertive">
-            <h1 class="title">I'm A Modal</h1>
-            <div class="button button-clear" ng-click="modal.hide()"><span class="icon ion-close"></span></div>
-          </header>
-          <content has-header="true" padding="true">
-            <p>This is a modal</p>
-          </content>
-        </div>
-      </script>
-    
-      
   </body>
-
+  
   <!-- Google analytics -->
     <!--<script>-->>
     <!--  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),-->

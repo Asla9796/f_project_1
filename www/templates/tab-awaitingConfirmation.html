@@ -1,0 +1,64 @@
+<ion-view view-title="Awaiting Confirmation"  hide-back-button="true">
+  <!--<div class="bar bar-subheader bar-energized bar-stable">-->
+  <!--  <h2 class="title">Awaiting Confirmation</h2>-->
+  <!--</div>  -->
+
+  <ion-content>
+    <br>
+    <br>
+    <br>
+      <p style="text-align:center; color:grey">Time Remaining</p>
+
+    <div class="container">
+        <div class="progress-wrapper">
+            <div class="progress ng-cloak" ng-style="getStyle()">{{ time }}</div>
+            <!--<round-progress-->
+            <!--    max="24"-->
+            <!--    current="hours"-->
+            <!--    color="#45ccce"-->
+            <!--    bgcolor="transparent"-->
+            <!--    radius="{{ radius*1.5 }}"-->
+            <!--    semi="isSemi"-->
+            <!--    rounded="rounded"-->
+            <!--    clockwise="clockwise"-->
+            <!--    responsive="responsive"-->
+            <!--    stroke="{{ stroke*1.5 }}"-->
+            <!--    animation="{{ currentAnimation }}">-->
+
+                <round-progress
+                    max="120"
+                    current="minutesInSeconds"
+                    color="#ff7400"
+                    bgcolor="transparent"
+                    radius="{{ radius*1.5 }}"
+                    semi="isSemi"
+                    rounded="rounded"
+                    clockwise="anticlockwise"
+                    responsive="responsive"
+                    stroke="{{ stroke*1.5 }}"
+                    animation="{{ currentAnimation }}"
+                    offset="inherit">
+
+
+                    <round-progress
+                        max="59"
+                        current="seconds"
+                        color="#ffb400"
+                        bgcolor="transparent"
+                        radius="{{ radius*1.5 }}"
+                        semi="isSemi"
+                        rounded="rounded"
+                        clockwise="clockwise"
+                        responsive="responsive"
+                        stroke="{{ stroke*1.5 }}"
+                        animation="{{ currentAnimation }}"
+                        offset="inherit">
+                    </round-progress>
+                </round-progress>
+            </round-progress>
+        </div>
+    </div>
+
+      <p style="text-align:center; color:grey">Please wait for<br>2 minutes<br>while we confirm your order</p>
+  </ion-content>
+</ion-view>

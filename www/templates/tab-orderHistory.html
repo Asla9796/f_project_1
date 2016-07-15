@@ -1,0 +1,28 @@
+<ion-view view-title="Order History" ng-controller="orderHistoryCtrl">
+  <!--<div class="bar bar-subheader bar-energized bar-stable">-->
+  <!--  <h2 class="title">Sub Header</h2>-->
+  <!--</div>  -->
+
+  <ion-content>
+    <br><br>
+      <ion-list>
+         <a class="item item-button-right" href="#/tab/orderSummary" ng-repeat="object in orders | orderBy : '-id'" ng-click=openOrderSummary(object)>
+          {{ object.name }} 
+          <button class="button button-energized" ng-if= "object.status == 'pending'">
+            Pending
+          </button>
+          <button class="button button-assertive-custom" ng-if= "object.status == 'confirmed'">
+            Confirmed
+          </button>
+          <button class="button button-balanced" ng-if= "object.status == 'delivered'">
+            Delivered
+          </button>
+          <button class="button button-assertive" ng-if= "object.status == 'canceled'">
+            Canceled
+          </button>
+          <p>{{object.time}}</p>
+          <p>#{{object.token}}</p>
+        </a>
+    </ion-list>
+  </ion-content>
+</ion-view>

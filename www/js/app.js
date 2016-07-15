@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'firebase'])
+angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'ngStorage', 'starter.directives'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
@@ -21,11 +21,13 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       StatusBar.styleLightContent();
     }
   });
+
 })
 
-.config(function($stateProvider, $urlRouterProvider) {
-  console.log("check");
-
+.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider, $httpProvider){
+  
+  $httpProvider.defaults.withCredentials = true;
+  // console.log("check");
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router
   // Set up the various states which the app can be in.
@@ -39,47 +41,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     templateUrl: 'templates/tabs.html'
   })
 
-  // Each tab has its own nav history stack:
-
-  // .state('tab.events', {
-  //   url: '/events',
-  //   views: {
-  //     'tab-events': {
-  //       templateUrl: 'templates/tab-events.html',
-  //       controller: 'EventsCtrl'
-  //     }
-  //   }
-  // })
-
-  // .state('tab.calendar', {
-  //     url: '/calendar',
-  //     views: {
-  //       'tab-calendar': {
-  //         templateUrl: 'templates/tab-calendar.html',
-  //         controller: 'CalendarCtrl'
-  //       }
-  //     }
-  //   })
-    
-  // .state('tab.scoreboard', {
-  //     url: '/scoreboard',
-  //     views: {
-  //       'tab-scoreboard': {
-  //         templateUrl: 'templates/tab-scoreboard.html',
-  //         controller: 'ScoreboardCtrl'
-  //       }
-  //     }
-  //   })  
-
-  // .state('tab.clubs', {
-  //   url: '/clubs',
-  //   views: {
-  //     'tab-clubs': {
-  //       templateUrl: 'templates/tab-clubs.html',
-  //       controller: 'ClubsCtrl'
-  //     }
-  //   }
-  // })
   
   .state('tab.home', {
     url: '/home',
@@ -96,6 +57,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       views: {
         'tab-favourites': {
           templateUrl: 'templates/tab-favourites.html',
+          controller: 'FavouritesCtrl'
         }
       }
     })
@@ -105,6 +67,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       views: {
         'tab-cart': {
           templateUrl: 'templates/tab-cart.html',
+          controller: 'CartCtrl'
         }
       }
     })
@@ -127,71 +90,180 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
         controller:'RestoDetailsCtrl'
       }
     }
-  })  
-
-    .state('tab.menu', {
-    url: '/menu',
+  })
+  
+    .state('tab.profile', {
+    url: '/profile',
     views: {
       'tab-account': {
-        templateUrl: 'templates/tab-menu.html',
-        controller: 'MenuCtrl'
+        templateUrl: 'templates/tab-profile.html',
+        controller: 'ProfileCtrl'
+      }
+    }
+  })
+  
+  .state('tab.trialPages', {
+    url: '/trialPages',
+    views: {
+      'tab-account': {
+        templateUrl: 'templates/tab-trialPages.html',
+      }
+    }
+  })
+  
+    .state('tab.accountSettings', {
+    url: '/accountSettings',
+    views: {
+      'tab-account': {
+        templateUrl: 'templates/tab-accountSettings.html',
+      }
+    }
+  })
+  
+    .state('tab.orderHistory', {
+    url: '/orderHistory',
+    views: {
+      'tab-account': {
+        templateUrl: 'templates/tab-orderHistory.html'
+      }
+    }
+  })
+  
+  .state('tab.orderSummary', {
+    url: '/orderSummary',
+    views: {
+      'tab-account': {
+        templateUrl: 'templates/tab-orderSummary.html'
+      }
+    }
+  })
+  
+  .state('tab.inviteFriends', {
+    url: '/inviteFriends',
+    views: {
+      'tab-account': {
+        templateUrl: 'templates/tab-inviteFriends.html',
+      }
+    }
+  })
+  
+  .state('tab.about', {
+    url: '/about',
+    views: {
+      'tab-account': {
+        templateUrl: 'templates/tab-about.html',
+      }
+    }
+  })
+  
+  .state('tab.contactUs', {
+    url: '/contactUs',
+    views: {
+      'tab-account': {
+        templateUrl: 'templates/tab-contactUs.html',
+      }
+    }
+  })
+  
+  .state('tab.shippingPolicy', {
+    url: '/shippingPolicy',
+    views: {
+      'tab-account': {
+        templateUrl: 'templates/tab-shippingPolicy.html',
+      }
+    }
+  })
+  
+  .state('tab.awaitingConfirmation', {
+    url: '/awaitingConfirmation',
+    views: {
+      'tab-cart': {
+        templateUrl: 'templates/tab-awaitingConfirmation.html',
+        controller:'awaitingConfirmationCtrl'
+      }
+    }
+  })
+  
+  .state('tab.confirmation', {
+    url: '/confirmation',
+    views: {
+      'tab-cart': {
+        templateUrl: 'templates/tab-confirmation.html'
+      }
+    }
+  })
+  
+  .state('tab.successfulPayment', {
+    url: '/successfulPayment',
+    views: {
+      'tab-cart': {
+        templateUrl: 'templates/successfulPayment.html',
       }
     }
   });
   
-  // .state('tab.eventdetails', {
-  //     url: "/eventdetails",
-  //     views: {
-  //       'tab-events': {
-  //         templateUrl: "templates/tab-eventdetails.html",
-  //         controller: "EventDetailsCtrl"
-  //       }
-  //     }
-  //   })
-    
-  //   .state('tab.eventdetailsCalendar', {
-  //     url: "/eventdetailsCalendar",
-  //     views: {
-  //       'tab-calendar': {
-  //         templateUrl: "templates/tab-eventdetails.html",
-  //         controller: "EventDetailsCtrl"
-  //       }
-  //     }
-  //   })
-    
-  //   .state('tab.clubdetails', {
-  //     url: "/clubdetails",
-  //     views: {
-  //       'tab-clubs': {
-  //         templateUrl: "templates/tab-clubdetails.html",
-  //         controller: "ClubDetailsCtrl"
-  //       }
-  //     }
-  //   });
-
-    
-  //   // .state('tab.scoreboard.litsoc', {
-    //     url: "/litsoc",
-    //     views: {
-    //         'tab-scoreboard-litsoc': {
-    //             templateUrl: "templates/litsoc.html"
-    //         }
-    //     }
-    // })
-    
-    // // .state('tabs.scoreboard.techsoc', {
-    //     url: "/techsoc",
-    //     views: {
-    //         'tab-scoreboard': {
-    //             templateUrl: "templates/techsoc.html"
-    //         }
-    //     }
-    // });
-
-
-  // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/tab/home');
+  $ionicConfigProvider.tabs.position('bottom');
 
+})
+
+.controller('SearchCtrl', function($scope, $ionicModal) {
+  // console.log("modal is being called");
+  
+  $ionicModal.fromTemplateUrl('templates/search.html', function($ionicModal) {
+        $scope.modal = $ionicModal;
+    }, {
+        // Use our scope for the scope of the modal to keep it simple
+        scope: $scope,
+        // The animation we want to use for the modal entrance
+        animation: 'slide-in-up'
+    });  
+})
+
+.controller('LocationCtrl', function($scope, $ionicModal) {
+  // console.log("modal is being called");
+  
+  $ionicModal.fromTemplateUrl('templates/location.html', function($ionicModal) {
+        $scope.modal = $ionicModal;
+    }, {
+        // Use our scope for the scope of the modal to keep it simple
+        scope: $scope,
+        // The animation we want to use for the modal entrance
+        animation: 'slide-in-up'
+    }); 
+	    
+	    	// if(!!navigator.geolocation) {
+	    	
+	    	// 	var map;
+	    	
+		    // 	var mapOptions = {
+		    // 		zoom: 15,
+		    // 		mapTypeId: google.maps.MapTypeId.ROADMAP
+		    // 	};
+		    	
+		    // 	map = new google.maps.Map(document.getElementById('google_canvas'), mapOptions);
+	    	
+	    	// 	navigator.geolocation.getCurrentPosition(function(position) {
+	    		
+		    // 		var geolocate = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+		    		
+		    // 		var infowindow = new google.maps.InfoWindow({
+		    // 			map: map,
+		    // 			position: geolocate,
+		    // 			content:
+		    // 				'<h1>Location pinned from HTML5 Geolocation!</h1>' +
+		    // 				'<h2>Latitude: ' + position.coords.latitude + '</h2>' +
+		    // 				'<h2>Longitude: ' + position.coords.longitude + '</h2>'
+		    // 		});
+		    		
+		    // 		map.setCenter(geolocate);
+		    		
+	    	// 	});
+	    		
+	    	// } else {
+	    	// 	document.getElementById('google_canvas').innerHTML = 'No Geolocation Support.';
+	    	// }
+	    	
 });
 
 // .filter('orderObjectBy', function() {

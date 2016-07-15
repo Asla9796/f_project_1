@@ -1,0 +1,73 @@
+<ion-view view-title="Cart">
+  <!--<div class="bar bar-subheader bar-energized bar-stable">-->
+  <!--  <h2 class="title">Sub Header</h2>-->
+  <!--</div>  -->
+
+  <ion-content>
+    <br>
+    <br>
+    <!--<ion-list>-->
+    <!--  <ion-item ng-repeat="playlist in playlists" href="#/app/playlists/{{playlist.id}}">-->
+    <!--    {{playlist.title}}-->
+    <!--  </ion-item>-->
+    <!--</ion-list>-->
+    	<!--<div class="row_image_func" ng-style="{'background-image': 'url({})'};-->
+    	<!--                                    width: 100%;-->
+     <!--                                     height: 400px;-->
+     <!--                                     background-size: 100% 100%;">-->
+     
+     <!-- </div>-->
+
+    <div ng-show="!isCartEmpty()">
+      <ion-item class="item">
+        <div ng-repeat="item in cartList">
+        <div class = "row">
+          <div class = "col"><p style="font-size:18px; text-align:left">{{ item.name }}</p></div>
+          <div class = "col"><p style="font-size:18px; text-align:right">Rs. {{ item.price }}</p></div>
+        </div>
+        <div class = "row">
+            <div class = "col"><p> Min Time : {{ item.minTime }} min</p></div>
+            
+            <div class = "col col-10">
+              <a class="button button-icon icon  ion-ios-close-outline" ng-click="deleteFromCart(item)" ng-controller="RestoDetailsCtrl">
+                 <!--<i class="iconMenuCustom ion-ios-close-outline"></i>-->
+              </a>
+            </div>
+            
+            <div class = "col col-10">
+              <a class="button button-icon icon  ion-ios-minus-outline" ng-click="removeFromCart(item)" ng-controller="RestoDetailsCtrl">
+                 <!--<i class="iconMenuCustom ion-ios-minus-outline"></i>-->
+              </a>
+            </div>
+              
+            <div class = "col col-10">
+              <a class="button button-icon icon  ion-ios-plus-outline" ng-click="addToCart(item)" ng-controller="RestoDetailsCtrl">
+               <!--<i class="iconMenuCustom ion-ios-plus-outline"></i>-->
+              </a>
+            </div>
+            <div class = "col col-20"><p style="text-align:right">{{ item.quantity }} qty</p></div>
+        </div>
+      </div>  
+      </ion-item>
+      
+      <a class="button button-full button-energized">Min. Delivery Time : {{ getMinTime(cartList) }}</a>
+      
+      <ion-item class="item">
+        <div class = "row">
+          <div class = "col col-80"><p style="font-size:18px; text-align:left">Total Amount : </p></div>
+          <div class = "col col-20"><p style="font-size:18px; text-align:right">Rs. {{ getTotal() }} </p></div>
+        </div> 
+      </ion-item>
+      
+      <a class="button button-full button-energized" ng-click="immediateOrder(cartList)"><h4 style="color:white">Take Away Now</h4></a> 
+      <a class="button button-full button-assertive-custom" ng-click="takeAway(cartList)"><h4 style="color:white">Take Away Later</h4></a>  
+      <a class="button button-full button-assertive-custom2" ng-click="delivery(cartList)"><h4 style="color:white">Delivery</h4></a>
+      <a class="button button-full button-assertive-custom3" ng-click="cancelOrder()" href="#/tab/home"><h4 style="color:white">Cancel Order</h4></a>
+    </div>
+    
+    <div ng-show="isCartEmpty()">
+        <!--<img src="img/empty_icons-02.png" >-->
+        <p style="text-align:center"><img src="img/empty_icons-02.png" style="width: 100vw; height: 100vw;"></p>
+    </div>
+  </ion-content>
+</ion-view>

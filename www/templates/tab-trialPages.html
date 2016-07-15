@@ -1,0 +1,22 @@
+<ion-view view-title="Account" ng-controller='trialCtrl'>
+  <ion-content>
+   <form name="payForm" id="payForm" method="POST" action="https://test.payu.in/_payment">
+          <input type="hidden" name="key" value="gtKFFx">
+          <input type="hidden" name="txnid" value= {{timestamp}}>
+          <input type="hidden" name="amount" value= {{totalAmount}}>
+          <input type="hidden" name="productinfo" value= "food order">
+          <input type="hidden" name="firstname" value={{name}}>
+          <input type="hidden" name="email" value={{email}}>
+          <input type="hidden" name="phone" value={{phone}}>
+          <input type="hidden" name="surl" value="http://server.lingerie91.hasura-app.io/validate_payment">
+          <input type="hidden" name="furl" value="http://server.lingerie91.hasura-app.io/validate_payment">
+          <input type="hidden" name="curl" value="http://server.lingerie91.hasura-app.io/validate_payment">
+          <input type="hidden" name="hash" value= {{sha512}}>
+          
+          <button class="button button-full button-assertive-custom" ng-click="submit()">
+            <h4 style="color:white">Proceed to payment</h4>
+          </button>
+      </form >
+   
+  </ion-content>
+</ion-view>

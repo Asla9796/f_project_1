@@ -1,0 +1,83 @@
+<ion-view view-title="Confirmation" ng-controller="confirmationCtrl"  hide-back-button="true">
+  <!--<div class="bar bar-subheader bar-energized bar-stable">-->
+  <!--  <h2 class="title">Sub Header</h2>-->
+  <!--</div>  -->
+
+  <ion-content>
+
+    <br>
+    <br>
+    <br>
+    <p style="text-align:center; color:#00ce25" ng-if = 'confirmedOrders.length != 0'>The following items have been confirmed :</p>
+    <!--<div ng-show="!isCartEmpty()">-->
+    <div ng-repeat="order in confirmedOrders" ng-if = 'confirmedOrders.length != 0'>
+      <div class="item item-divider">
+       <p style="font-size:18px; text-align:left">{{order.outlet.name}}</p>
+      </div>
+        <ion-item class="item">
+          
+          <div ng-repeat="object in order.items">
+            <div class = "row">
+              <div class = "col"><p style="font-size:18px; text-align:left">{{ object.item.name }}</p></div>
+              <div class = "col"><p style="font-size:18px; text-align:right">Rs. {{ object.item.price }}</p></div>
+            </div>
+            <div class = "row">
+              <div class = "col"><p> Min Time : {{ object.item.minTime }} min</p></div>
+              <div class = "col col-20"><p style="text-align:right">{{ object.quantity }} qty</p></div>
+            </div>
+          </div>  
+        </ion-item>
+    </div>
+      
+      <a class="button button-full button-energized" ng-if="isDelivery" ng-if = 'confirmedOrders.length != 0'>Delivery Time : {{ takeAwayTime }}</a>
+      <div class="item item-divider" ng-if = 'confirmedOrders.length != 0'>
+       Payment Details
+      </div>
+      
+      <ion-item class="item" ng-if = 'confirmedOrders.length != 0'>
+        <div class = "row">
+          <div class = "col col-67"><p style="font-size:18px">Bill Amount : </p></div>
+          <div class = "col col-33"><p style="font-size:18px">Rs.{{ total }}/-</p></div>
+        </div>
+        <div class = "row" ng-if='!isDelivery'>
+          <div class = "col col-67"><p style="font-size:18px">Convenience Charge : </p></div>
+          <div class = "col col-33"><p style="font-size:18px">Rs.{{ convenience }}/-</p></div>
+        </div>
+        <div class = "row" ng-if='isParcel'>
+          <div class = "col col-67"><p style="font-size:18px">Packing Charge : </p></div>
+          <div class = "col col-33"><p style="font-size:18px">Rs.{{ packing }}/-</p></div>
+        </div>
+        <div class = "row" ng-if='isCoD'>
+          <div class = "col col-67"><p style="font-size:18px">Delivery Charge : </p></div>
+          <div class = "col col-33"><p style="font-size:18px">Rs.{{ delivery }}/-</p></div>
+        </div>
+        <div class = "row">
+          <div class = "col col-67"><p style="font-size:18px">Total Amount : </p></div>
+          <div class = "col col-33"><p style="font-size:18px">Rs.{{ totalAmount }}/-</p></div>
+        </div>
+      </ion-item>
+      
+      <div ng-if="confirmedOrders.length == 0">
+        <p style="text-align:center; color:grey">We apologize for the inconvenience</p>
+        <a class="button button-full button-assertive" ng-click="returnToMenu()" ng-if='confirmed.length == 0'><h4 style="color:white">Return to Menu</h4></a>
+      </div>
+      
+      <form name="payForm" id="payForm" method="POST" action="https://test.payu.in/_payment">
+          <input type="hidden" name="key" value="gtKFFx">
+          <input type="hidden" name="txnid" value= {{timestamp}}>
+          <input type="hidden" name="amount" value= {{totalAmount}}>
+          <input type="hidden" name="productinfo" value= "food order">
+          <input type="hidden" name="firstname" value={{name}}>
+          <input type="hidden" name="email" value={{email}}>
+          <input type="hidden" name="phone" value={{phone}}>
+          <input type="hidden" name="surl" value="http://server.lingerie91.hasura-app.io/validatePayment">
+          <input type="hidden" name="furl" value="http://server.lingerie91.hasura-app.io/validatePayment">
+          <input type="hidden" name="curl" value="http://server.lingerie91.hasura-app.io/validatePayment">
+          <input type="hidden" name="hash" value= {{sha512}}>
+          
+          <button class="button button-full button-assertive-custom" ng-click="submit()">
+            <h4 style="color:white">Proceed to payment</h4>
+          </button>
+      </form >
+  </ion-content>
+</ion-view>

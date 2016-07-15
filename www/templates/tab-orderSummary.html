@@ -1,0 +1,51 @@
+<ion-view view-title="Order Summary" ng-controller=orderSummaryCtrl>
+  <!--<div class="bar bar-subheader bar-energized bar-stable">-->
+  <!--  <h2 class="title">Sub Header</h2>-->
+  <!--</div>  -->
+
+  <ion-content>
+
+    <br>
+    <br>
+    
+    <ion-item class="item item-divider">
+      Order Details
+    </ion-item>
+    <ion-item class="item">
+      <p>Date : {{order.time}}</p>
+      <p>Token : {{order.token}}</p>
+      <p>Payemnt Status : {{order.paymentStatus}}</p>
+    </ion-item>
+    <ion-item class="item item-divider">
+      Order Summary
+    </ion-item>
+    <ion-item class='item'>
+      <div ng-repeat="item in orderSummary">
+        <div class = "row">
+          <div class = "col"><p style="font-size:18px; text-align:left">{{ item.name }}</p></div>
+          <div class = "col"><p style="font-size:18px; text-align:right">Rs. {{ item.price }}</p></div>
+        </div>
+        <div class = "row">
+            <div class = "col"><p> Min Time : {{ item.minTime }} min</p></div>
+            
+            <div class = "col col-20"><p style="text-align:right">{{ item.quantity }} qty</p></div>
+        </div>
+      </div>
+    </ion-item>
+      
+    <a class="button button-full button-energized" ng-if='isDelivery'>Delivery Time : {{ deliveryTime  }}</a>
+      
+    <ion-item class="item">
+      <div class = "row">
+        <div class = "col col-80"><p style="font-size:18px; text-align:left">Total Amount : </p></div>
+        <div class = "col col-20"><p style="font-size:18px; text-align:right">Rs. {{ totalAmount }} </p></div>
+      </div>        
+    </ion-item>
+    
+    <button class="button button-energized button-full" ng-if= "order.status == 'pending'">Pending</button>
+    <button class="button button-assertive-custom button-full" ng-if= "order.status == 'confirmed'">Confirmed</button>
+    <button class="button button-balanced button-full" ng-if= "order.status == 'delivered'">Delivered</button>
+    <button class="button button-assertive button-full" ng-if= "order.status == 'canceled'">Canceled</button>
+      
+  </ion-content>
+</ion-view>
