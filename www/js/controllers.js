@@ -1,4 +1,4 @@
-var server = "http://data.lingerie91.hasura-app.io/api/";
+var server = "https://data.lingerie91.hasura-app.io/api/";
 
 angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services', 
                                         'angular-svg-round-progressbar', 'starter.directives', 
@@ -31,7 +31,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
   		
       var loginReq = {
        method: 'POST',
-       url: 'http://auth.lingerie91.hasura-app.io/login',
+       url: 'https://auth.lingerie91.hasura-app.io/login',
        data : data
       // transformR,equest: function(obj) {
       //   var str = [];
@@ -127,11 +127,11 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
   		
       var signUpReq = {
        method: 'POST',
-       url: 'http://auth.lingerie91.hasura-app.io/signup',
+       url: 'https://auth.lingerie91.hasura-app.io/signup',
        data : data
     };
     // console.log(data);
-      $http( signUpReq).
+      $http( signUpReq ).
           then(function(response) {
           // this callback will be called asynchronously
           // when the response is availa 
@@ -141,8 +141,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
           window.localStorage.setItem('currentUserId', response.data.hasura_id);
           window.localStorage.setItem('token', response.data.auth_token);
           $scope.addUser(data);
-
-          window.location.href = 'index.html';
         },
         function(response) {
           console.log("Error");
@@ -209,8 +207,64 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
     }
     console.log($scope.isMobile);
 })
+
+.controller('activateCtrl', function($scope, $location, $ionicPopup){
+  $scope.verify = function(){
+    var verifyReq = {
+      method: 'POST',
+      url: server + '1/table/account/select',
+      data: {
+        'columns': ['token'],
+        'where': {'regEmail': $scope.regEmail}
+      },
+      headers: {
+        'Authorization': 'Hasura ' + window.localStorage['token']
+      }
+    };
+    $http(verifyReq).then(function(response){
+      console.log(response.data);
+      if(response.data[0].token == $scope.token){
+        
+      var alertPopup = $ionicPopup.alert({
+        title: '',
+        template: 'Verification successful!'
+      });
+          
+      alertPopup.then(function(res) {
+      });
+        location.replace(login.html);
+        var updateStatusReq = {
+          method: 'POST',
+          url: server + '1/table/account/select',
+          data: {
+            "$set":{"isActive": true},
+            "where": {"token": $scope.token}
+          },
+          headers: {
+            'Authorization': 'Hasura ' + window.localStorage['token']
+          }
+        };
+        $http(updateStatusReq).then(function(response){
+          
+        }, function(response){
+          console.log(response);
+        });
+      }
+      },
+      function(response){
+        console.log(response);
+        var alertPopup = $ionicPopup.alert({
+          title: 'Error!',
+          template: 'Invalid token! Please check and try again'
+        });
+            
+        alertPopup.then(function(res) {
+        });
+    });
+  };
+})
 //Controller for home tab
-.controller('HomeCtrl', function($scope, $http, outlets, $window, userDetails, $location) {
+.controller('HomeCtrl', function($scope, $http, outlets, $window, userDetails, $location, $ionicPopup) {
         
   console.log(window.localStorage['token']);
   console.log(window.localStorage['currentUserId']);
@@ -241,9 +295,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
             console.log(response.data);
             userDetails.addUser(response.data[0]);
             $scope.user = userDetails.getUser();
-            // window.localStorage.setItem('currentUser', response.data);
-            // window.localStorage.setItem('currentUserId', response.data.hasura_id);
-          
         },
           function(response){
             console.log(response);
@@ -265,52 +316,126 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
           window.localStorage.setItem('outlets', response.data);
         },
       function(response){
-          // $scope.scorecard = scorecard;
           console.log(response);
         });
     
     $scope.openOutlet = function(object) {
-      if(window.localStorage['token'] === '' | window.localStorage['token'] === undefined ){
-        console.log(window.localStorage['token']);
-        location.replace('login.html');
-      }
-      else{
+      
+      if(object.key == 'noAuth'){
         outlets.addOutlet(object); 
-        location.href = "#/tab/resto";
+        location.href = "#/tab/resto";  
       }
-    };
-    
-    $scope.imagesOutlets = [{
-      "url":"3.jpg"
-    },{
-      "url":"4.jpg"
-    }];
-
-})
-
-//controller to load menu
-.controller("RestoDetailsCtrl", ['$scope', 'favourites', 'cart', 'outlets', '$http', 'userDetails', '$ionicPopup', '$window',
-
-    function ($scope, favourites, cart, outlets, $http, userDetails, $ionicPopup, $window) {
-   
-  
-    if(window.localStorage['token'] === '' | window.localStorage['token'] === undefined){
-      location.replace('login.html');
-    }
-    else {
-     $scope.user = userDetails.getUser();
-     $scope.currentOutlet = outlets.getOutlet();
-     
-     $scope.details = [{
-       "objects":[1]
-     }];
-  
-      var menuReq = {
-          method: 'POST',
-          url: server + '1/table/items/select',
-          data: {
-            "columns": ["*"],
-            "where": {"outletId": $scope.currentOutlet.id}
+      else {
+        if(window.localStorage['token'] === '' | window.localStorage['token'] === undefined ){
+          console.log(window.localStorage['token']);
+          location.replace('login.html');
+        }
+        else{
+            $scope.choice = '';
+            
+             var accountPopup = $ionicPopup.show({
+               templateUrl : 'templates/accountPopup.html',
+               title:'Please choose your account:',
+               scope: $scope,
+               buttons: [
+                 { text: 'Cancel',
+                   onTap: function(e) {
+                     var check = 0;
+                     return {
+                       check: check
+                     };
+                   }
+                 },
+                 {
+                   text: '<b>OK</b>',
+                   type: 'button-assertive',
+                   onTap: function(e) {
+                     var check = 1;
+                     return {
+                       check: check
+                     };
+                   }
+                 },
+               ]
+             });
+             
+             accountPopup.then(function(res) {
+              if(res.check === 1){
+               var choice = userDetails.getChoice();
+               
+                 var isActiveAccountReq = {
+                    method: 'POST',
+                    url: server+'1/table/account/select',
+                    data: {
+                     "columns": ["isActive", "authKey"],
+                     "where": {
+                        "id": choice
+                     }
+                    }
+                  };
+                  $http(isActiveAccountReq).then(function(response){
+                    if(response.data[0].authKey == object.key){
+                      outlets.addOutlet(object); 
+                      location.href = "#/tab/resto";                
+                    }
+                    else{
+                          var alertPopup = $ionicPopup.alert({
+                              title: 'Unauthorized!',
+                              template: 'You are not authorized to access this outlet\'s details'
+                            });
+                          
+                            alertPopup.then(function(res) {
+                            });
+                    }
+                },
+                  function(response){
+                    console.log(response);
+                        var alertPopup = $ionicPopup.alert({
+                              title: 'Unauthorized!',
+                              template: 'You have not activated your account yet. Please check your smail and follow the activation link'
+                            });
+                          
+                            alertPopup.then(function(res) {
+                            });
+                });           
+              }  
+               
+             });          
+              }
+            }
+          };
+          
+          $scope.imagesOutlets = [{
+            "url":"3.jpg"
+          },{
+            "url":"4.jpg"
+          }];
+      
+      })
+      
+      //controller to load menu
+      .controller("RestoDetailsCtrl", ['$scope', 'favourites', 'cart', 'outlets', '$http', 'userDetails', '$ionicPopup', '$window',
+      
+          function ($scope, favourites, cart, outlets, $http, userDetails, $ionicPopup, $window) {
+         
+        
+          if(window.localStorage['token'] === '' | window.localStorage['token'] === undefined){
+            location.replace('login.html');
+          }
+          else {
+           $scope.user = userDetails.getUser();
+           $scope.currentOutlet = outlets.getOutlet();
+           
+           $scope.details = [{
+             "objects":[1]
+           }];
+        
+            var menuReq = {
+                method: 'POST',
+                url: server + '1/table/items/select',
+                data: {
+                  "columns": ["*"],
+                  "where": {"outletId": $scope.currentOutlet.id}
           }
         };
         $http(menuReq).then(function(response){
@@ -484,7 +609,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
            },
            {
              text: '<b>Delete</b>',
-             type: 'button-positive',
+             type: 'button-assertive',
              onTap: function(e) {
                var check = 1;
               // alert($scope.deleteAccount.password);
@@ -506,7 +631,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
               var deleteAccountReq = {
                 
               method: 'POST',
-              url: 'http://auth.lingerie91.hasura-app.io/user/account/delete',
+              url: 'https://auth.lingerie91.hasura-app.io/user/account/delete',
               data: {
               "password": res.password
               },
@@ -539,7 +664,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
           if(res) {
             var logoutReq = {
               method: 'GET',
-              url: 'http://auth.lingerie91.hasura-app.io/user/logout',
+              url: 'https://auth.lingerie91.hasura-app.io/user/logout',
               headers: {
                 'Authorization': 'Hasura ' + window.localStorage['token']
               }
@@ -816,7 +941,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
            },
            {
              text: '<b>OK</b>',
-             type: 'button-positive',
+             type: 'button-assertive',
              onTap: function(e) {
                var check = 1;
                choice = $scope.choice;
@@ -854,7 +979,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
                  },
                  {
                    text: '<b>OK</b>',
-                   type: 'button-positive',
+                   type: 'button-assertive',
                    onTap: function(e) {
                      var check = 1;
                      console.log(choice);
@@ -943,7 +1068,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
            },
            {
              text: '<b>OK</b>',
-             type: 'button-positive',
+             type: 'button-assertive',
              onTap: function(e) {
                var check = 1;
               // alert($scope.deleteAccount.password);
@@ -978,7 +1103,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
                  },
                  {
                    text: '<b>OK</b>',
-                   type: 'button-positive',
+                   type: 'button-assertive',
                    onTap: function(e) {
                      var check = 1;
                      return {
@@ -1078,7 +1203,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
            },
            {
              text: '<b>OK</b>',
-             type: 'button-positive',
+             type: 'button-assertive',
              onTap: function(e) {
                var check = 1;
               // alert($scope.deleteAccount.password);
@@ -1223,11 +1348,14 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
     // $scope.user = window.localStorage['currentUser'];
 
     
-  var userReq = {
+        var userReq = {
             method: 'POST',
             url: server + '1/table/users/select',
             data: {
-              'columns': ['*'],
+              'columns': ["*", {
+                "name": "account",
+                "columns": ["*"]
+              }],
               'where': {'id': parseInt(window.localStorage['currentUserId'])}
             },
             headers: {
@@ -1235,7 +1363,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
             }
           };
           $http(userReq).then(function(response){
-            console.log(response.data);
+            // console.log(response.data);
             userDetails.addUser(response.data[0]);
             $scope.user = userDetails.getUser();
             // window.localStorage.setItem('currentUser', response.data);
@@ -1246,11 +1374,114 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
             console.log(response);
     });
     
+    var accountsReq = {
+            method: 'POST',
+            url: server + '1/table/account/select',
+            data: {
+              'columns': ["*"],
+              'where': {'userId': parseInt(window.localStorage['currentUserId'])}
+            },
+            headers: {
+              'Authorization': 'Hasura ' + window.localStorage['token']
+            }
+          };
+          $http(accountsReq).then(function(response){
+            // console.log(response.data);
+            $scope.accounts = response.data;
+        },
+          function(response){
+            console.log(response);
+    });
+    
     
     $scope.addAccount = function() {
-      console.log('add account working');
+    
+      var addAccount = $ionicPopup.confirm({
+        templateUrl: 'templates/addAccount.html',
+        title: 'Resgistered Account :',
+        // subTitle: 'Please use normal things',
+        scope: $scope,
+        buttons: [
+             { text: 'Cancel',
+               onTap: function(e) {
+                 var check = 0;
+                // alert($scope.deleteAccount.password);
+                 return {
+                   check: check
+                 };
+               }
+             },
+             {
+               text: '<b>OK</b>',
+               type: 'button-assertive',
+               onTap: function(e) {
+                 var check = 1;
+                // alert($scope.deleteAccount.password);
+                 return {
+                   check: check
+                 };
+               }
+             },
+           ]
+      });
+      
+      addAccount.then(function(res) {
+        
+        if(res.check == 1){
+          var regEmail = userDetails.getAccountEmail();
+          var accountReq = {
+              method: 'POST',
+              url: server + '1/table/account/insert',
+              data: {
+                "objects":[{
+                  'userId': parseInt(window.localStorage['currentUserId']),
+                  'isActive': false,
+                  'regEmail': regEmail,
+                  'authKey': ''
+                }]
+              },
+              headers: {
+                'Authorization': 'Hasura ' + window.localStorage['token']
+              }
+            };
+            $http(accountReq).then(function(response){
+              // console.log(response.data);
+              var emailReq = {
+                method: 'POST',
+                url: 'https://server.lingerie91.hasura-app.io/email',
+                data: {
+                  email: "contactus@sqippr.com",
+                  subject: "Verify your registered account",
+                  recipient: regEmail,
+                  userId: parseInt(window.localStorage['currentUserId']),
+                  html: "<html><body><p>Hello! </br> Thank you for signing up with sQippr. Please click on --- and enter the token : {{token}} to verify your registered account</br>Do not respond to this mail</p></body></html>"
+                }
+              };
+              $http(emailReq).then(function(response){
+                console.log(response.data);
+            },
+              function(response){
+                console.log(response);
+    }); 
+              
+          },
+            function(response){
+              console.log(response);
+        });   
+        }     
+      });
     };
     
+    $scope.showInfo = function(){
+      var alertPopup = $ionicPopup.alert({
+        title: 'Info',
+        template: 'You can add your institute\'s registered accounts here'
+      });
+      
+      alertPopup.then(function(res) {
+        console.log('can not order');
+      });
+    };
 }])
 
 .controller('awaitingConfirmationCtrl', [ '$scope', '$interval', '$timeout', '$window', 'roundProgressService', '$http', '$location', 'userDetails',
@@ -1658,14 +1889,14 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
     
     // $scope.$watchGroup(['takeAwayMinutes', 'takeAwayHour'], function(newValues, oldValues, scope) {
       
-    //   // var alertPopup = $ionicPopup.alert({
-    //   //   title: 'Invalid Time!',
-    //   //   template: 'Orders can only be made within 3 hours after expected take-away time'
-    //   // });
+      // var alertPopup = $ionicPopup.alert({
+      //   title: 'Invalid Time!',
+      //   template: 'Orders can only be made within 3 hours after expected take-away time'
+      // });
       
-    //   // alertPopup.then(function(res) {
-    //   //   console.log('can not order');
-    //   // });
+      // alertPopup.then(function(res) {
+      //   console.log('can not order');
+      // });
       
     //   cart.addHour($scope.takeAwayHour);
     //   cart.addMinute($scope.takeAwayMinutes);
@@ -1698,6 +1929,32 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
     
 }])
 
+.controller('accountPopupCtrl', ['$scope', 'userDetails', '$window',
+
+  function($scope, userDetails, $window){
+    var accountsReq = {
+            method: 'POST',
+            url: server+'1/table/account/select',
+            data: {
+             "columns": ["*"],
+             "where": {"userId": parseInt(window.localStorage['currentUserId'])}
+            }
+          };
+          $http(accountsReq).then(function(response){
+            $scope.accounts = response.data;
+            $scope.noOfAccounts = respose.data.length;
+        },
+          function(response){
+            console.log(response);
+    });   
+    
+    $scope.$watch('choice', function(newValues, oldValues, scope) {
+      console.log($scope.choice);
+      userDetails.addChoice($scope.choice);
+    });
+    
+}])
+
 .controller('deliveryAddressPopupCtrl', ['$scope', 'cart',
 
   function($scope, cart){
@@ -1718,10 +1975,19 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
     
 }])
 
+.controller('addAccountCtrl', ['$scope', 'userDetails',
+
+  function($scope, userDetails){
+    $scope.$watch('regEmail', function(newValues, oldValues, scope) {
+      userDetails.addAccountEmail($scope.regEmail);
+    });
+    
+}])
+
 .controller('trialCtrl', ['$scope', '$document', '$http',
 
   function($scope, $document, $http){
-    $scope.timestamp = '2016-07-12T16:09:38.128d';
+    $scope.timestamp = '2016-07-12T16:09:38.128f';
     $scope.totalAmount = 50;
     $scope.name = 'Arjun';
     $scope.email = 'arjunrakesh007@gmail.com';
@@ -1753,6 +2019,26 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
         //   console.log(response);
         // });
       };    
+    $scope.sendEmail = function(){
+
+      var emailReq = {
+            method: 'POST',
+            url: 'https://server.lingerie91.hasura-app.io/email',
+            data: {
+              email: "contactus@sqippr.com",
+              subject: "Test Mail",
+              recipient: "aslamahrahiman@gmail.com",
+              html: "<p><html><body><p>Hello! Please click on -- and enter the following token : {{token}} to verify your registered account</p></body></html><p>"
+            }
+          };
+          $http(emailReq).then(function(response){
+            console.log(response.data);
+        },
+          function(response){
+            console.log(response);
+    });     
+    } ;
+      
     
 }])
 
@@ -1779,7 +2065,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
            },
            {
              text: '<b>Change</b>',
-             type: 'button-positive',
+             type: 'button-assertive',
              onTap: function(e) {
                var check = 1;
               // alert($scope.deleteAccount.password);
@@ -1797,7 +2083,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
       if( res.check == 1){
        var changePasswordReq = {
         method: 'POST',
-          url: 'http://auth.lingerie91.hasura-app.io/user/password/change',
+          url: 'https://auth.lingerie91.hasura-app.io/user/password/change',
           data: {
             'password': changePassword[0],
             'new_password': changePassword[1],

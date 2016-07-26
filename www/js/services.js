@@ -28,13 +28,33 @@ angular.module('starter.services', [])
     return changePassword;
   };
   
+  var email = '';
+  var addAccountEmail = function(newEmail){
+    email = newEmail;
+  };
+  var getAccountEmail = function(){
+    return email;
+  };
+  
+  var choice = '';
+  var addChoice = function(newChoice){
+    choice = newChoice;
+  };
+  var getChoice = function(){
+    return choice;
+  };
+  
   return {
     getUser: getUser,
     addUser: addUser,
     getToken: getToken,
     addToken: addToken,
     addChangePassword: addChangePassword,
-    getChangePassword: getChangePassword
+    getChangePassword: getChangePassword,
+    addAccountEmail: addAccountEmail,
+    getAccountEmail: getAccountEmail,
+    addChoice: addChoice,
+    getChoice: getChoice
   };  
   
 }])
