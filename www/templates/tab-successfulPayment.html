@@ -1,20 +1,13 @@
-<ion-view view-title="{{ resto.name }}">
-  <div class="bar bar-subheader bar-energized bar-stable item-button-right">
-    <p class="title" style="font-size:18px; text-align:left">Sub Header</p>
-    <button class="button button-positive">
-      <i class="">Return</i>
-    </button>
-  </div>  
+<ion-view view-title="Payment Successful" ng-controller="paymentSuccessCtrl">
 
   <ion-content>
 
-    <br>
-    <br>
-    <br>
-    <br>
-    <div class="imageHolder_1"> 
-		  <img src="img/Food-Dome-512.png" alt="" /> 
-		</div>
+    <br><br><br>
+		  <img src="img/Food-Dome-512.png" alt="" style="width: 80vw; height: 80vw;margin:auto; display:block" /> 
+		  <p style="text-align:center; color:grey">Your order has been successfully placed!</p>
+		  <h4 style="text-align:center; color:grey"> You can track your order status in Account >> Order History. Please check your mail for order receipt</h4>
+		  <p style="text-align:center; color:grey">Note: Your order will be canceled if not picked up 45 minutes past your requested time. Thank you for donating your food.</p>
+      <a class="button button-full button-assertive-custom" ng-click="replace()"><h4 style="color:white">Return Home</h4></a>  
 		
   </ion-content>
 </ion-view>

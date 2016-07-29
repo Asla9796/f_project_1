@@ -197,7 +197,16 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     url: '/successfulPayment',
     views: {
       'tab-cart': {
-        templateUrl: 'templates/successfulPayment.html',
+        templateUrl: 'templates/tab-successfulPayment.html',
+      }
+    }
+  })
+  
+  .state('tab.failedPayment', {
+    url: '/failedPayment',
+    views: {
+      'tab-cart': {
+        templateUrl: 'templates/tab-failedPayment.html',
       }
     }
   });

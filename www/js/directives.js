@@ -1,4 +1,4 @@
-angular.module('starter.directives', [])
+angular.module('starter.directives', ['ionic'])
 
 .directive("ngTimeSelector", function ($timeout) {
     return {

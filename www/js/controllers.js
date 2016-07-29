@@ -1345,9 +1345,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
   
   function($scope, $window, $ionicPopup, userDetails, $http) {
     
-    // $scope.user = window.localStorage['currentUser'];
-
-    
         var userReq = {
             method: 'POST',
             url: server + '1/table/users/select',
@@ -1398,7 +1395,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
     
       var addAccount = $ionicPopup.confirm({
         templateUrl: 'templates/addAccount.html',
-        title: 'Resgistered Account :',
+        title: 'Registered Account :',
         // subTitle: 'Please use normal things',
         scope: $scope,
         buttons: [
@@ -1429,45 +1426,58 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
         
         if(res.check == 1){
           var regEmail = userDetails.getAccountEmail();
-          var accountReq = {
-              method: 'POST',
-              url: server + '1/table/account/insert',
-              data: {
-                "objects":[{
-                  'userId': parseInt(window.localStorage['currentUserId']),
-                  'isActive': false,
-                  'regEmail': regEmail,
-                  'authKey': ''
-                }]
+          var verification = regEmail.substring(8, regEmail.length);
+          
+          if(verification != "@smail.iitm.ac.in"){
+            var alertPopup = $ionicPopup.alert({
+               title: 'Error!',
+               template: 'Invalid smail!'
+             });
+          
+             alertPopup.then(function(res) {
+             });  
+          }
+          else {
+                var accountReq = {
+                  method: 'POST',
+                  url: server + '1/table/account/insert',
+                  data: {
+                    "objects":[{
+                      'userId': parseInt(window.localStorage['currentUserId']),
+                      'isActive': false,
+                      'regEmail': regEmail,
+                      'authKey': ''
+                    }]
+                  },
+                  headers: {
+                    'Authorization': 'Hasura ' + window.localStorage['token']
+                  }
+                };
+                $http(accountReq).then(function(response){
+                  // console.log(response.data);
+                  var emailReq = {
+                    method: 'POST',
+                    url: 'https://server.lingerie91.hasura-app.io/email',
+                    data: {
+                      email: "contactus@sqippr.com",
+                      subject: "sQippr || Verify your registered account",
+                      recipient: regEmail,
+                      userId: parseInt(window.localStorage['currentUserId']),
+                      html: "<h3>Hello! <br><br> Thank you for signing up with sQippr. Please click on  https://ui.lingerie91.hasura-app.io/activateAccount.html and enter the token : {{token}} to verify your registered account<br><br>Do not respond to this mail</h3>"
+                    }
+                  };
+                  $http(emailReq).then(function(response){
+                    console.log(response.data);
+                },
+                  function(response){
+                    console.log(response);
+        }); 
+                  
               },
-              headers: {
-                'Authorization': 'Hasura ' + window.localStorage['token']
-              }
-            };
-            $http(accountReq).then(function(response){
-              // console.log(response.data);
-              var emailReq = {
-                method: 'POST',
-                url: 'https://server.lingerie91.hasura-app.io/email',
-                data: {
-                  email: "contactus@sqippr.com",
-                  subject: "Verify your registered account",
-                  recipient: regEmail,
-                  userId: parseInt(window.localStorage['currentUserId']),
-                  html: "<html><body><p>Hello! </br> Thank you for signing up with sQippr. Please click on --- and enter the token : {{token}} to verify your registered account</br>Do not respond to this mail</p></body></html>"
-                }
-              };
-              $http(emailReq).then(function(response){
-                console.log(response.data);
-            },
-              function(response){
-                console.log(response);
-    }); 
-              
-          },
-            function(response){
-              console.log(response);
-        });   
+                function(response){
+                  console.log(response);
+            }); 
+          }
         }     
       });
     };
@@ -1920,6 +1930,22 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
     
 }])
 
+.controller('paymentSuccessCtrl', ['$scope', '$location',
+
+  function($scope, $location){
+    $scope.replace = function(){
+      location.replace('index.html');
+    };
+}])
+
+.controller('paymentFailedCtrl', ['$scope', '$location',
+
+  function($scope, $location){
+    $scope.replace = function(){
+      location.replace('index.html');
+    };
+}])
+
 .controller('deliveryPopupCtrl', ['$scope', 'cart',
 
   function($scope, cart){
@@ -1929,20 +1955,23 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
     
 }])
 
-.controller('accountPopupCtrl', ['$scope', 'userDetails', '$window',
+.controller('accountPopupCtrl', ['$scope', 'userDetails', '$window', '$http',
 
-  function($scope, userDetails, $window){
+  function($scope, userDetails, $window, $http){
     var accountsReq = {
             method: 'POST',
             url: server+'1/table/account/select',
             data: {
              "columns": ["*"],
              "where": {"userId": parseInt(window.localStorage['currentUserId'])}
+            },
+            headers: {
+              'Authorization': 'Hasura ' + window.localStorage['token']
             }
           };
           $http(accountsReq).then(function(response){
             $scope.accounts = response.data;
-            $scope.noOfAccounts = respose.data.length;
+            $scope.noOfAccounts = response.data.length;
         },
           function(response){
             console.log(response);
@@ -2021,22 +2050,23 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
       };    
     $scope.sendEmail = function(){
 
-      var emailReq = {
-            method: 'POST',
-            url: 'https://server.lingerie91.hasura-app.io/email',
-            data: {
-              email: "contactus@sqippr.com",
-              subject: "Test Mail",
-              recipient: "aslamahrahiman@gmail.com",
-              html: "<p><html><body><p>Hello! Please click on -- and enter the following token : {{token}} to verify your registered account</p></body></html><p>"
+     var emailReq = {
+        method: 'POST',
+        url: 'https://server.lingerie91.hasura-app.io/email',
+        data: {
+            email: "contactus@sqippr.com",
+            subject: "Verify your registered account",
+            recipient: "aslamahrahiman@gmail.com",
+            userId: 2,
+            html: "<h3>Hello! <br><br> Thank you for signing up with sQippr. Please click on https://ui.lingerie91.hasura-app.io/activateAccount.html and enter the token : {{token}} to verify your registered account<br><br>Do not respond to this mail</h3>"
             }
-          };
-          $http(emailReq).then(function(response){
-            console.log(response.data);
-        },
-          function(response){
-            console.log(response);
-    });     
+                  };
+                  $http(emailReq).then(function(response){
+                    console.log(response.data);
+                },
+                  function(response){
+                    console.log(response);
+        });    
     } ;
       
     

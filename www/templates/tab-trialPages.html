@@ -1,36 +1,42 @@
 <ion-view view-title="Account" ng-controller='trialCtrl'>
   <ion-content>
-   <form name="payForm" id="payForm" method="POST" action="https://test.payu.in/_payment">
-          <input type="hidden" name="key" value="gtKFFx">
-          <input type="hidden" name="txnid" value= {{timestamp}}>
-          <input type="hidden" name="amount" value= {{totalAmount}}>
-          <input type="hidden" name="productinfo" value= "food order">
-          <input type="hidden" name="firstname" value={{name}}>
-          <input type="hidden" name="email" value={{email}}>
-          <input type="hidden" name="phone" value={{phone}}>
-          <input type="hidden" name="surl" value="http://server.lingerie91.hasura-app.io/validate_payment">
-          <input type="hidden" name="furl" value="http://server.lingerie91.hasura-app.io/validate_payment">
-          <input type="hidden" name="curl" value="http://server.lingerie91.hasura-app.io/validate_payment">
-          <input type="hidden" name="hash" value= {{sha512}}>
+   <!--<form name="payForm" id="payForm" method="POST" action="https://test.payu.in/_payment">-->
+   <!--       <input type="hidden" name="key" value="gtKFFx">-->
+   <!--       <input type="hidden" name="txnid" value= {{timestamp}}>-->
+   <!--       <input type="hidden" name="amount" value= {{totalAmount}}>-->
+   <!--       <input type="hidden" name="productinfo" value= "food order">-->
+   <!--       <input type="hidden" name="firstname" value={{name}}>-->
+   <!--       <input type="hidden" name="email" value={{email}}>-->
+   <!--       <input type="hidden" name="phone" value={{phone}}>-->
+   <!--       <input type="hidden" name="surl" value="http://server.lingerie91.hasura-app.io/validate_payment">-->
+   <!--       <input type="hidden" name="furl" value="http://server.lingerie91.hasura-app.io/validate_payment">-->
+   <!--       <input type="hidden" name="curl" value="http://server.lingerie91.hasura-app.io/validate_payment">-->
+   <!--       <input type="hidden" name="hash" value= {{sha512}}>-->
           
-          <button class="button button-full button-assertive-custom" ng-click="submit()">
-            <h4 style="color:white">Proceed to payment</h4>
-          </button>
-      </form >
+   <!--       <button class="button button-full button-assertive-custom" ng-click="submit()">-->
+   <!--         <h4 style="color:white">Proceed to payment</h4>-->
+   <!--       </button>-->
+   <!--   </form >-->
       
-      <button class="button button-full button-assertive" ng-click="sendEmail()">
-            <h4 style="color:white">send test mail</h4>
-          </button>
-      <div class="container">
+   <!--   <button class="button button-full button-assertive" ng-click="sendEmail()">-->
+   <!--         <h4 style="color:white">send test mail</h4>-->
+   <!--       </button>-->
+   <!--   <div class="container">-->
         
-        <br><br><br><br><br><br><br><br>
-        <p>Hello!</p>
-        <p>Thank you for registering with sQippr. Please follow <a href="#">this link </a>to activate your account</p>
-        <br>
-        <h4>Cheers!</h4>
-        <h4>Team Sqippr</h4>
-        <p style="align:center">**********Please do not response to this email **********</p>
-      </div>
-   
+   <!--     <br><br><br><br><br><br><br><br>-->
+   <!--     <p>Hello!</p>-->
+   <!--     <p>Thank you for registering with sQippr. Please follow <a href="#">this link </a>to activate your account</p>-->
+   <!--     <br>-->
+   <!--     <h4>Cheers!</h4>-->
+   <!--     <h4>Team Sqippr</h4>-->
+   <!--     <p style="align:center">**********Please do not response to this email **********</p>-->
+   <!--   </div>-->
+   <br><br><br>
+		  <img src="img/Food-Dome-512.png" alt="" style="width: 80vw; height: 80vw;margin:auto; display:block" /> 
+		  <p style="text-align:center; color:grey">Your order has been successfully placed!</p>
+		  <h4 style="text-align:center; color:grey"> You can track your order status in Account >> Order History</h4>
+		  <br>
+		  <p style="text-align:center; color:grey">Note: Your order will be canceled if not picked up 45 minutes past your requested time. Thank you for donating your food.</p>
+      <a class="button button-full button-assertive-custom" href="#/tab/home"><h4 style="color:white">Return Home</h4></a>  
   </ion-content>
 </ion-view>

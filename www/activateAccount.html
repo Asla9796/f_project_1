@@ -3,7 +3,7 @@
     <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-    <title>sQippr - Sign Up</title>
+    <title>sQippr - Account Verification</title>
 
     <!--<link href="lib/ionic/css/ionic.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
@@ -44,7 +44,7 @@
   <body ng-controller="activateCtrl">
     
     <div class="bar bar-header bar-assertive-custom bar-stable">
-      <h1 class="title" style="color:white">Sign Up</h1>
+      <h1 class="title" style="color:white">Verify your account</h1>
     </div>
     <ion-scroll zooming="true" direction="y">
       
@@ -60,13 +60,13 @@
             <input type="text"  ng-model="regEmail" placeholder="S-Mail">
           </label>
           <label class="item item-input item-floating-label">
-            <span class="input-label"><i class="icon ion-ios-locked"></i>&nbsp &nbsp Token</span>
+            <span class="input-label"><i class="icon ion-ios-pricetag"></i>&nbsp &nbsp Token</span>
             <input type="password" ng-model="token"  placeholder="Token">
           </label>
         </div>
       </div>
       
-      <button class="button button-block button-assertive-custom" href="login.html"><h4 style="color:white">Verify</h4></button>
+      <button class="button button-block button-assertive-custom" ng-click="verify()"><h4 style="color:white">Verify</h4></button>
 
       <br><br><br>
     </ion-scroll>
