@@ -4,6 +4,17 @@
   <!--</div>  -->
 
   <ion-content>
+    <div class="bar bar-subheader bar-assertive" ng-show="isEmpty()">
+      <h2 class="title">You have not selected an outlet. Please click back</h2>
+    </div>
+    
+    <div ng-if="!isOnline">
+      <div class="bar bar-subheader bar-assertive">
+        <h2 class="title">You are not connected to the internet</h2>
+      </div>
+      <br>
+      <br>
+    </div>    
     <!--<ion-list>-->
     <!--  <ion-item ng-repeat="playlist in playlists" href="#/app/playlists/{{playlist.id}}">-->
     <!--    {{playlist.title}}-->
@@ -65,29 +76,23 @@
               <div class = "col"><p style="font-size:18px; text-align:right">Rs. {{ item.price }}</p></div>
             </div>
              <div class = "row">
-              <div class = "col"><p> Min Time : {{ item.minTime }} min</p></div>
-              
-              <div class = "col col-10" ng-init="obj={ check:item.isFavourite }">
-                <a class="button button-icon icon ion-ios-heart-outline" ng-if="!obj.check" ng-click="obj.check = true; addToFavourites(obj.check,item)">
-                   <!--<i class="iconMenuCustom ion-ios-heart-outline"></i>-->
-                </a>
-                <a class="button button-icon icon ion-ios-heart" ng-if="obj.check" ng-click="obj.check = false; addToFavourites(obj.check,item)">
-                  <!--<i class="iconMenuCustom ion-ios-heart"></i>-->
-                </a>
-              </div>
-              
-              <div class = "col col-10">
-                <a class="button button-icon icon ion-ios-minus-outline" ng-click="removeFromCart(item)">
-                   <!--<i class="iconMenuCustom ion-ios-minus-outline"></i>-->
-                </a>
-              </div>
-              
-              <div class = "col col-10">
-                <a class="button button-icon icon ion-ios-plus-outline" ng-click="addToCart(item)">
-                   <!--<i class="iconMenuCustom ion-ios-plus-outline"></i>-->
-                </a>
-              </div>
-              <div class = "col col-20"><p style="text-align:right">{{ item.quantity }} qty</p></div>
+                <div class = "col"><p> Min Time : {{ item.minTime }} min</p></div>
+                
+                <div class = "col col-10" ng-init="obj={ check:item.isFavourite }">
+                  <a class="button button-icon icon ion-ios-heart-outline" ng-if="!obj.check" ng-click="obj.check = true; addToFavourites(obj.check,item)">
+                     <!--<i class="iconMenuCustom ion-ios-heart-outline"></i>-->
+                  </a>
+                  <a class="button button-icon icon ion-ios-heart" ng-if="obj.check" ng-click="obj.check = false; addToFavourites(obj.check,item)">
+                    <!--<i class="iconMenuCustom ion-ios-heart"></i>-->
+                  </a>
+                </div>
+                
+                <div class = "col col-10">
+                  <a class="button button-icon icon ion-ios-cart-outline" ng-click="addToCart(item)" ng-if="item.isAvailable">
+                     <!--<i class="iconMenuCustom ion-ios-plus-outline"></i>-->
+                  </a>
+                </div>
+                <div class = "col col-20"><p style="text-align:right">{{ item.quantity }} qty</p></div>
               </div>
             
           </ion-item>

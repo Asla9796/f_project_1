@@ -1,6 +1,9 @@
 <div ng-if="noOfAccounts !=0">
   <ion-list ng-controller = 'accountPopupCtrl'>
-    <ion-radio ng-model="choice" ng-value="account.id" ng-repeat="account in accounts">{{ account.regEmail }}</ion-radio>
+    <div ng-repeat="account in accounts">
+      <ion-radio ng-model="choice" ng-value="account.id">{{ account.regEmail }}</ion-radio>  
+    </div>
+    
   </ion-list>
 </div>
 

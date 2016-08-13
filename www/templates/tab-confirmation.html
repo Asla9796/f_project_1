@@ -4,6 +4,14 @@
   <!--</div>  -->
 
   <ion-content>
+    <div ng-if="!isOnline">
+      <div class="bar bar-subheader bar-assertive">
+        <h2 class="title">You are not connected to the internet</h2>
+      </div>
+      <br>
+      <br>
+      <br>
+    </div>
 
     <br>
     <br>
@@ -39,7 +47,7 @@
           <div class = "col col-67"><p style="font-size:18px">Bill Amount : </p></div>
           <div class = "col col-33"><p style="font-size:18px">Rs.{{ total }}/-</p></div>
         </div>
-        <div class = "row" ng-if='!isDelivery'>
+        <div class = "row" ng-if='!isCoD'>
           <div class = "col col-67"><p style="font-size:18px">Convenience Charge : </p></div>
           <div class = "col col-33"><p style="font-size:18px">Rs.{{ convenience }}/-</p></div>
         </div>
@@ -47,7 +55,7 @@
           <div class = "col col-67"><p style="font-size:18px">Packing Charge : </p></div>
           <div class = "col col-33"><p style="font-size:18px">Rs.{{ packing }}/-</p></div>
         </div>
-        <div class = "row" ng-if='isCoD'>
+        <div class = "row" ng-if='isDelivery'>
           <div class = "col col-67"><p style="font-size:18px">Delivery Charge : </p></div>
           <div class = "col col-33"><p style="font-size:18px">Rs.{{ delivery }}/-</p></div>
         </div>
@@ -57,25 +65,33 @@
         </div>
       </ion-item>
       
-      <div ng-if="confirmedOrders.length == 0">
+      <div ng-if="confirmedOrders.length == 0 || status == false">
+        <p style="text-align:center; color:grey">Your order has been canceled because</p>
+        <p style="text-align:center; color:grey" ng-if="cancel_reason == 'notAvailable'">None of the ordered items are available</p>
+        <p style="text-align:center; color:grey" ng-if="cancel_reason == 'invalid'">Invalid address / mobile number</p>
+        <p style="text-align:center; color:grey" ng-if="cancel_reason == 'failedConfirm'">The caterer failed to confirm the order</p>
         <p style="text-align:center; color:grey">We apologize for the inconvenience</p>
-        <a class="button button-full button-assertive" ng-click="returnToMenu()" ng-if='confirmed.length == 0'><h4 style="color:white">Return to Menu</h4></a>
+        <a class="button button-full button-assertive" ng-click="returnToMenu()"><h4 style="color:white">Return to Menu</h4></a>
+      </div>
+      
+      <div ng-if="!check">
+        <p style="text-align:center; color:grey">Your order has been successfully placed. You can track your order status on Accounts >> Order History</p>
       </div>
       
       <form name="payForm" id="payForm" method="POST" action="https://test.payu.in/_payment">
           <input type="hidden" name="key" value="gtKFFx">
-          <input type="hidden" name="txnid" value= {{timestamp}}>
+          <input type="hidden" name="txnid" value= {{token}}>
           <input type="hidden" name="amount" value= {{totalAmount}}>
           <input type="hidden" name="productinfo" value= "food order">
           <input type="hidden" name="firstname" value={{name}}>
           <input type="hidden" name="email" value={{email}}>
           <input type="hidden" name="phone" value={{phone}}>
-          <input type="hidden" name="surl" value="http://server.lingerie91.hasura-app.io/validatePayment">
-          <input type="hidden" name="furl" value="http://ui.lingerie91.hasura-app.io/#/failedPayment">
-          <input type="hidden" name="curl" value="http://ui.lingerie91.hasura-app.io/index.html">
+          <input type="hidden" name="surl" value="https://server.lingerie91.hasura-app.io/validate_payment">
+          <input type="hidden" name="furl" value="https://ui.lingerie91.hasura-app.io/#/failedPayment">
+          <input type="hidden" name="curl" value="https://ui.lingerie91.hasura-app.io/index.html">
           <input type="hidden" name="hash" value= {{sha512}}>
           
-          <button class="button button-full button-assertive-custom" ng-click="submit()">
+          <button class="button button-full button-assertive-custom" ng-click="submit()" ng-if = 'check'>
             <h4 style="color:white">Proceed to payment</h4>
           </button>
       </form >

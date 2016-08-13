@@ -1,7 +1,14 @@
 <ion-view view-title="Payment Successful" ng-controller="paymentSuccessCtrl">
 
   <ion-content>
-
+    <div ng-if="!isOnline">
+      <div class="bar bar-subheader bar-assertive">
+        <h2 class="title">You are not connected to the internet</h2>
+      </div>
+      <br>
+      <br>
+      <br>
+    </div>
     <br><br><br>
 		  <img src="img/Food-Dome-512.png" alt="" style="width: 80vw; height: 80vw;margin:auto; display:block" /> 
 		  <p style="text-align:center; color:grey">Your order has been successfully placed!</p>

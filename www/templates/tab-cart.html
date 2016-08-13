@@ -4,6 +4,23 @@
   <!--</div>  -->
 
   <ion-content>
+    <div ng-if="!isOnline">
+      <div class="bar bar-subheader bar-assertive">
+        <h2 class="title">You are not connected to the internet</h2>
+      </div>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+    </div>
+    
+    <div class="bar bar-subheader bar-assertive" ng-show="!isCartEmpty() && isOnline">
+      <h2 class="title">Please do not refresh this page</h2>
+    </div>
+    <br>
+    <br>
+    <br>
     <br>
     <br>
     <!--<ion-list>-->
@@ -54,8 +71,8 @@
       
       <ion-item class="item">
         <div class = "row">
-          <div class = "col col-80"><p style="font-size:18px; text-align:left">Total Amount : </p></div>
-          <div class = "col col-20"><p style="font-size:18px; text-align:right">Rs. {{ getTotal() }} </p></div>
+          <div class = "col col-50"><p style="font-size:18px; text-align:left">Total Amount : </p></div>
+          <div class = "col col-50"><p style="font-size:18px; text-align:right">Rs. {{ getTotal() }} </p></div>
         </div> 
       </ion-item>
       

@@ -1,5 +1,13 @@
 <ion-view view-title="Policies and Terms of Use">
   <ion-content>
+    
+    <div ng-if="!isOnline">
+      <div class="bar bar-subheader bar-assertive">
+        <h2 class="title">You are not connected to the internet</h2>
+      </div>
+      <br>
+      <br>
+    </div>
     <br><br>
     <h3 style="text-align:center">Shipping and Delivery Policies</h3>
     <p style="text-align:justify">Your meal will be ready at the precise time set by you. The meal will be held at the counter for not

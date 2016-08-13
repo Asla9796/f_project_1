@@ -6,6 +6,16 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
 
 //Controller for login.html
 .controller('loginCtrl',function($scope, $location, $http, $ionicPopup, $ionicLoading, $window) {
+  console.log('1');
+  
+  $scope.$on('$ionicView.enter', function() {
+    if(navigator.onLine) {
+      $scope.isOnline = true;
+    }
+    else{
+      $scope.isOnline = false;
+    }  
+  });
 
   var storageTestKey = 'sTest',
   storage = window.sessionStorage;
@@ -96,12 +106,18 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
 
 .controller('signUpCtrl', function($scope, $location, $http, $ionicPopup, $ionicLoading, $window, userDetails) {
   
+   $scope.$on('$ionicView.enter', function() {
+    if(navigator.onLine) {
+      $scope.isOnline = true;
+    }
+    else{
+      $scope.isOnline = false;
+    }  
+  });
+  
   $scope.showAlert = function(user) {
   
-   // An alert dialog
-   $scope.showAlert = function() {
-
-     
+    console.log(user);
      var username = user.name;
      var mobile = user.mobile;
      var email = user.email;
@@ -141,6 +157,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
           window.localStorage.setItem('currentUserId', response.data.hasura_id);
           window.localStorage.setItem('token', response.data.auth_token);
           $scope.addUser(data);
+          location.replace('signUp2.html');
         },
         function(response) {
           console.log("Error");
@@ -166,7 +183,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
          console.log('passwords do not match');
        });
      }
-    };
+
   };
   
   $scope.addUser = function(newUser){
@@ -184,7 +201,8 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
               }]
             },
             headers: {
-              'Authorization': 'Hasura ' + window.localStorage['token']
+              'X-Hasura-Role': 'admin',
+              'X-Hasura-User-Id': 1
             }
           };
           $http(addUserReq).then(function(response){
@@ -197,7 +215,21 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
   
 })
 
-.controller('tabsCtrl', function($scope, $window){
+.controller('signedUpCtrl', function($scope){
+  $scope.login = function(){
+    location.replace('login.html');
+  };
+})
+
+.controller('tabsCtrl', function($scope, $window, $ionicPopover){
+  $scope.$on('$ionicView.enter', function() {
+    if(navigator.onLine) {
+      $scope.isOnline = true;
+    }
+    else{
+      $scope.isOnline = false;
+    }  
+  });
   var screenWidth = $window.innerWidth;
     
     if (screenWidth < 700){
@@ -205,10 +237,27 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
     }else{
         $scope.isMobile = false;
     }
-    console.log($scope.isMobile);
+    
+    $ionicPopover.fromTemplateUrl('templates/popover.html', {
+      scope: $scope,
+    }).then(function(popover) {
+      $scope.popover = popover;
+      console.log('working');
+    });
+  
 })
 
 .controller('activateCtrl', function($scope, $location, $ionicPopup){
+
+  $scope.$on('$ionicView.enter', function() {
+    if(navigator.onLine) {
+      $scope.isOnline = true;
+    }
+    else{
+      $scope.isOnline = false;
+    }  
+  });
+  
   $scope.verify = function(){
     var verifyReq = {
       method: 'POST',
@@ -264,7 +313,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
   };
 })
 //Controller for home tab
-.controller('HomeCtrl', function($scope, $http, outlets, $window, userDetails, $location, $ionicPopup) {
+.controller('HomeCtrl', function($scope, $http, outlets, $window, userDetails, $location, $ionicPopup, $ionicPopover) {
         
   console.log(window.localStorage['token']);
   console.log(window.localStorage['currentUserId']);
@@ -277,6 +326,16 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
         $scope.isMobile = false;
     }
     
+  $scope.$on('$ionicView.enter', function() {
+    if(navigator.onLine) {
+      $scope.isOnline = true;
+    }
+    else{
+      $scope.isOnline = false;
+    }  
+  });
+    console.log($scope.isOnline);
+
     $scope.images = [{"url": "img/1.1.jpg"}, {"url": "img/2.jpg"}];
   // console.log($scope.isMobile);
   $scope.current = 0;
@@ -305,104 +364,119 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
       url: server + '1/table/outlets/select',
       data: {
         "columns": ["*"]
-      }
+      },
+       headers: {
+              'Authorization': 'Hasura ' + window.localStorage['token']
+            }
     };
     $http(outletsReq).then(function(response){
           console.log(response.data);
           $scope.$evalAsync(function(){
             $scope.outletsList = response.data;  
           });
-          
-          window.localStorage.setItem('outlets', response.data);
         },
       function(response){
           console.log(response);
         });
     
     $scope.openOutlet = function(object) {
-      
-      if(object.key == 'noAuth'){
         outlets.addOutlet(object); 
         location.href = "#/tab/resto";  
-      }
-      else {
-        if(window.localStorage['token'] === '' | window.localStorage['token'] === undefined ){
-          console.log(window.localStorage['token']);
-          location.replace('login.html');
-        }
-        else{
-            $scope.choice = '';
+        
+      // if(object.key == 'noAuth'){
+        // outlets.addOutlet(object); 
+        // location.href = "#/tab/resto";  
+      // }
+      // else {
+      //   if(window.localStorage['token'] === '' | window.localStorage['token'] === undefined ){
+      //     console.log(window.localStorage['token']);
+      //     location.replace('login.html');
+      //   }
+      //   else{
+      //       $scope.choice = '';
             
-             var accountPopup = $ionicPopup.show({
-               templateUrl : 'templates/accountPopup.html',
-               title:'Please choose your account:',
-               scope: $scope,
-               buttons: [
-                 { text: 'Cancel',
-                   onTap: function(e) {
-                     var check = 0;
-                     return {
-                       check: check
-                     };
-                   }
-                 },
-                 {
-                   text: '<b>OK</b>',
-                   type: 'button-assertive',
-                   onTap: function(e) {
-                     var check = 1;
-                     return {
-                       check: check
-                     };
-                   }
-                 },
-               ]
-             });
+      //       var accountPopup = $ionicPopup.show({
+      //         templateUrl : 'templates/accountPopup.html',
+      //         title:'Please choose your account:',
+      //         scope: $scope,
+      //         buttons: [
+      //           { text: 'Cancel',
+      //             onTap: function(e) {
+      //               var check = 0;
+      //               return {
+      //                 check: check
+      //               };
+      //             }
+      //           },
+      //           {
+      //             text: '<b>OK</b>',
+      //             type: 'button-assertive',
+      //             onTap: function(e) {
+      //               var check = 1;
+      //               return {
+      //                 check: check
+      //               };
+      //             }
+      //           },
+      //         ]
+      //       });
              
-             accountPopup.then(function(res) {
-              if(res.check === 1){
-               var choice = userDetails.getChoice();
+      //       accountPopup.then(function(res) {
+      //         if(res.check === 1){
+      //         var choice = userDetails.getChoice();
+      //         console.log(choice);
                
-                 var isActiveAccountReq = {
-                    method: 'POST',
-                    url: server+'1/table/account/select',
-                    data: {
-                     "columns": ["isActive", "authKey"],
-                     "where": {
-                        "id": choice
-                     }
-                    }
-                  };
-                  $http(isActiveAccountReq).then(function(response){
-                    if(response.data[0].authKey == object.key){
-                      outlets.addOutlet(object); 
-                      location.href = "#/tab/resto";                
-                    }
-                    else{
-                          var alertPopup = $ionicPopup.alert({
-                              title: 'Unauthorized!',
-                              template: 'You are not authorized to access this outlet\'s details'
-                            });
+      //           var isActiveAccountReq = {
+      //               method: 'POST',
+      //               url: server+'1/table/account/select',
+      //               data: {
+      //               "columns": ["isActive", "authKey"],
+      //               "where": {
+      //                   "id": parseInt(choice)
+      //               }
+      //               },
+      //               headers: {
+      //                   'Authorization': 'Hasura ' + window.localStorage['token']
+      //                 }
+      //             };
+      //             $http(isActiveAccountReq).then(function(response){
+      //               var check =0;
+      //               console.log(response.data);
+      //               for( var i=0; i< response.data.length; i++){
+      //                 if(response.data.authKey[i] == object.key){
+      //                   check = 1;
+      //                 }
+      //               }
+      //               console.log(response.data[0].authKey[i],object.key,check);
+      //               if(check==1){
+      //                 outlets.addOutlet(object); 
+      //                 location.href = "#/tab/resto";                
+      //               }
+      //               else{
+      //                     var alertPopup = $ionicPopup.alert({
+      //                         title: 'Unauthorized!',
+      //                         template: 'You are not authorized to access this outlet\'s details'
+      //                       });
                           
-                            alertPopup.then(function(res) {
-                            });
-                    }
-                },
-                  function(response){
-                    console.log(response);
-                        var alertPopup = $ionicPopup.alert({
-                              title: 'Unauthorized!',
-                              template: 'You have not activated your account yet. Please check your smail and follow the activation link'
-                            });
+      //                       alertPopup.then(function(res) {
+      //                       });
+      //               }
+      //           },
+      //             function(response){
+      //               console.log(response);
+      //                   var alertPopup = $ionicPopup.alert({
+      //                         title: 'Unauthorized!',
+      //                         template: 'You have not activated your account yet. Please check your smail and follow the activation link'
+      //                       });
                           
-                            alertPopup.then(function(res) {
-                            });
-                });           
-              }  
+      //                       alertPopup.then(function(res) {
+      //                       });
+      //           });           
+      //         }  
                
-             });          
-              }
-            }
+      //       });          
+      //         }
+      //       }
           };
           
           $scope.imagesOutlets = [{
@@ -414,17 +488,26 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
       })
       
       //controller to load menu
-      .controller("RestoDetailsCtrl", ['$scope', 'favourites', 'cart', 'outlets', '$http', 'userDetails', '$ionicPopup', '$window',
+.controller("RestoDetailsCtrl", ['$scope', 'favourites', 'cart', 'outlets', '$http', 'userDetails', '$ionicPopup', '$window',
       
-          function ($scope, favourites, cart, outlets, $http, userDetails, $ionicPopup, $window) {
-         
+  function ($scope, favourites, cart, outlets, $http, userDetails, $ionicPopup, $window) {
+          
+      $scope.$on('$ionicView.enter', function() {
         
+    if(navigator.onLine) {
+      $scope.isOnline = true;
+    }
+    else{
+      $scope.isOnline = false;
+    }  
+
           if(window.localStorage['token'] === '' | window.localStorage['token'] === undefined){
             location.replace('login.html');
           }
           else {
            $scope.user = userDetails.getUser();
            $scope.currentOutlet = outlets.getOutlet();
+           
            
            $scope.details = [{
              "objects":[1]
@@ -439,7 +522,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
           }
         };
         $http(menuReq).then(function(response){
-              window.localStorage.setItem('menuItems', response.data);
               var i, j, unsortedMenu = response.data;
               
               $scope.groups = [];
@@ -484,6 +566,8 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
         
         $scope.addToCart = function(item) {
           $scope.currentOutlet = outlets.getOutlet();
+          console.log($scope.currentOutlet);
+          outlets.addminTimes($scope.currentOutlet.minPrepTime);
           var count = cart.addToCart(item, $scope.currentOutlet.id);
           
           $scope.$evalAsync(function(){
@@ -527,12 +611,22 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
           return group.show;
         };
       
-    }
+    }      
+        
+      });
 
 }])
 
 .controller('AccountCtrl', function($scope, $ionicPopup, $http, $window, userDetails) {
   
+  $scope.$on('$ionicView.enter', function() {
+    if(navigator.onLine) {
+      $scope.isOnline = true;
+    }
+    else{
+      $scope.isOnline = false;
+    }  
+  });  
     $scope.user = userDetails.getUser();
     $scope.returnToken = function() {
       var check, token = window.localStorage['token'];
@@ -656,7 +750,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
     $scope.logout = function() {
       
       var confirmPopup = $ionicPopup.confirm({
-          title: 'Delete Account',
+          title: 'Logout',
           template: 'Are you sure you want to logout??'
         });
       
@@ -687,21 +781,28 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
 
 })
 
-.controller('CartCtrl', [ '$scope', 'cart', '$http', '$window', '$ionicPopup', '$location', 'orders', 'userDetails',
+.controller('CartCtrl', [ '$scope', 'cart', '$http', '$window', '$ionicPopup', '$location', 'orders', 'userDetails', 'outlets',
   
-  function($scope, cart, $http, $window, $ionicPopup, $location, orders, userDetails) {
+  function($scope, cart, $http, $window, $ionicPopup, $location, orders, userDetails, outlets) {
     
     // if(window.localStorage['token'] === '' | window.localStorage['token'] === undefined){
     //   location.replace('login.html');
     // }
-      $scope.user = userDetails.getUser();
-    
-        $scope.placeOrder = function(cartList, paymentMethod, isParcel, isDelivery, takeAwayHour, takeAwayMinute, address, isImmediate) {
+  $scope.$on('$ionicView.enter', function() {
+    $scope.user = userDetails.getUser();
 
-        console.log(cartList);
+      if(navigator.onLine) {
+        $scope.isOnline = true;
+      }
+      else{
+        $scope.isOnline = false;
+      }  
+
+    
+      $scope.placeOrder = function(cartList, paymentMethod, isParcel, isDelivery, takeAwayHour, takeAwayMinute, address, isImmediate) {
+
         console.log('order placing');
-        console.log(window.localStorage['currentUserId']);
-        currentUserId = parseInt(window.localStorage['currentUserId']);
+        console.log(cartList);
         $scope.orderedOutlets = [];
         var i,j;
           
@@ -709,14 +810,16 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
               $scope.orderedOutlets[i] = {};
               $scope.orderedOutlets[i].outletId = cartList[i].outletId;
           }
+          console.log($scope.orderedOutlets);
           
           for( i=0; i< $scope.orderedOutlets.length; i++){
-            for( j=i+1; j< $scope.orderedOutlets.length; j++){
-              if($scope.orderedOutlets[i].outletId == $scope.orderedOutlets[j].outletId){
+            for( j=0; j< $scope.orderedOutlets.length; j++){
+              if($scope.orderedOutlets[i].outletId == $scope.orderedOutlets[j].outletId && i!=j){
                 $scope.orderedOutlets.splice(j, 1);
               }
             }
           }
+          console.log($scope.orderedOutlets);
           
           for( i=0; i<$scope.orderedOutlets.length; i++){
             $scope.orderedOutlets[i].items = [];
@@ -726,6 +829,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
               }
             }
           }
+          console.log($scope.orderedOutlets);
           
           for( i=0; i< $scope.orderedOutlets.length; i++){
             $scope.orderedOutlets[i].billAmount = 0;
@@ -737,7 +841,9 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
           var timestamp = new Date();
           
           orders.addTimeStamp(timestamp);
+          console.log(timestamp);
           for(i=0; i<$scope.orderedOutlets.length; i++){
+            console.log('called');
             $scope.separatedList($scope.orderedOutlets[i], paymentMethod, isParcel, isDelivery, takeAwayHour, takeAwayMinute, address, timestamp, isImmediate);
           }
     };
@@ -768,7 +874,10 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
                 'conv_charge': 0,
                 'payment_status': 'not paid',
                 'isImmediate': isImmediate,
-                'hash_string': ''
+                'hash_string': '',
+                'cancel_reason':'',
+                'print_status': false,
+                'takeAway_timestamp': cart.getTimestamp()
               }],
               "returning" : ["id"]
             },
@@ -779,6 +888,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
         $http(orderReq).then(function(response){
             console.log(response); 
             console.log('order placed');
+            cart.addCurrentOrder(response.data.returning[0].id);
             $scope.addItems(response.data.returning[0].id, cartList.items, paymentMethod, timestamp);
             
                   var getToken = function() {
@@ -817,7 +927,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
         $scope.addItems = function(currentOrderId, cartListItems, paymentMethod, timestamp){
                     var insertCart = [], i, j;
                     
-                    console.log(currentOrderId);
                     
                     for( i=0; i< cartListItems.length; i++){
                       var dummyCartItem = {};
@@ -848,9 +957,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
                   
                   $http(orderedItemsReq).then(function(response){
                       console.log(response); 
-                      if( paymentMethod != 'cashOnDelivery'){
                        location.href ='#/tab/awaitingConfirmation'; 
-                      }
                     },
                     function(response){
                         console.log(response);
@@ -887,19 +994,29 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
     };
     
     $scope.getMinTime = function(cartList) {
-      var i, largest=60, smallest=0;
+      var i, check=0, largest = 60, minTime = 0;
+
+      var minTimes = outlets.getminTimes();
       
-      for(i=1; i<cartList.length; i++){
-        if(largest > cartList[i].minTime){
-          largest = cartList[i].minTime;
-        }
-        if(smallest < cartList[i].minTime){
-          smallest = cartList[i].minTime;
+      for(i=0; i<minTimes.length; i++){
+        if(largest > minTimes[i]){
+          largest = minTimes[i];
         }
       }
-
-      minTime = largest;
-         
+      
+      for(i=0; i<cartList.length; i++){
+        if(cartList[i].minTime !==0){
+          check = 1;
+          break;
+        }
+      }
+      if(check == 1){
+        minTime = largest;
+      }
+      else {
+        minTime = 0;
+      }
+      
       var currentTime = new Date();
       $scope.currentHour = currentTime.getHours();
       $scope.currentMinutes = currentTime.getMinutes();
@@ -912,7 +1029,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
         $scope.minHour = $scope.currentHour;
         $scope.minMinutes = minTime + $scope.currentMinutes;
       }
-
+      
       cart.addMinTime(minTime);
       cart.addMinMinutes($scope.minMinutes);
       cart.addMinHour($scope.minHour);
@@ -1024,21 +1141,10 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
                 else{
                 
                 if( choice == 'onlinePayment'){
-                  // $scope.checkfn();
-                    // $scope.placeOrder( cartList, choice, true, true, 0, 0, address, false);
+                    $scope.placeOrder( cartList, choice, true, true, 0, 0, address, false);
                   }
                   else if( choice == 'cashOnDelivery'){
-                    // $scope.checkfn();
-                    // $scope.placeOrder( cartList, choice, true, true, 0, 0, address, false);
-                      var alertCoDPopup = $ionicPopup.alert({
-                      title: 'Your order has been successfully placed!',
-                      template: 'You can track your order status on Account >> Order History'
-                    });
-                  
-                    alertCoDPopup.then(function(res) {
-                      // console.log('Thank you for not eating my delicious ice cream cone');
-                      location.replace('index.html');
-                  });
+                      $scope.placeOrder( cartList, choice, true, true, 0, 0, address, false);
                   }
                 }
               }
@@ -1251,48 +1357,60 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
       
       });
     };
-      
+  });
   
 }])
 
-.controller('FavouritesCtrl', [ '$scope', 'favourites', '$http', 'outlets', 'cart', '$ionicPopup', '$interval', 
+.controller('FavouritesCtrl', [ '$scope', 'favourites', '$http', 'outlets', 'cart', '$ionicPopup', '$interval', '$rootScope', 
   
-  function($scope, favourites, $http, outlets, cart, $ionicPopup, $interval) {
+  function($scope, favourites, $http, outlets, cart, $ionicPopup, $interval, $rootScope) {
     
-    if(window.localStorage['token'] === '' | window.localStorage['token'] === undefined){
-      location.replace('login.html');
+    // if(window.localStorage['token'] === '' | window.localStorage['token'] === undefined){
+    //   location.replace('login.html');
+    // }
+    $scope.$on('$ionicView.enter', function() {
+    if(navigator.onLine) {
+      $scope.isOnline = true;
     }
-    
-    var favouritesfn = function(){
-      var favouritesReq = {
-        method: 'POST',
-        url: server + '1/table/favourites/select',
-        data: {
-          "columns":["*", {
-            "name": "item",
-            "columns" : ["*"]
-          }],
-          "where": { "userId": parseInt(window.localStorage['currentUserId'])}
-        },
-          headers: {
-            'Authorization': 'Hasura ' + window.localStorage['token']
-        }
-      };
-                  
-      $http(favouritesReq).then(function(response){
-        // console.log(response); 
-        $scope.$evalAsync(function(){
-          $scope.favList = response.data;
-          $scope.favourites_length = response.data.length;
+    else{
+      $scope.isOnline = false;
+    }  
+      var favouritesfn = function(){
+        var favouritesReq = {
+          method: 'POST',
+          url: server + '1/table/favourites/select',
+          data: {
+            "columns":["*", {
+              "name": "item",
+              "columns" : ["*"]
+            }],
+            "where": { "userId": parseInt(window.localStorage['currentUserId'])}
+          },
+            headers: {
+              'Authorization': 'Hasura ' + window.localStorage['token']
+          }
+        };
+                    
+        $http(favouritesReq).then(function(response){
+          // console.log(response); 
+          $scope.$evalAsync(function(){
+            $scope.favList = response.data;
+            $scope.favourites_length = response.data.length;
+          });
+          
+        }, function(response){
+            console.log(response);
         });
-        
-      }, function(response){
-          console.log(response);
+      };
+      
+      $scope.stop = $interval(favouritesfn, 1000);
+  
+      var dereg = $rootScope.$on('$locationChangeSuccess', function() {
+        $interval.cancel($scope.stop);
+        dereg();
       });
-    };
-    
-    favouritesfn();
-    
+    });
+
 
     $scope.removeFromFav = function(id){
       var removeFromFavReq = {
@@ -1345,6 +1463,14 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
   
   function($scope, $window, $ionicPopup, userDetails, $http) {
     
+  $scope.$on('$ionicView.enter', function() {
+    if(navigator.onLine) {
+      $scope.isOnline = true;
+    }
+    else{
+      $scope.isOnline = false;
+    }  
+  });    
         var userReq = {
             method: 'POST',
             url: server + '1/table/users/select',
@@ -1383,7 +1509,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
             }
           };
           $http(accountsReq).then(function(response){
-            // console.log(response.data);
+            console.log(response.data);
             $scope.accounts = response.data;
         },
           function(response){
@@ -1494,9 +1620,17 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
     };
 }])
 
-.controller('awaitingConfirmationCtrl', [ '$scope', '$interval', '$timeout', '$window', 'roundProgressService', '$http', '$location', 'userDetails',
+.controller('awaitingConfirmationCtrl', [ '$scope', '$interval', '$timeout', '$window', 'roundProgressService', '$http', '$location', 'userDetails', 'cart',
 
-  function($scope, $interval, $timeout, $window, roundProgressService, $http, $location, userDetails) {
+  function($scope, $interval, $timeout, $window, roundProgressService, $http, $location, userDetails, cart) {
+  $scope.$on('$ionicView.enter', function() {
+    if(navigator.onLine) {
+      $scope.isOnline = true;
+    }
+    else{
+      $scope.isOnline = false;
+    }  
+  });
     $scope.user = userDetails.getUser();
     
             $scope.current =        27;
@@ -1571,6 +1705,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
             var awaitingConfirmation = function(){
                 var date = new Date();
                 // var hours = date.getHours();
+                console.log('running');
                 minutesInSeconds -= 1;
                 if( seconds === 0){
                   seconds = 60;
@@ -1586,39 +1721,75 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
                 $scope.seconds = seconds;
                 $scope.time = getPadded(minutes-1) + ':' + getPadded(seconds);
                 
-                if(minutes === 0 && seconds === 0){
+                if(minutes === 1 && seconds === 1){
                   location.href ='#/tab/confirmation';                  
                 }
             };
             
+            var isConfirmed = function(){
+               var orderHistoryReq = {
+                method: 'POST',
+                url: server + '1/table/orders/select',
+                data: {
+                  "columns": ['status'],
+                  "where": {'id': cart.getCurrentOrder()}
+                },
+                headers: {
+                  'Authorization': 'Hasura ' + window.localStorage['token']
+                }
+              };
+                      
+              $http(orderHistoryReq).then(function(response){
+                if(response.data[0].status == 'confirmed' || response.data[0].status == 'canceled'){
+                  location.href = '#/tab/confirmation';
+                  $interval.cancel(promise); 
+                  $interval.cancel(promiseConfirm);  
+                }
+              }, function(response){
+                console.log(response);
+              });
+            };
+            
             var promise = $interval(awaitingConfirmation, 1000);
+            var promiseConfirm = $interval(isConfirmed, 1000);
             
             $scope.$on('$destroy',function(){
-                  if(promise)
+                  if(promise){
                       $interval.cancel(promise);   
+                  } 
+                  if(promiseConfirm){
+                    $interval.cancel(promiseConfirm);   
+                  }
               });
             
             setTimeout(function(){
-              location.href = '#/tab/confirmation';
+              $interval.cancel(promise); 
+              $interval.cancel(promiseConfirm);  
             }, 120000);
 }])
 
-.controller('confirmationCtrl', ['$scope', '$http', 'orders', '$location', 'userDetails',
+.controller('confirmationCtrl', ['$scope', '$http', 'orders', '$location', 'userDetails', 'cart',
 
-  function($scope, $http, orders, $location, userDetails){
-    
-    var user = userDetails.getUser();
-    $scope.name = user.name;
-    $scope.email = user.email;
-    $scope.phone = user.phone;
-    var timestamp = orders.getTimeStamp();
-    console.log(timestamp);
+  function($scope, $http, orders, $location, userDetails, cart){
+        var timestamp = orders.getTimeStamp();
+  $scope.$on('$ionicView.enter', function() {
+    if(navigator.onLine) {
+      $scope.isOnline = true;
+    }
+    else{
+      $scope.isOnline = false;
+    }  
+  });
     
     var getPadded = function(val){
       return val < 10 ? ('0' + val) : val;
     };
     
-    var confirmationOrdersReq = {
+  if(timestamp === undefined || timestamp === null || timestamp === ''){
+    location.replace('index.html');
+  }
+    
+  var confirmationOrdersReq = {
     method: 'POST',
     url: server + '1/table/orders/select',
     data: {
@@ -1650,9 +1821,15 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
   
   $http(confirmationOrdersReq).then(function(response){
     console.log(response);
+    var user = userDetails.getUser();
+    $scope.name = user.name;
+    $scope.email = user.email;
+    $scope.phone = user.phone;
+
     var orders = response.data;
     $scope.orders = orders;
     $scope.timestamp = timestamp;
+    $scope.token = orders[0].token;
     
     $scope.isDelivery = orders[0].isDelivery;
     $scope.takeAwayTime = getPadded(orders[0].takeAwayHour)+':'+getPadded(orders[0].takeAwayMinutes);
@@ -1660,6 +1837,8 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
       if(orders[0].isDelivery && orders[0].paymentMethod != 'cashOnDelivery'){
       $scope.isCoD = true;
     }
+    $scope.cancel_reason = orders[0].cancel_reason;
+    console.log($scope.cancel_reason);
     
     var i;
     $scope.total = 0;
@@ -1669,7 +1848,12 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
     $scope.totalAmount = 0;
     
     $scope.confirmedOrders = [];
-    for(i=0; i < orders.length; i++){
+    
+    if(orders[0].status === 'canceled'){
+      $scope.status = false;
+    }
+    else {
+     for(i=0; i < orders.length; i++){
       if(orders[i].status == "confirmed"){
         $scope.confirmedOrders.push(orders[i]);
         $scope.totalAmount += orders[i].totalAmount;
@@ -1678,40 +1862,45 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
         $scope.convenience += orders[i].conv_charge;
         $scope.total += orders[i].billAmount;
       }
+      $scope.status = true;
     }
-    
-    console.log($scope.confirmedOrders);
-    
-    
-  }, function(response){
-    console.log(response);
-  });
-
-    
-      $scope.sha512 = sha512('gtKFFx'+'|'+$scope.timestamp+'|'+$scope.totalAmount+'|'+'food order'+'|'+$scope.name+
+      
+      if($scope.confirmedOrders.length !==0 && $scope.isCod !== true){
+        $scope.check = true;
+      }
+    }
+    console.log('gtKFFx'+'|'+$scope.token+'|'+$scope.totalAmount+'|'+'food order'+'|'+$scope.name+
                       '|'+$scope.email+'|||||||||||'+'eCwWELxi');
-      console.log($scope.sha512);
-      console.log(document.getElementById('payForm'));
-      $scope.submit = function(){
-        
+    $scope.sha512 = sha512('gtKFFx'+'|'+$scope.token+'|'+$scope.totalAmount+'|'+'food order'+'|'+$scope.name+
+                      '|'+$scope.email+'|||||||||||'+'eCwWELxi');
+    
         var updateHashReq = {
           method: 'POST',
           url: server + '1/table/orders/update',
           data: {
-            "$set":{"hash_string": 'gtKFFx'+'|'+$scope.timestamp+'|'+$scope.totalAmount+'|'+'food order'+'|'+$scope.name+
+            "$set":{"hash_string": 'gtKFFx'+'|'+$scope.token+'|'+$scope.totalAmount+'|'+'food order'+'|'+$scope.name+
                     '|'+$scope.email+'|||||||||||'+'eCwWELxi'},
-            "where": {"timestamp": $scope.timestamp}
+            "where": {"timestamp": timestamp}
           },
           headers: {
             'Authorization': 'Hasura ' + window.localStorage['token']
           }
         };
         
-        $http('updateHashReq').then(function(response){
-          document.getElementById('payForm').submit();
+        $http(updateHashReq).then(function(response){
+          console.log(response);
         }, function(response){
           console.log(response);
         });
+    
+  }, function(response){
+    console.log(response);
+  });
+
+
+      $scope.submit = function(){
+        
+          document.getElementById('payForm').submit();
       };
     
     $scope.returnToMenu = function() {
@@ -1723,6 +1912,14 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
 .controller('orderHistoryCtrl', [ '$scope', '$http', '$window', 'orders','userDetails', 
   
   function($scope, $http, $window, orders, userDetails) {
+  $scope.$on('$ionicView.enter', function() {
+    if(navigator.onLine) {
+      $scope.isOnline = true;
+    }
+    else{
+      $scope.isOnline = false;
+    }  
+  });
     $scope.user = userDetails.getUser();
       
       var outletsReq = {
@@ -1801,6 +1998,14 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
 .controller('orderSummaryCtrl', ['$scope', '$http', 'orders', 'userDetails',
 
   function($scope, $http, orders, userDetails){
+  $scope.$on('$ionicView.enter', function() {
+    if(navigator.onLine) {
+      $scope.isOnline = true;
+    }
+    else{
+      $scope.isOnline = false;
+    }  
+  });
     $scope.user = userDetails.getUser();
     var order = orders.getOrders(order);
     $scope.order = order;
@@ -1915,6 +2120,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
     
     $scope.$watch('mydatetime', function(newValues, oldValues, scope){
       var time = new Date($scope.mydatetime);
+      cart.addTimestamp(time);
       cart.addHour(time.getHours());
       cart.addMinute(time.getMinutes());
     }, true);
@@ -2016,13 +2222,13 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
 .controller('trialCtrl', ['$scope', '$document', '$http',
 
   function($scope, $document, $http){
-    $scope.timestamp = '2016-07-12T16:09:38.128f';
+    $scope.token = '13O6FauP';
     $scope.totalAmount = 50;
-    $scope.name = 'Arjun';
-    $scope.email = 'arjunrakesh007@gmail.com';
-    $scope.phone = '9605166123';
+    $scope.name = 'user1';
+    $scope.email = 'user@mail.com';
+    $scope.phone = '55392010';
     
-      $scope.sha512 = sha512('gtKFFx'+'|'+$scope.timestamp+'|'+$scope.totalAmount+'|'+'food order'+'|'+$scope.name+
+      $scope.sha512 = sha512('gtKFFx'+'|'+$scope.token+'|'+$scope.totalAmount+'|'+'food order'+'|'+$scope.name+
                       '|'+$scope.email+'|||||||||||'+'eCwWELxi');
       console.log($scope.sha512);
       console.log(document.getElementById('payForm'));
@@ -2058,7 +2264,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
             subject: "Verify your registered account",
             recipient: "aslamahrahiman@gmail.com",
             userId: 2,
-            html: "<h3>Hello! <br><br> Thank you for signing up with sQippr. Please click on https://ui.lingerie91.hasura-app.io/activateAccount.html and enter the token : {{token}} to verify your registered account<br><br>Do not respond to this mail</h3>"
+            html: "<h3>Hello!</h3> <br><br><table><tr><th>col 1</th><th>col 2</th></tr><tr><td>1</td><td>2</td></tr></table> "
             }
                   };
                   $http(emailReq).then(function(response){
@@ -2075,6 +2281,14 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
 .controller('accountSettingsCtrl', ['$scope', '$http', '$ionicPopup', 'userDetails',
 
   function($scope, $http, $ionicPopup, userDetails){
+  $scope.$on('$ionicView.enter', function() {
+    if(navigator.onLine) {
+      $scope.isOnline = true;
+    }
+    else{
+      $scope.isOnline = false;
+    }  
+  });
     $scope.user = userDetails.getUser();
    $scope.changePassword = function(){
      

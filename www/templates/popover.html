@@ -1,0 +1,22 @@
+<ion-popover-view ng-controller="AccountCtrl">
+  <ion-list>
+         
+        <a class="item item-icon-right" href="login.html" ng-if=!returnToken()>
+          <i class="icon ion-ios-arrow-right"></i>
+          Login / Sign Up
+        </a>
+        <a class="item item-icon-right" href="#/tab/profile" ng-if=returnToken()>
+          <i class="icon ion-ios-arrow-right"></i>
+          Profile
+        </a>
+        <a class="item item-icon-right" href="#/tab/orderHistory" ng-if=returnToken()>
+          <i class="icon ion-ios-arrow-right"></i>
+          Order History
+        <a class="item item-icon-right" ng-click="logout()"ng-if=returnToken()>
+        Logout
+        </a>
+        <!--<a class="item item-icon-right" ng-click=showConfirm() ng-if=returnToken()>-->
+        <!--  Delete Account-->
+        <!--</a>        -->
+    </ion-list>
+</ion-popover-view>

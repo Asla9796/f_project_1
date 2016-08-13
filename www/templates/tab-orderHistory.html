@@ -4,6 +4,13 @@
   <!--</div>  -->
 
   <ion-content>
+    <div ng-if="!isOnline">
+      <div class="bar bar-subheader bar-assertive">
+        <h2 class="title">You are not connected to the internet</h2>
+      </div>
+      <br>
+      <br>
+    </div>
     <br><br>
       <ion-list>
          <a class="item item-button-right" href="#/tab/orderSummary" ng-repeat="object in orders | orderBy : '-id'" ng-click=openOrderSummary(object)>
@@ -12,10 +19,13 @@
             Pending
           </button>
           <button class="button button-assertive-custom" ng-if= "object.status == 'confirmed'">
-            Confirmed
+            <p style="color:white; font-size: 18px">Confirmed</p>
           </button>
           <button class="button button-balanced" ng-if= "object.status == 'delivered'">
             Delivered
+          </button>
+          <button class="button button-balanced" ng-if= "object.status == 'dispatched'">
+            Dispatched
           </button>
           <button class="button button-assertive" ng-if= "object.status == 'canceled'">
             Canceled

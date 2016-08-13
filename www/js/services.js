@@ -115,13 +115,24 @@ angular.module('starter.services', [])
     return outletsList;
   };
   
+  var minTimes = [];
+  var addminTimes = function(newMinTime){
+    minTimes.push(newMinTime);
+  };
+  
+  var getminTimes = function(){
+    return minTimes;
+  };
+  
   return {
     getOutlet: getOutlet,
     addOutlet: addOutlet,
     getOutletsList: getOutletsList,
     addOutletsList: addOutletsList,
     getOutletName: getOutletName,
-    addOutletName: addOutletName
+    addOutletName: addOutletName,
+    addminTimes: addminTimes,
+    getminTimes: getminTimes
   };
   
 }])
@@ -129,6 +140,35 @@ angular.module('starter.services', [])
 .factory('favourites', function($http, $window) {
   
   var addToFavourites = function(newFavItem) {
+    
+    var favouritesReq = {
+          method: 'POST',
+          url: server + '1/table/favourites/select',
+          data: {
+            "columns":["*", {
+              "name": "item",
+              "columns" : ["*"]
+            }],
+            "where": { "userId": parseInt(window.localStorage['currentUserId'])}
+          },
+            headers: {
+              'Authorization': 'Hasura ' + window.localStorage['token']
+          }
+        };
+                    
+        $http(favouritesReq).then(function(response){
+          var i;
+          for(i=0; i< response.data.length; i++){
+            if(response.data[i].id !== newFavItem.id){
+              $scope.addFav(newFavItem);
+            }
+          }
+          
+        }, function(response){
+            console.log(response);
+        });
+       
+       $scope.addFav = function(newFavItem){
           var addToFavReq = {
             method: 'POST',
             url: server + '1/table/favourites/insert',
@@ -149,6 +189,7 @@ angular.module('starter.services', [])
           function(response){
               console.log(response);
         });
+       };
     
   };
   var removeFavourites = function(removeItem) {
@@ -325,7 +366,32 @@ angular.module('starter.services', [])
   var getChoice = function(){
     return choice;
   };
-
+  
+  var amt = 0.0;
+  var addAmount = function(newAmt) {
+    amt = newAmt;
+  };
+  var getAmount = function() {
+    return amt;
+  };
+  
+  var orderId = 0;
+  var addCurrentOrder = function(newId){
+    orderId = newId;
+  };
+  
+  var getCurrentOrder = function(){
+    return orderId;
+  };
+  
+  var timestamp = '';
+  var addTimestamp = function(newTimestamp){
+    timestamp = newTimestamp;
+  };
+  
+  var getTimestamp = function(){
+    return timestamp;
+  };
   
   return {
     cartList: cartList,
@@ -346,7 +412,13 @@ angular.module('starter.services', [])
     getChoice: getChoice,
     count: count,
     addMinTime: addMinTime,
-    getMinTime: getMinTime
+    getMinTime: getMinTime,
+    addAmount: addAmount,
+    getAmount: getAmount,
+    addCurrentOrder: addCurrentOrder,
+    getCurrentOrder : getCurrentOrder,
+    addTimestamp: addTimestamp,
+    getTimestamp: getTimestamp
   };
   
   
