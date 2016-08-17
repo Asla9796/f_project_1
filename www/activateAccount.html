@@ -48,28 +48,71 @@
     </div>
     <ion-scroll zooming="true" direction="y">
       
-      <br><br><br>
-      <div class="item">
-        <p style = "align:center">
-          Please enter your s-mail and activation token : 
-        </p>
-        
-        <div class="list">
-          <label class="item item-input item-floating-label">
-            <span class="input-label"><i class="icon ion-ios-person"></i>&nbsp &nbsp S-Mail</span>
-            <input type="text"  ng-model="regEmail" placeholder="S-Mail">
-          </label>
-          <label class="item item-input item-floating-label">
-            <span class="input-label"><i class="icon ion-ios-pricetag"></i>&nbsp &nbsp Token</span>
-            <input type="password" ng-model="token"  placeholder="Token">
-          </label>
+      <div  ng-if="isMobile">
+        <br><br><br>
+        <div class="item">
+          <p style = "align:center">
+            Please enter your s-mail and activation token : 
+          </p>
+          
+          <div class="list">
+            <label class="item item-input item-floating-label">
+              <span class="input-label"><i class="icon ion-ios-person"></i>&nbsp &nbsp S-Mail</span>
+              <input type="text"  ng-model="regEmail" placeholder="S-Mail">
+            </label>
+            <label class="item item-input item-floating-label">
+              <span class="input-label"><i class="icon ion-ios-pricetag"></i>&nbsp &nbsp Token</span>
+              <input type="password" ng-model="token"  placeholder="Token">
+            </label>
+          </div>
         </div>
+        
+        <button class="button button-block button-assertive-custom" ng-click='verify(regEmail, token)'><h4 style="color:white">Verify</h4></button>        
       </div>
       
-      <button class="button button-block button-assertive-custom" ng-click="verify()"><h4 style="color:white">Verify</h4></button>
+      <div ng-if="!isMobile">
+        <div class="row">
+          <div class="col col-25"></div>
+          <div class="col col-50">
+            <div class="centered">
+              <div class="item">
+                <p style = "align:center">
+                  Please enter your s-mail and activation token : 
+                </p>
+                
+                <div class="list">
+                  <label class="item item-input item-floating-label">
+                    <span class="input-label"><i class="icon ion-ios-person"></i>&nbsp &nbsp S-Mail</span>
+                    <input type="text"  ng-model="regEmail" placeholder="S-Mail">
+                  </label>
+                  <label class="item item-input item-floating-label">
+                    <span class="input-label"><i class="icon ion-ios-pricetag"></i>&nbsp &nbsp Token</span>
+                    <input type="password" ng-model="token"  placeholder="Token">
+                  </label>
+                </div>
+              </div>
+              
+              <button class="button button-block button-assertive-custom" ng-click="verify(regEmail, token)"><h4 style="color:white">Verify</h4></button>
+            </div>
+          </div>
+          <div class="col col-25"></div>
+        </div>
+      </div>
 
-      <br><br><br>
     </ion-scroll>
-
+        <div class="bar bar-footer bar-assertive-custom" ng-if="!isMobile">
+          <div class="title">
+            <div class="row">
+              <div class="col"><p style="color: #ff7f12; font-size: 15px; "><b>Find us on: </b></p></div>
+              <div class="col col-center"><a href=""><img src="img/playstore.png" style="width: 40px; height: 40px"></a></div>
+              <div class="col col-center"><a href="http://facebook.com/sqippr"><img src="img/facebook.png" style="width: 40px; height: 40px"></a></div>
+              <div class="col col-center"><a href=""><img src="img/twitter.png" style="width: 40px; height: 40px"></a></div>
+              <div class="col col-center"><a href=""><img src="img/instagram.png" style="width: 40px; height: 40px"></a></div>
+              <div class="col col-center"><a href=""><img src="img/google-plus.png" style="width: 40px; height: 40px"></a></div>
+              <div class="col col-center"><a href=""><img src="img/mail-icon.png" style="width: 40px; height: 40px"></a></div>
+              <div class="col col-center">&copy 2016 Sqippr</div>
+            </div>
+          </div>
+        </div>
   </body>
 </html>

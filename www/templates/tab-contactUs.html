@@ -1,42 +1,197 @@
 <ion-view view-title="Contact Us">
-  <ion-content>
-    <div ng-if="!isOnline">
-      <div class="bar bar-subheader bar-assertive">
-        <h2 class="title">You are not connected to the internet</h2>
+  <ion-content class="overflow-scroll" scroll="true">
+    <div class="box1">
+      <div ng-if="!isOnline">
+        <div class="bar bar-subheader bar-assertive">
+          <h2 class="title">You are not connected to the internet</h2>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
       </div>
-      <br>
-      <br>
-      <br>
-    </div>
-    
-    <br><br>
-     <div class="container">
-       <p style="text-align:center">Zaitoon Restaurant</p>
+      <div ng-if="isMobile">
+        <br><br><br>
+            <p style="font-size: 20px; color: #FF6502; text-align: center"><b>CONTACT US</b></p>
+            <hr>
 
-      <p style="text-align:center">IIT Madras,</p>
+        <br><br>
+          <div class="row">
+            <div class="col col-50">
+              <div>
+                      &nbsp &nbsp<img src="img/mail.png" style="width: 100px; height: 100px">
+              </div>
+            </div>
+            <div class="col col-50 text-right col-center">
+              <p style="color: #FF6502; font-size: 15px; font-weight: bold">&nbsp &nbspMail us at :</p>
+              <p style="color: grey; font-size: 18px; font-weight: bold">&nbsp &nbspcontactus@sqippr.com</p>
+            </div>
+          </div>
+          <br>
+          <br>
+          <div class="row">
+            <div class="col col-50">
+              <div>
+                      &nbsp &nbsp<img src="img/phone.png" style="width: 100px; height: 100px">
+              </div>
+            </div>
+            <div class="col col-50 text-right col-center">
+              <p style="color: #FF6502; font-size: 15px; font-weight: bold">&nbsp &nbspFor queries related to marketting and branding, reach out to us at :</p>
+              <p style="color: grey; font-size: 18px; font-weight: bold">&nbsp &nbsp+91 9789074411</p>
+              <p style="color: grey; font-size: 18px; font-weight: bold">&nbsp &nbsp+91 9605166123</p>
+            </div>
+          </div>
+          <br>
+          <br>
+          <div class="row">
+            <div class="col col-50">
+              <div>
+                    &nbsp &nbsp  <img src="img/web.png" style="width: 100px; height: 100px">
+              </div>
+            </div>
+            <div class="col col-50 text-right col-center">
+              <p style="color: #FF6502; font-size: 15px; font-weight: bold">&nbsp &nbspFor queries and assistance related to user experience, reach out to us at :</p>
+              <p style="color: grey; font-size: 18px; font-weight: bold">&nbsp &nbsp+91 9176480693</p>
+              <p style="color: grey; font-size: 18px; font-weight: bold">&nbsp &nbsp+91 9597233338</p>
+            </div>
+          </div>  
 
-      <p style="text-align:center">Adyar</p>
+      </div>
+      
+      <div ng-if="!isMobile">
+        <br><br><br><br>
+        <div class="row">
+          <div class="col col-25"></div>
+          <div class="col col-50">
+            <p style="font-size: 20px; color: #FF6502; text-align: center"><b>CONTACT US</b></p>
+            <hr>
+          </div>
+          <div class="col col-25"></div>
+        </div>
+        <br><br>
+          <div class="row">
+            <div class="col col-20"></div>
+            <div class="col col-30">
+              <div>
+                      <img src="img/mail.png" style="width: 100px; height: 100px">
+              </div>
+            </div>
+            <div class="col col-30 text-right col-center">
+              <p style="color: #FF6502; font-size: 15px; font-weight: bold">Mail us at :</p>
+              <p style="color: grey; font-size: 18px; font-weight: bold">contactus@sqippr.com</p>
+            </div>
+            <div class="col col-20"></div>
+          </div>
+          <br>
+          <br>
+          <div class="row">
+            <div class="col col-20"></div>
+            <div class="col col-30">
+              <div>
+                      <img src="img/phone.png" style="width: 100px; height: 100px">
+              </div>
+            </div>
+            <div class="col col-30 text-right col-center">
+              <p style="color: #FF6502; font-size: 15px; font-weight: bold">For queries related to marketting and branding, reach out to us at :</p>
+              <p style="color: grey; font-size: 18px; font-weight: bold">+91 9789074411</p>
+              <p style="color: grey; font-size: 18px; font-weight: bold">+91 9605166123</p>
+            </div>
+            <div class="col col-20"></div>
+          </div>
+          <br>
+          <br>
+          <div class="row">
+            <div class="col col-20"></div>
+            <div class="col col-30">
+              <div>
+                      <img src="img/web.png" style="width: 100px; height: 100px">
+              </div>
+            </div>
+            <div class="col col-30 text-right col-center">
+              <p style="color: #FF6502; font-size: 15px; font-weight: bold">For queries and assistance related to user experience, reach out to us at :</p>
+              <p style="color: grey; font-size: 18px; font-weight: bold">+91 9176480693</p>
+              <p style="color: grey; font-size: 18px; font-weight: bold">+91 9597233338</p>
+            </div>
+            <div class="col col-20"></div>
+          </div>          
 
-      <p style="text-align:center">Chennai – 600036</p>
-
-      <br><br>
-      <p style="text-align:center">Email id: contactus@sqippr.com</p>
-
-      <p style="text-align:center">Phone: 9789074411/9605166123</p>
-     </div>
-      <!--<a class="item" href="#">-->
-      <!--  <p>Password</p>-->
-      <!--  <h2 style="color: #ff5733">{{ user.password }} </h2>-->
-      <!--</a>-->
-      <!--<a class="item" href="#">-->
-      <!--  <p>Location</p>-->
-      <!--  <h2 style="color: #ff5733">Location </h2>-->
-      <!--</a>-->
-      <!--<a class="item item-icon-right item-icon-left" href="#">-->
-      <!--  <i class="icon ion-ios-plus-outline" ng-click=addAccount()></i>-->
-      <!--  <p>Registered Accounts</p>-->
-      <!--  <i class="icon ion-ios-help-outline" ng-click=showAlert()></i>-->
-      <!--</a>-->
-
+        <div class="box4">
+          <br>
+          <div class="row>">
+            <div class="col text-center"><p style="color:#FF6502; font-size: 14px">Our Associates</p></div>
+          </div>  
+          <div class="row">
+            <div class="col"></div>
+            <div class="col">
+              <img src="img/hasura.png" style="width: 15vw; height: 20vh;margin:auto; display:block; overflow: hidden">  
+            </div>
+            <div class="col">
+              <img src="img/payu.png" style="width: 20vw; height: 15vh;margin:auto; display:block; overflow: hidden">
+            </div>  
+            <div class="col">
+              <img src="img/zaitoon.png" style="width: 20vw; height: 20vh;margin:auto; display:block; overflow: hidden">
+            </div> 
+            <div class="col"></div>
+          </div>
+          <br>
+        </div>
+        <div class="box2">
+          <br><br>
+          <div class="row">
+            <div class="col"></div>
+            <div class="col"></div>
+            <div class="col">
+              <p style="text-align:center">
+                <a href="http://facebook.com/sqippr">
+                  <img src="img/facebook_orange.png" style="width: 60px; height: 60px;margin:auto; display:block">
+                </a>
+              </p>  
+            </div>
+            <div class="col">
+              <p style="text-align:center">
+                <a href="">
+                  <img src="img/playstore_orange.png" style="width: 60px; height: 60px;margin:auto; display:block">
+                </a>
+              </p>  
+            </div>
+            <div class="col">
+              <p style="text-align:center">
+                <a href="">
+                  <img src="img/twitter_orange.png" style="width: 60px; height: 60px;margin:auto; display:block">
+                </a>
+              </p>  
+            </div>
+            <div class="col"></div>
+            <div class="col"></div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col text-center"></div>
+            <div class="col text-center"><a class="button button-outline button-assertive-custom" href="#/tab/about">About Us</a></div>
+            <div class="col text-center"><a class="button button-outline button-assertive-custom" href="#/tab/contactUs">Contact Us</a></div>
+            <div class="col text-center"><a class="button button-outline button-assertive-custom" href="#/tab/inviteFriends">Invite Friends</a></div>
+            <div class="col text-center"></div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col text-center"></div>
+            <div class="col text-center"></div>
+            <div class="col text-center"></div>
+            <div class="col text-center"><a href="" style="text-decoration:none;"><p style="color:#e48912; font-size: 12px">Terms of Service</p></a></div>
+            <div class="col text-center"><p style="color:#e48912; font-size: 12px">|</p></div>
+            <div class="col text-center"><a href=""style="text-decoration:none;"><p style="color:#e48912; font-size: 12px">Privacy Policies</p></a></div>
+            <div class="col text-center"></div>
+            <div class="col text-center"></div>
+            <div class="col text-center"></div>
+          </div>
+        </div>
+        <div class="box3">
+          <br>
+          <p style="color: white; text-align: center"><b>WE BE SQIPPIN' 'N' FLIPPIN' WHILE THEY HAIR RIPPIN'</b></p>
+          <p style="color: white; text-align: center">&copy 2016 sQippr, All Rights Reserved</p>
+        </div>        
+      </div>
+  </div>
   </ion-content>
 </ion-view>

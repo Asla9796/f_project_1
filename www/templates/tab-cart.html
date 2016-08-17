@@ -1,9 +1,7 @@
 <ion-view view-title="Cart">
-  <!--<div class="bar bar-subheader bar-energized bar-stable">-->
-  <!--  <h2 class="title">Sub Header</h2>-->
-  <!--</div>  -->
 
-  <ion-content>
+  <ion-content class="overflow-scroll" scroll="true">
+    <div class="box1">
     <div ng-if="!isOnline">
       <div class="bar bar-subheader bar-assertive">
         <h2 class="title">You are not connected to the internet</h2>
@@ -14,15 +12,6 @@
       <br>
       <br>
     </div>
-    
-    <div class="bar bar-subheader bar-assertive" ng-show="!isCartEmpty() && isOnline">
-      <h2 class="title">Please do not refresh this page</h2>
-    </div>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
     <!--<ion-list>-->
     <!--  <ion-item ng-repeat="playlist in playlists" href="#/app/playlists/{{playlist.id}}">-->
     <!--    {{playlist.title}}-->
@@ -34,8 +23,16 @@
      <!--                                     background-size: 100% 100%;">-->
      
      <!-- </div>-->
-
+  <div ng-if="isMobile">
     <div ng-show="!isCartEmpty()">
+      <div class="bar bar-subheader bar-assertive" ng-show="isOnline">
+        <h2 class="title">Please do not refresh this page</h2>
+      </div>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
       <ion-item class="item">
         <div ng-repeat="item in cartList">
         <div class = "row">
@@ -84,7 +81,93 @@
     
     <div ng-show="isCartEmpty()">
         <!--<img src="img/empty_icons-02.png" >-->
-        <p style="text-align:center"><img src="img/empty_icons-02.png" style="width: 100vw; height: 100vw;"></p>
+        <p style="text-align:center"><img src="img/empty_icons-02.png" style="width: 100vw; height: 80vh;"></p>
     </div>
+    
+  </div>
+  
+  <div ng-if="!isMobile">
+    <div ng-show="!isCartEmpty()">
+      <div class="bar bar-subheader bar-assertive" ng-show="isOnline">
+        <h2 class="title">Please do not refresh this page</h2>
+      </div>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+        <div class="row">
+          <div class="col col-25"></div>
+          <div class="col col-50">
+            <ion-item class="item">
+              <div ng-repeat="item in cartList">
+              <div class = "row">
+                <div class = "col"><p style="font-size:18px; text-align:left">{{ item.name }}</p></div>
+                <div class = "col"><p style="font-size:18px; text-align:right">Rs. {{ item.price }}</p></div>
+              </div>
+              <div class = "row">
+                  <div class = "col"><p> Min Time : {{ item.minTime }} min</p></div>
+                  
+                  <div class = "col col-10">
+                    <a class="button button-icon icon  ion-ios-close-outline" ng-click="deleteFromCart(item)" ng-controller="RestoDetailsCtrl">
+                       <!--<i class="iconMenuCustom ion-ios-close-outline"></i>-->
+                    </a>
+                  </div>
+                  
+                  <div class = "col col-10">
+                    <a class="button button-icon icon  ion-ios-minus-outline" ng-click="removeFromCart(item)" ng-controller="RestoDetailsCtrl">
+                       <!--<i class="iconMenuCustom ion-ios-minus-outline"></i>-->
+                    </a>
+                  </div>
+                    
+                  <div class = "col col-10">
+                    <a class="button button-icon icon  ion-ios-plus-outline" ng-click="addToCart(item)" ng-controller="RestoDetailsCtrl">
+                     <!--<i class="iconMenuCustom ion-ios-plus-outline"></i>-->
+                    </a>
+                  </div>
+                  <div class = "col col-20"><p style="text-align:right">{{ item.quantity }} qty</p></div>
+              </div>
+            </div>  
+            </ion-item>
+            
+            <a class="button button-full button-energized">Min. Delivery Time : {{ getMinTime(cartList) }}</a>
+            
+            <ion-item class="item">
+              <div class = "row">
+                <div class = "col col-50"><p style="font-size:18px; text-align:left">Total Amount : </p></div>
+                <div class = "col col-50"><p style="font-size:18px; text-align:right">Rs. {{ getTotal() }} </p></div>
+              </div> 
+            </ion-item>
+            
+            <a class="button button-full button-energized" ng-click="immediateOrder(cartList)"><h4 style="color:white">Take Away Now</h4></a> 
+            <a class="button button-full button-assertive-custom" ng-click="takeAway(cartList)"><h4 style="color:white">Take Away Later</h4></a>  
+            <a class="button button-full button-assertive-custom2" ng-click="delivery(cartList)"><h4 style="color:white">Delivery</h4></a>
+            <a class="button button-full button-assertive-custom3" ng-click="cancelOrder()" href="#/tab/home"><h4 style="color:white">Cancel Order</h4></a>
+            
+          </div>
+          <div class="col col-25"></div>
+        </div>
+    </div>
+    
+    <div ng-show="isCartEmpty()">
+        <p style="text-align:center"><img src="img/empty_icons-02.png" style="width: 60vw; height: 100vh;"></p>
+    </div>
+    
+  </div>
+  </div>
   </ion-content>
+        <div class="bar bar-footer bar-assertive-custom" ng-if="!isMobile">
+          <div class="title">
+            <div class="row">
+              <div class="col"><p style="color: #ff7f12; font-size: 15px; "><b>Find us on: </b></p></div>
+              <div class="col col-center"><a href=""><img src="img/playstore.png" style="width: 40px; height: 40px"></a></div>
+              <div class="col col-center"><a href="http://facebook.com/sqippr"><img src="img/facebook.png" style="width: 40px; height: 40px"></a></div>
+              <div class="col col-center"><a href=""><img src="img/twitter.png" style="width: 40px; height: 40px"></a></div>
+              <div class="col col-center"><a href=""><img src="img/instagram.png" style="width: 40px; height: 40px"></a></div>
+              <div class="col col-center"><a href=""><img src="img/google-plus.png" style="width: 40px; height: 40px"></a></div>
+              <div class="col col-center"><a href=""><img src="img/mail-icon.png" style="width: 40px; height: 40px"></a></div>
+              <div class="col col-center">&copy 2016 Sqippr</div>
+            </div>
+          </div>
+        </div>
 </ion-view>

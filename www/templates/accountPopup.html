@@ -1,13 +1,17 @@
-<div ng-if="noOfAccounts !=0">
-  <ion-list ng-controller = 'accountPopupCtrl'>
-    <div ng-repeat="account in accounts">
-      <ion-radio ng-model="choice" ng-value="account.id">{{ account.regEmail }}</ion-radio>  
-    </div>
-    
-  </ion-list>
-</div>
+<div ng-controller="accountPopupCtrl">
+  
+    <ion-list ng-if="check" ng-repeat="account in accounts">
 
-<div ng-if="noOfAccounts == 0">
-  <p> You have not added any accounts</p>
-  <a class="button button-assertive-custom" href="#/tab/profile">Add account</a>
+        <button ng-click="choose(account)" class="button button-outline button-assertive">{{account.regEmail}}</button>
+
+    </ion-list>
+  
+  <div ng-if="!check">
+    <p> You do not have any registered account</p>
+    <a class="button button-block button-assertive-custom2" href="#/tab/profile"><p style="color: white">Add account</p></a>
+  </div>
+  
+  <div ng-if="!isLogged">
+    <p> You are not authorized to access this! Please log in</p>
+  </div>  
 </div>

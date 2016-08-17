@@ -140,6 +140,29 @@ angular.module('starter.services', [])
 .factory('favourites', function($http, $window) {
   
   var addToFavourites = function(newFavItem) {
+    console.log(newFavItem);
+        var addFav = function(newItem){
+          var addToFavReq = {
+            method: 'POST',
+            url: server + '1/table/favourites/insert',
+            data: {
+              "objects": [{
+                'userId': parseInt(window.localStorage['currentUserId']),
+                'itemId': newItem.id
+              }],
+              "returning" : ["id"]
+            },
+            headers: {
+              'Authorization': 'Hasura ' + window.localStorage['token']
+            }
+          };
+        $http(addToFavReq).then(function(response){
+            console.log(response);
+            },
+          function(response){
+              console.log(response);
+        });
+       };
     
     var favouritesReq = {
           method: 'POST',
@@ -157,39 +180,22 @@ angular.module('starter.services', [])
         };
                     
         $http(favouritesReq).then(function(response){
+          console.log(response.data);
           var i;
-          for(i=0; i< response.data.length; i++){
-            if(response.data[i].id !== newFavItem.id){
-              $scope.addFav(newFavItem);
-            }
+          if(response.data.length === 0){
+            addFav(newFavItem);
+          }
+          else{
+            for(i=0; i< response.data.length; i++){
+              if(response.data[i].id !== newFavItem.id){
+                addFav(newFavItem);
+              }
+            } 
           }
           
         }, function(response){
             console.log(response);
         });
-       
-       $scope.addFav = function(newFavItem){
-          var addToFavReq = {
-            method: 'POST',
-            url: server + '1/table/favourites/insert',
-            data: {
-              "objects": [{
-                'userId': parseInt(window.localStorage['currentUserId']),
-                'itemId': newFavItem.id
-              }],
-              "returning" : ["id"]
-            },
-            headers: {
-              'Authorization': 'Hasura ' + window.localStorage['token']
-            }
-          };
-        $http(addToFavReq).then(function(response){
-            console.log(response);
-            },
-          function(response){
-              console.log(response);
-        });
-       };
     
   };
   var removeFavourites = function(removeItem) {
@@ -362,8 +368,10 @@ angular.module('starter.services', [])
   var choice = '';
   var addChoice = function(newChoice){
     choice = newChoice;
+    console.log(choice, 'works');
   };
   var getChoice = function(){
+    console.log(choice, 'alls awesome');
     return choice;
   };
   

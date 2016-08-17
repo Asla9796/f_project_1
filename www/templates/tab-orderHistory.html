@@ -3,36 +3,99 @@
   <!--  <h2 class="title">Sub Header</h2>-->
   <!--</div>  -->
 
-  <ion-content>
-    <div ng-if="!isOnline">
-      <div class="bar bar-subheader bar-assertive">
-        <h2 class="title">You are not connected to the internet</h2>
+  <ion-content class="overflow-scroll" scroll="true">
+    <div class="box1">
+    <div ng-if="isMobile">
+      <div ng-if="!isOnline">
+        <div class="bar bar-subheader bar-assertive">
+          <h2 class="title">You are not connected to the internet</h2>
+        </div>
+        <br>
+        <br>
       </div>
-      <br>
-      <br>
+      <br><br>
+        <ion-list>
+           <a class="item item-button-right" href="#/tab/orderSummary" ng-repeat="object in orders | orderBy : '-id'" ng-click=openOrderSummary(object)>
+            {{ object.name }} 
+            <button class="button button-energized" ng-if= "object.status == 'pending'">
+              Pending
+            </button>
+            <button class="button button-assertive-custom" ng-if= "object.status == 'confirmed'">
+              <p style="color:white; font-size: 18px">Confirmed</p>
+            </button>
+            <button class="button button-balanced" ng-if= "object.status == 'delivered'">
+              Delivered
+            </button>
+            <button class="button button-balanced" ng-if= "object.status == 'dispatched'">
+              Dispatched
+            </button>
+            <button class="button button-assertive" ng-if= "object.status == 'canceled'">
+              Canceled
+            </button>
+            <p>{{object.time}}</p>
+            <p>#{{object.token}}</p>
+          </a>
+      </ion-list>
     </div>
-    <br><br>
-      <ion-list>
-         <a class="item item-button-right" href="#/tab/orderSummary" ng-repeat="object in orders | orderBy : '-id'" ng-click=openOrderSummary(object)>
-          {{ object.name }} 
-          <button class="button button-energized" ng-if= "object.status == 'pending'">
-            Pending
-          </button>
-          <button class="button button-assertive-custom" ng-if= "object.status == 'confirmed'">
-            <p style="color:white; font-size: 18px">Confirmed</p>
-          </button>
-          <button class="button button-balanced" ng-if= "object.status == 'delivered'">
-            Delivered
-          </button>
-          <button class="button button-balanced" ng-if= "object.status == 'dispatched'">
-            Dispatched
-          </button>
-          <button class="button button-assertive" ng-if= "object.status == 'canceled'">
-            Canceled
-          </button>
-          <p>{{object.time}}</p>
-          <p>#{{object.token}}</p>
-        </a>
-    </ion-list>
+    <div ng-if="!isMobile">
+      <div ng-if="!isOnline">
+        <div class="bar bar-subheader bar-assertive">
+          <h2 class="title">You are not connected to the internet</h2>
+        </div>
+        <br>
+        <br>
+      </div>
+      <div class="row">
+        <div class="col col-25"></div>
+        <div class="col col-50">
+          <br><br>
+            <ion-list>
+               <a class="item item-button-right" href="#/tab/orderSummary" ng-repeat="object in orders | orderBy : '-id'" ng-click=openOrderSummary(object)>
+                {{ object.name }} 
+                <button class="button button-energized" ng-if= "object.status == 'pending'">
+                  Pending
+                </button>
+                <button class="button button-assertive-custom" ng-if= "object.status == 'confirmed'">
+                  <p style="color:white; font-size: 18px">Confirmed</p>
+                </button>
+                <button class="button button-balanced" ng-if= "object.status == 'delivered'">
+                  Delivered
+                </button>
+                <button class="button button-balanced" ng-if= "object.status == 'dispatched'">
+                  Dispatched
+                </button>
+                <button class="button button-assertive" ng-if= "object.status == 'canceled'">
+                  Canceled
+                </button>
+                <p>{{object.time}}</p>
+                <p>#{{object.token}}</p>
+              </a>
+          </ion-list>          
+        </div>
+        <div class="col col-25"></div>
+      </div>
+    </div>
+    </div>
   </ion-content>
+    <!--<div class="float-icon" ng-click="scrollToTop()" ng-if="!isMobile">-->
+    <!--  <span class="height-fix">-->
+    <!--    <a class="content">-->
+    <!--      <i class="ion-arrow-up-a"> </i>-->
+    <!--    </a>-->
+    <!--  </span>-->
+    <!--</div> -->
+        <div class="bar bar-footer bar-assertive-custom" ng-if="!isMobile">
+          <div class="title">
+            <div class="row">
+              <div class="col"><p style="color: #ff7f12; font-size: 15px; "><b>Find us on: </b></p></div>
+              <div class="col col-center"><a href=""><img src="img/playstore.png" style="width: 40px; height: 40px"></a></div>
+              <div class="col col-center"><a href="http://facebook.com/sqippr"><img src="img/facebook.png" style="width: 40px; height: 40px"></a></div>
+              <div class="col col-center"><a href=""><img src="img/twitter.png" style="width: 40px; height: 40px"></a></div>
+              <div class="col col-center"><a href=""><img src="img/instagram.png" style="width: 40px; height: 40px"></a></div>
+              <div class="col col-center"><a href=""><img src="img/google-plus.png" style="width: 40px; height: 40px"></a></div>
+              <div class="col col-center"><a href=""><img src="img/mail-icon.png" style="width: 40px; height: 40px"></a></div>
+              <div class="col col-center">&copy 2016 Sqippr</div>
+            </div>
+          </div>
+        </div>
 </ion-view>

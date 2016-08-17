@@ -1,63 +1,70 @@
 <ion-view view-title="Account">
-  <ion-content>
-    <div ng-if="!isOnline">
-      <div class="bar bar-subheader bar-assertive">
-        <h2 class="title">You are not connected to the internet</h2>
+  <ion-content class="overflow-scroll" scroll="true">
+    <div class="box1">
+      <div ng-if="!isOnline">
+        <div class="bar bar-subheader bar-assertive">
+          <h2 class="title">You are not connected to the internet</h2>
+        </div>
+        <br>
+        <br>
       </div>
       <br>
       <br>
-    </div>
-    <br>
-    <br>
-    <ion-list>
-         
-        <a class="item item-icon-right" href="#/tab/trialPages">
-          <i class="icon ion-ios-arrow-right"></i>
-          trial pages
-        </a>
-        
-        <a class="item item-icon-right" href="login.html" ng-if=!returnToken()>
-          <i class="icon ion-ios-arrow-right"></i>
-          Login / Sign Up
-        </a>
-        <a class="item item-icon-right" href="#/tab/profile" ng-if=returnToken()>
-          <i class="icon ion-ios-arrow-right"></i>
-          Profile
-        </a>
-        <a class="item item-icon-right" href="#/tab/orderHistory" ng-if=returnToken()>
-          <i class="icon ion-ios-arrow-right"></i>
-          Order History
-        </a>
-        <!--<a class="item item-icon-right" href="#/tab/savedOffers">
-        <     i class="icon ion-ios-arrow-right"></i>-->
-        <!--  Saved Offers-->
-        <!--</a>-->
-        <!--<a class="item item-icon-right" href="#/tab/suggestOutlet">
-        <i class="icon ion-ios-arrow-right"></i>-->
-        <!--  Suggest an Outlet-->
-        <!--</a>-->
-        <!--<a class="item item-icon-right" href="#/tab/inviteFriends">-->
-        <!--  <i class="icon ion-ios-arrow-right"></i>-->
-        <!--  Invite Friends-->
-        <!--</a>-->
-        <a class="item item-icon-right" href="#/tab/about">
-          <i class="icon ion-ios-arrow-right"></i>
-          About
-        </a>
-        <a class="item item-icon-right" href="#/tab/contactUs">
-          <i class="icon ion-ios-arrow-right"></i>
-          Contact Us
-        </a> 
-        <a class="item item-icon-right" href="#/tab/shippingPolicy">
-          <i class="icon ion-ios-arrow-right"></i>
-          Policies and Terms of Use
-        </a> 
-        <a class="item item-icon-right" ng-click="logout()"ng-if=returnToken()>
-        Logout
-        </a>
-        <!--<a class="item item-icon-right" ng-click=showConfirm() ng-if=returnToken()>-->
-        <!--  Delete Account-->
-        <!--</a>        -->
+      <ion-list>
+           
+          <a class="item item-icon-right" href="#/tab/trialPages">
+            <i class="icon ion-ios-arrow-right"></i>
+            trial pages
+          </a>
+          
+          <a class="item item-icon-right" href="login.html" ng-if=!returnToken()>
+            <i class="icon ion-ios-arrow-right"></i>
+            Login / Sign Up
+          </a>
+          <a class="item item-icon-right" href="#/tab/profile" ng-if=returnToken()>
+            <i class="icon ion-ios-arrow-right"></i>
+            Profile
+          </a>
+          <a class="item item-icon-right" href="#/tab/orderHistory" ng-if=returnToken()>
+            <i class="icon ion-ios-arrow-right"></i>
+            Order History
+          </a>
+          <!--<a class="item item-icon-right" href="#/tab/savedOffers">
+          <     i class="icon ion-ios-arrow-right"></i>-->
+          <!--  Saved Offers-->
+          <!--</a>-->
+          <!--<a class="item item-icon-right" href="#/tab/suggestOutlet">
+          <i class="icon ion-ios-arrow-right"></i>-->
+          <!--  Suggest an Outlet-->
+          <!--</a>-->
+          <!--<a class="item item-icon-right" href="#/tab/inviteFriends">-->
+          <!--  <i class="icon ion-ios-arrow-right"></i>-->
+          <!--  Invite Friends-->
+          <!--</a>-->
+          <a class="item item-icon-right" href="#/tab/about">
+            <i class="icon ion-ios-arrow-right"></i>
+            About
+          </a>
+          <a class="item item-icon-right" href="#/tab/contactUs">
+            <i class="icon ion-ios-arrow-right"></i>
+            Contact Us
+          </a>
+          <a class="item item-icon-right" href="#/tab/inviteFriends">
+            <i class="icon ion-ios-arrow-right"></i>
+            Invite Friends
+          </a>           
+          <a class="item item-icon-right" href="#/tab/shippingPolicy">
+            <i class="icon ion-ios-arrow-right"></i>
+            Policies and Terms of Use
+          </a> 
+          <a class="item item-icon-right" ng-click="logout()"ng-if=returnToken()>
+            <i class="icon ion-ios-arrow-right"></i>
+          Logout
+          </a>
+          <!--<a class="item item-icon-right" ng-click=showConfirm() ng-if=returnToken()>-->
+          <!--  Delete Account-->
+          <!--</a>        -->
+      </div>
     </ion-list>
   </ion-content>
 </ion-view>

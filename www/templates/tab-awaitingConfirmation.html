@@ -4,69 +4,135 @@
   <!--</div>  -->
 
   <ion-content>
-    <div ng-if="!isOnline">
-      <div class="bar bar-subheader bar-assertive">
-        <h2 class="title">You are not connected to the internet</h2>
+    <div class="box1">
+    <div ng-if="isMobile">
+          <div ng-if="!isOnline">
+            <div class="bar bar-subheader bar-assertive">
+              <h2 class="title">You are not connected to the internet</h2>
+            </div>
+            <br>
+            <br>
+            <br>
+          </div>
+
+        <div class="centered">
+          <p style="text-align:center; color:grey">Time Remaining</p>
+      
+          <div class="container">
+              <div class="progress-wrapper">
+                  <div class="progress ng-cloak" ng-style="getStyle()">{{ time }}</div>
+      
+                      <round-progress
+                          max="120"
+                          current="minutesInSeconds"
+                          color="#ff7400"
+                          bgcolor="transparent"
+                          radius="{{ radius*1.5 }}"
+                          semi="isSemi"
+                          rounded="rounded"
+                          clockwise="anticlockwise"
+                          responsive="responsive"
+                          stroke="{{ stroke*1.5 }}"
+                          animation="{{ currentAnimation }}"
+                          offset="inherit">
+      
+      
+                          <round-progress
+                              max="59"
+                              current="seconds"
+                              color="#ffb400"
+                              bgcolor="transparent"
+                              radius="{{ radius*1.5 }}"
+                              semi="isSemi"
+                              rounded="rounded"
+                              clockwise="clockwise"
+                              responsive="responsive"
+                              stroke="{{ stroke*1.5 }}"
+                              animation="{{ currentAnimation }}"
+                              offset="inherit">
+                          </round-progress>
+                      </round-progress>
+                  </round-progress>
+              </div>
+          </div>
+          <br>
+            <p style="text-align:center; color:grey">Please wait for<br>~2 minutes<br>while we confirm your order</p>
       </div>
-      <br>
-      <br>
-      <br>
+      
     </div>
-    <br>
-    <br>
-    <br>
-      <p style="text-align:center; color:grey">Time Remaining</p>
-
-    <div class="container">
-        <div class="progress-wrapper">
-            <div class="progress ng-cloak" ng-style="getStyle()">{{ time }}</div>
-            <!--<round-progress-->
-            <!--    max="24"-->
-            <!--    current="hours"-->
-            <!--    color="#45ccce"-->
-            <!--    bgcolor="transparent"-->
-            <!--    radius="{{ radius*1.5 }}"-->
-            <!--    semi="isSemi"-->
-            <!--    rounded="rounded"-->
-            <!--    clockwise="clockwise"-->
-            <!--    responsive="responsive"-->
-            <!--    stroke="{{ stroke*1.5 }}"-->
-            <!--    animation="{{ currentAnimation }}">-->
-
-                <round-progress
-                    max="120"
-                    current="minutesInSeconds"
-                    color="#ff7400"
-                    bgcolor="transparent"
-                    radius="{{ radius*1.5 }}"
-                    semi="isSemi"
-                    rounded="rounded"
-                    clockwise="anticlockwise"
-                    responsive="responsive"
-                    stroke="{{ stroke*1.5 }}"
-                    animation="{{ currentAnimation }}"
-                    offset="inherit">
-
-
-                    <round-progress
-                        max="59"
-                        current="seconds"
-                        color="#ffb400"
-                        bgcolor="transparent"
-                        radius="{{ radius*1.5 }}"
-                        semi="isSemi"
-                        rounded="rounded"
-                        clockwise="clockwise"
-                        responsive="responsive"
-                        stroke="{{ stroke*1.5 }}"
-                        animation="{{ currentAnimation }}"
-                        offset="inherit">
+    <div ng-if="!isMobile">
+          <div ng-if="!isOnline">
+            <div class="bar bar-subheader bar-assertive">
+              <h2 class="title">You are not connected to the internet</h2>
+            </div>
+            <br>
+            <br>
+            <br>
+          </div>
+      <div class="row">
+        <div class="col col-25"></div>
+        <div class="col col-50">
+          <div class="centered">
+            <p style="text-align:center; color:grey">Time Remaining</p>
+        
+            <div class="container">
+                <div class="progress-wrapper">
+                    <div class="progress ng-cloak" ng-style="getStyle()">{{ time }}</div>
+        
+                        <round-progress
+                            max="120"
+                            current="minutesInSeconds"
+                            color="#ff7400"
+                            bgcolor="transparent"
+                            radius="{{ radius*1.5 }}"
+                            semi="isSemi"
+                            rounded="rounded"
+                            clockwise="anticlockwise"
+                            responsive="responsive"
+                            stroke="{{ stroke*1.5 }}"
+                            animation="{{ currentAnimation }}"
+                            offset="inherit">
+        
+        
+                            <round-progress
+                                max="59"
+                                current="seconds"
+                                color="#ffb400"
+                                bgcolor="transparent"
+                                radius="{{ radius*1.5 }}"
+                                semi="isSemi"
+                                rounded="rounded"
+                                clockwise="clockwise"
+                                responsive="responsive"
+                                stroke="{{ stroke*1.5 }}"
+                                animation="{{ currentAnimation }}"
+                                offset="inherit">
+                            </round-progress>
+                        </round-progress>
                     </round-progress>
-                </round-progress>
-            </round-progress>
+                </div>
+            </div>
+          <br>
+              <p style="text-align:center; color:grey">Please wait for<br>~2 minutes<br>while we confirm your order</p>            
+          </div>
         </div>
+        <div class="col col-25"></div>
+      </div>  
     </div>
-
-      <p style="text-align:center; color:grey">Please wait for<br>2 minutes<br>while we confirm your order</p>
+    </div>
   </ion-content>
+        <div class="bar bar-footer bar-assertive-custom" ng-if="!isMobile">
+          <div class="title">
+            <div class="row">
+              <div class="col"><p style="color: #ff7f12; font-size: 15px; "><b>Find us on: </b></p></div>
+              <div class="col col-center"><a href=""><img src="img/playstore.png" style="width: 40px; height: 40px"></a></div>
+              <div class="col col-center"><a href="http://facebook.com/sqippr"><img src="img/facebook.png" style="width: 40px; height: 40px"></a></div>
+              <div class="col col-center"><a href=""><img src="img/twitter.png" style="width: 40px; height: 40px"></a></div>
+              <div class="col col-center"><a href=""><img src="img/instagram.png" style="width: 40px; height: 40px"></a></div>
+              <div class="col col-center"><a href=""><img src="img/google-plus.png" style="width: 40px; height: 40px"></a></div>
+              <div class="col col-center"><a href=""><img src="img/mail-icon.png" style="width: 40px; height: 40px"></a></div>
+              <div class="col col-center">&copy 2016 Sqippr</div>
+            </div>
+          </div>
+        </div>
 </ion-view>

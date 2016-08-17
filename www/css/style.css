@@ -5,20 +5,160 @@
 }
 }
 
-.ion-logo:before {
-  content: url('img/logo_white.png') !important;
+.bar.button.button-icon.icon-right.ion-logo:before {
+  content: url('logo_white.png') !important;
 }
 
-.container {
-  
+.float-icon {
+   
+  background-color:#303f9f;
+  opacity: 0.9;
+  color: white;
+  border-radius: 50%;
+  /*border-radius:15% 0 0 0;*/
+  width: 30px;
+  padding: 25px;
+  font-size: 40px;
+  position: fixed;
+  bottom: 5%; /* Adjust height */
+  right: 5%; /* Adjust position */
+  z-index: 1000;
+}
+ 
+.float-icon .height_fix {
+  margin-top: 100%;
+  border: 1px solid red;
+}
+ 
+.float-icon .content {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  height: 100%;
+  width: 100%;
+  text-align: center;
+  margin-top: -20px;
+  color: white;
 }
 
+.float-button {
+ 
+  background-color: white;
+  opacity: 0.9;
+  color: white;
+  /*border-radius:15% 0 0 0;*/
+  width: 24vw;
+  height: 100vh;
+  padding: 25px;
+  position: fixed;
+  bottom: 10%; 
+  /*left: 5px; */
+  z-index: 1000;
+}
+ 
+.float-button .height_fix {
+  margin-top: 50%;
+  border: 1px solid red;
+}
+ 
+.float-button .content {
+  position: absolute;
+  left: 0;
+  /*top: 50%;*/
+  /*height: 100%;*/
+  /*width: 100%;*/
+  text-align: center;
+  margin-top: -20px;
+  margin-left: 5vw;
+  color: white;
+}
+
+.fixed-container {
+  left: 5px;
+  top: 47vh;
+  width: 24vw;
+  z-index: 10; 
+  position: fixed; 
+}
+
+.centered {
+    padding: 20vh 0;
+    text-align: center;
+}
 .desktop_vs{
   /*max-width:20%;*/
 }
+
+}
+.spinner svg {
+  width: 19% !important;
+  height: 85px !important;
+}
+
 .desktop_account{
   max-width:20%;
 }
+
+.box1{
+  height:100%;
+  background: url('background.png');
+  background-position: center;
+  width: 100%;
+}
+
+.box2{
+  height: 280px;
+  background-color: #1b1b1b;
+  border-top: solid #FF6502;
+}
+
+.box5{
+  height: 1100px;
+  background: url('box.jpg');
+  background-position: center;
+  border-top: solid #FF6502;
+}
+
+.box7{
+  height: 190vw;
+  background: url('box.jpg');
+  background-position: center;
+  border-top: solid #FF6502;
+}
+
+.box4{
+  height: 40vh;
+  background-color: #F7F7F7;
+  border-top: solid #FF6502;
+}
+
+.box3{
+  height:70px;
+  background-color: #FF6502;
+}
+
+.box8{
+  height: 30vh;
+  width: 100vw;
+  background-color: #fff;
+}
+
+.box6{
+  height:150px;
+  width: 150px;
+  background-color: #FF6502;
+}
+
+
+hr {
+  height: 2px;
+  color: #FF6502;
+  background-color: #FF6502;
+  border: none;
+  width: 75%;
+  text-align: center;
+}
+
 .desktop{
   max-height:100%;
   background-image:url("quark.jpg");
@@ -60,6 +200,8 @@
   background-image: url('logo_white.png');
   background-size:contain;
 }
+
+
 div.container {
     height: 10em;
     position: relative }
@@ -241,6 +383,34 @@ div.container img {
         box-shadow: none;
         color: #d60f00; }
         
+  .button.button-assertive-custom4 {
+    border-color: #e48912;
+    background-color: #fff;
+    color: #e48912; }
+    .button.button-assertive-custom4:hover {
+      color: #e48912;
+      text-decoration: none; }
+    .button.button-assertive-custom4.active, .button.button-assertive-custom4.activated {
+      border-color: #e48912;
+      background-color: #e48912;
+      box-shadow: inset 0 1px 4px #e48912; }
+    .button.button-assertive-custom4.button-clear {
+      border-color: transparent;
+      background: none;
+      box-shadow: none;
+      color: #e48912; }
+    .button.button-assertive-custom4.button-icon {
+      border-color: transparent;
+      background: none; }
+    .button.button-assertive-custom4.button-outline {
+      border-color: #e48912;
+      background: transparent;
+      color: #e48912; }
+      .button.button-assertive-custom4.button-outline.active, .button.button-assertive-custom4.button-outline.activated {
+        background-color: #e48912;
+        box-shadow: none;
+        color: #e48912; }
+        
 .fullscreen-image {
   max-width: 100%;
   max-height: 100%;
@@ -399,4 +569,4 @@ div.container img {
  width: 100%;
  background-image: url('img/logo_white.png');
  background-size:cover;
-}
+ 

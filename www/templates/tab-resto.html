@@ -3,9 +3,37 @@
   <!--  <h2 class="title">Sub Header</h2>-->
   <!--</div>  -->
 
-  <ion-content>
-    <div class="bar bar-subheader bar-assertive" ng-show="isEmpty()">
-      <h2 class="title">You have not selected an outlet. Please click back</h2>
+  <ion-content class="overflow-scroll" scroll="true" delegate-handle="myPageDelegate">
+    <div class="box1">
+    <div ng-if="isEmpty">
+        <div ng-if="isMobile" class='centered'>
+
+          <img src="img/alert.png" alt="" style="width: 80vw; height: 80vw;margin:auto; display:block" />
+          <br>
+          <p style="text-align:center; color:grey">You have not selected an outlet! Please click back</p>
+          <br>
+          <button class="button button-block button-assertive-custom" ng-click=return()><h4 style="color:white">Return to Home</h4></button>
+        </div>
+        
+          <div class="row" ng-if="!isMobile">
+            <br><br><br><br>
+            <div class="col col-25">
+              
+            </div>  
+            <div class="col col-50">
+              <div class="centered">
+                <img src="img/alert.png" alt="" style="width: 200px; height: 200px;margin:auto; display:block" />
+                <br>
+                <p style="text-align:center; color:grey">You have not selected an outlet! Please click back</p>
+                <br>
+                <button class="button button-block button-assertive-custom" ng-click=return()><h4 style="color:white">Return to Home</h4></button>
+              </div>
+            </div>
+            <div class="col col-25">
+              
+            </div> 
+            
+          </div>      
     </div>
     
     <div ng-if="!isOnline">
@@ -15,113 +43,237 @@
       <br>
       <br>
     </div>    
-    <!--<ion-list>-->
-    <!--  <ion-item ng-repeat="playlist in playlists" href="#/app/playlists/{{playlist.id}}">-->
-    <!--    {{playlist.title}}-->
-    <!--  </ion-item>-->
-    <!--</ion-list>-->
-    	<!--<div class="row_image_func" ng-style="{'background-image': 'url({})'};-->
-    	<!--                                    width: 100%;-->
-     <!--                                     height: 400px;-->
-     <!--                                     background-size: 100% 100%;">-->
-     
-     <!-- </div>-->
-  <br>
-  <br>
-
-    <!--<div class="container">-->
-    <!--  <img src="img/{{currentOutlet.id}}.png">-->
-    <!--</div>-->
-    <p style="text-align:center"><img src="img/20.1.jpg" style="width:100vw;height:200px;margin:auto;display:block"></p>
-      <ion-list>
-        
-        <div ng-repeat="detail in details">
-          <ion-item class="item-stable"
-                    ng-click="toggleDetail(detail)"
-                    ng-class="{active: isDetailShown(detail)}">
-              <i class="icon icon-right" ng-class="isDetailShown(detail) ? 'ion-ios-arrow-up' : 'ion-ios-arrow-down'"></i>
-            &nbsp;
-            Restaurant Details
-          </ion-item>
-          <ion-item class="item-accordion"
-                    ng-repeat="object in detail.objects"
-                    ng-show="isDetailShown(detail)">
-           
-            <div class = "row">
-              <div class = "col"><p style="font-size:15px; text-align:left">Open Hours : </p></div>
-              <div class = "col text-right"><button class="button button-clear button-balanced">Open Now</button></div>
-            </div>
-            <div class = "row">
-              <div class = "col"><p style="font-size:18px; text-align:left">9:00 AM - 10:00 PM</p></div>
-              <div class = "col text-right"><button class="button button-clear button-balanced">Delivery Open</button></div>
-            </div>
-            
-          </ion-item>
+    <div ng-if="!isEmpty">
+      <div ng-if="isMobile">
+          <br>
+          <br>
+        <div class="slidebox-container">
+          <ion-slide-box>
+            <ion-slide>
+              <img ng-src="img/20.1.jpg" style="width: 100%; height: 40vh; margin:auto;display:block; position: relative; overflow: hidden" >
+            </ion-slide>
+          </ion-slide-box>
         </div>
-        
-        <div ng-repeat="group in groups">
-          <ion-item class="item-stable"
-                    ng-click="toggleGroup(group)"
-                    ng-class="{active: isGroupShown(group)}">
-              <i class="icon icon-right" ng-class="isGroupShown(group) ? 'ion-ios-arrow-up' : 'ion-ios-arrow-down'"></i>
-            &nbsp;
-            {{group.type}}{{group.prepTime}}
-          </ion-item>
-          <ion-item class="item-accordion"
-                    ng-repeat="item in group.items | orderBy: 'minTime'"
-                    ng-show="isGroupShown(group)">
-           
-            <div class = "row">
-              <div class = "col"><p style="font-size:18px; text-align:left">{{ item.name }}</p></div>
-              <div class = "col"><p style="font-size:18px; text-align:right">Rs. {{ item.price }}</p></div>
-            </div>
-             <div class = "row">
-                <div class = "col"><p> Min Time : {{ item.minTime }} min</p></div>
-                
-                <div class = "col col-10" ng-init="obj={ check:item.isFavourite }">
-                  <a class="button button-icon icon ion-ios-heart-outline" ng-if="!obj.check" ng-click="obj.check = true; addToFavourites(obj.check,item)">
-                     <!--<i class="iconMenuCustom ion-ios-heart-outline"></i>-->
-                  </a>
-                  <a class="button button-icon icon ion-ios-heart" ng-if="obj.check" ng-click="obj.check = false; addToFavourites(obj.check,item)">
-                    <!--<i class="iconMenuCustom ion-ios-heart"></i>-->
-                  </a>
-                </div>
-                
-                <div class = "col col-10">
-                  <a class="button button-icon icon ion-ios-cart-outline" ng-click="addToCart(item)" ng-if="item.isAvailable">
-                     <!--<i class="iconMenuCustom ion-ios-plus-outline"></i>-->
-                  </a>
-                </div>
-                <div class = "col col-20"><p style="text-align:right">{{ item.quantity }} qty</p></div>
+        <ion-list>
+          
+          <div ng-repeat="detail in details">
+            <ion-item class="item-stable"
+                      ng-click="toggleDetail(detail)"
+                      ng-class="{active: isDetailShown(detail)}">
+                <i class="icon icon-right" ng-class="isDetailShown(detail) ? 'ion-ios-arrow-up' : 'ion-ios-arrow-down'"></i>
+              &nbsp;
+              Restaurant Details
+            </ion-item>
+            <ion-item class="item-accordion"
+                      ng-repeat="object in detail.objects"
+                      ng-show="isDetailShown(detail)">
+             
+              <div class = "row">
+                <div class = "col"><p style="font-size:15px; text-align:left">Open Hours : </p></div>
+                <div class = "col text-right"><button class="button button-clear button-balanced">Open Now</button></div>
               </div>
-            
-          </ion-item>
+              <div class = "row">
+                <div class = "col"><p style="font-size:18px; text-align:left">9:00 AM - 10:00 PM</p></div>
+                <div class = "col text-right"><button class="button button-clear button-balanced">Delivery Open</button></div>
+              </div>
+              
+            </ion-item>
+          </div>
+          
+          <div ng-repeat="group in groups">
+            <ion-item class="item-stable"
+                      ng-click="toggleGroup(group)"
+                      ng-class="{active: isGroupShown(group)}">
+                <i class="icon icon-right" ng-class="isGroupShown(group) ? 'ion-ios-arrow-up' : 'ion-ios-arrow-down'"></i>
+              &nbsp;
+              {{group.type}}{{group.prepTime}}
+            </ion-item>
+            <ion-item class="item-accordion"
+                      ng-repeat="item in group.items | orderBy: 'minTime'"
+                      ng-show="isGroupShown(group)">
+             
+              <div class = "row">
+                <div class="col col-10">
+                  <img src="img/veg.png" style="width: 12px; height: 12px" ng-if="item.isVeg">
+                  <img src="img/nonveg.png" style="width: 12px; height: 12px" ng-if="!item.isVeg">
+                </div>
+                <div class = "col">
+                  <p style="font-size:18px; text-align:left">{{ item.name }}</p>
+                  </div>
+                <div class = "col">
+                  <p style="font-size:18px; text-align:right">Rs. {{ item.price }}</p>
+                </div>
+              </div>
+               <div class = "row">
+                  <div class = "col"><p> Min Time : {{ item.minTime }} min</p></div>
+                  
+                  <div class = "col col-10" ng-init="obj={ check:item.isFavourite }">
+                    <a class="button button-icon icon ion-ios-heart-outline" ng-if="!obj.check" ng-click="obj.check = true; addToFavourites(obj.check,item)">
+                       <!--<i class="iconMenuCustom ion-ios-heart-outline"></i>-->
+                    </a>
+                    <a class="button button-icon icon ion-ios-heart" ng-if="obj.check" ng-click="obj.check = false; addToFavourites(obj.check,item)">
+                      <!--<i class="iconMenuCustom ion-ios-heart"></i>-->
+                    </a>
+                  </div>
+                  
+                  <div class = "col col-10">
+                    <a class="button button-icon icon ion-ios-cart-outline" ng-click="addToCart(item)" ng-if="item.isAvailable">
+                       <!--<i class="iconMenuCustom ion-ios-plus-outline"></i>-->
+                    </a>
+                  </div>
+                  <div class = "col col-20"><p style="text-align:right">{{ item.quantity }} qty</p></div>
+                </div>
+              
+            </ion-item>
+          </div>
+        </ion-list>
+        
+      </div>
+      
+      <div ng-if="!isMobile">
+        <br><br>
+        <div class="slidebox-container">
+          <ion-slide-box>
+            <ion-slide>
+              <img ng-src="img/20.1.jpg" style="left: 10vw; right; 10vw; width: 70vw; height: 30vh; margin:auto;display:block; position: relative; overflow: hidden" >
+            </ion-slide>
+          </ion-slide-box>
         </div>
-      </ion-list>
+        
+        <div class="row">
+          <div class="col col-25">
+  <!--<div class="sticky-box" style="position: absolute; top: 400px; left: 300px; background-color: red;" sticky>-->
+  <!--  Style:<br>-->
+  <!--  position: absolute;<br>-->
+  <!--  left: 300px;<br>-->
+  <!--  top: 400px;-->
+  <!--</div>-->
+  <!--          <div class="sticky-box" sticky offset="25" confine="true">-->
+              <!--<ion-list ng-repeat="group in groups">-->
+              <!--  <a ng-click="scrollTo(group.id)" class="button button-assertive-custom4 button-block">{{group.type}}</a>-->
+              <!--</ion-list> -->
+  <!--          </div>-->
+          </div>
+          <div class="col col-50">
+            <br>
+            <ion-list>
+              
+              <div ng-repeat="group in groups">
+                <div ng-attr-id="{{group.id}}">
+                </div>
+                  <ion-item class="item-stable"
+                              ng-click="toggleGroup(group)"
+                              ng-class="{active: isGroupShown(group)}">
+                        <i class="icon icon-right" ng-class="isGroupShown(group) ? 'ion-ios-arrow-up' : 'ion-ios-arrow-down'"></i>
+                      &nbsp;
+                      {{group.type}}{{group.prepTime}}
+                  </ion-item>
+                  <ion-item class="item-accordion"
+                            ng-repeat="item in group.items | orderBy: 'minTime'"
+                            ng-show="isGroupShown(group)">
+                   
+                    <div class = "row">
+                      <div class="col col-10">
+                        <img src="img/veg.png" style="width: 12px; height: 12px" ng-if="item.isVeg">
+                        <img src="img/nonveg.png" style="width: 12px; height: 12px" ng-if="!item.isVeg">
+                      </div>
+                      <div class = "col"><p style="font-size:18px; text-align:left">{{ item.name }}</p></div>
+                      <div class = "col"><p style="font-size:18px; text-align:right">Rs. {{ item.price }}</p></div>
+                    </div>
+                     <div class = "row">
+                        <div class = "col"><p> Min Time : {{ item.minTime }} min</p></div>
+                        
+                        <div class = "col col-10" ng-init="obj={ check:item.isFavourite }">
+                          <a class="button button-icon icon ion-ios-heart-outline" ng-if="!obj.check" ng-click="obj.check = true; addToFavourites(obj.check,item)">
+                             <!--<i class="iconMenuCustom ion-ios-heart-outline"></i>-->
+                          </a>
+                          <a class="button button-icon icon ion-ios-heart" ng-if="obj.check" ng-click="obj.check = false; addToFavourites(obj.check,item)">
+                            <!--<i class="iconMenuCustom ion-ios-heart"></i>-->
+                          </a>
+                        </div>
+                        
+                        <div class = "col col-10">
+                          <a class="button button-icon icon ion-ios-cart-outline" ng-click="addToCart(item)" ng-if="item.isAvailable">
+                             <!--<i class="iconMenuCustom ion-ios-plus-outline"></i>-->
+                          </a>
+                        </div>
+                        <div class = "col col-20"><p style="text-align:right">{{ item.quantity }} qty</p></div>
+                      </div>
+                    
+                  </ion-item>
+              </ion-list>
+            </div>
+          </div>
+          <div class="col col-25">
+            <br>
+            <ion-item class="item-stable">
+              <div class = "row">
+                <div class = "col"><p style="font-size:15px; text-align:left; color:grey">Open Hours : </p></div>
+              </div>
+              <div class = "row">
+                <div class = "col"><p style="font-size:18px; text-align:left; color: #e48912">9:00 AM - 10:00 PM</p></div>
+              </div>
+              <div class = "row">
+                <div class = "col text-left"><button class="button button-clear button-balanced">Open Now</button></div>
+                <div class = "col text-right"><button class="button button-clear button-balanced">Delivery Open</button></div>
+              </div>
+            </ion-item>
+            <br>
+            <ion-item class="item-stable">
+              <div class = "row">
+                <div class="col"><p style="font-size:15px; color:grey">Minimum Preparation Time </p></div>
+              </div>
+              <div class = "row">
+                <div class="col"><p style="font-size:18px; color: #e48912">{{ currentOutlet.minPrepTime }}</p></div>
+              </div>
+              <div class = "row">
+                <div class="col"><p style="font-size:15px; color:grey">Cuisine</p></div>
+              </div>
+              <div class = "row">
+                <div class="col"><p style="font-size:18px; color: #e48912">{{ currentOutlet.cuisine }}</p></div>
+              </div>
+            </ion-item>
+          </div>
+        </div>
+      </div>
+    <br><br><br><br><br>
     </div>
-
-    <!--<div class="list">-->
-
-    <!--  <a class="item item-icon-left" href="#">-->
-    <!--      <i class="icon ion-android-pin"></i>-->
-    <!--      <p>Location</p>-->
-    <!--      <h3>{{ resto.location }}</h3>-->
-    <!--  </a>-->
-      
-    <!--  <a class="item item-icon-left" href="#">-->
-    <!--      <i class="icon ion-android-time"></i>-->
-    <!--      <p>Open or not</p>-->
-    <!--      <h3>{{ resto.open_hour | date : 'hh:mm:ss a' }}</h3>-->
-    <!--  </a>-->
-      
-    <!--  <a class="item item-icon-left" href="#">-->
-    <!--      <i class="icon ion-android-restaurant"></i>-->
-    <!--      <p>cuisine</p>-->
-    <!--      <h3>{{ resto.cuisine }}</h3>-->
-    <!--  </a>-->
-
-    <!--</div>-->
-    
-    <!--<a class="button button-block button-positive" ng-click=showMenu(resto) href="#/tab/menu">Show Menu</a>-->
+    </div>
   </ion-content>
+  <!--<div style=" position:fixed; top: 37vh; left:5px; right:0px; width: 24vw" ng-if="!isMobile && !isEmpty">-->
+  <!--            <ion-list ng-repeat="group in groups">-->
+  <!--              <a ng-click="scrollTo(group.id)" class="button button-assertive-custom4 button-block">{{group.type}}</a>-->
+  <!--            </ion-list>     -->
+  <!--</div>-->
+    <div class="float-button" ng-if="!isMobile && !isEmpty">
+      <span class="height-fix">
+        <a class="content">
+          <br><br><br><br><br><br><br><br><br><br><br><br><br>
+            <ion-list ng-repeat="group in groups">
+              <button ng-click="scrollTo(group.id)" class="button button-full button-assertive-custom"><p style="color: white; font-size: 16px">{{group.type}}</p></button>
+            </ion-list>             
+        </a>
+      </span>
+    </div>
+    <div class="float-icon" ng-click="scrollToTop()" ng-if="!isMobile && !isEmpty">
+      <span class="height-fix">
+        <a class="content">
+          <i class="ion-arrow-up-a"> </i>
+        </a>
+      </span>
+    </div>    
+        <div class="bar bar-footer bar-assertive-custom">
+          <div class="title">
+            <div class="row">
+              <div class="col"><p style="color: #ff7f12; font-size: 15px; "><b>Find us on: </b></p></div>
+              <div class="col col-center"><a href=""><img src="img/playstore.png" style="width: 40px; height: 40px"></a></div>
+              <div class="col col-center"><a href="http://facebook.com/sqippr"><img src="img/facebook.png" style="width: 40px; height: 40px"></a></div>
+              <div class="col col-center"><a href=""><img src="img/twitter.png" style="width: 40px; height: 40px"></a></div>
+              <div class="col col-center"><a href=""><img src="img/instagram.png" style="width: 40px; height: 40px"></a></div>
+              <div class="col col-center"><a href=""><img src="img/google-plus.png" style="width: 40px; height: 40px"></a></div>
+              <div class="col col-center"><a href=""><img src="img/mail-icon.png" style="width: 40px; height: 40px"></a></div>
+              <div class="col col-center">&copy 2016 Sqippr</div>
+            </div>
+          </div>
+        </div>
 </ion-view>

@@ -1,20 +1,262 @@
 <ion-view view-title="About">
-  <ion-content>
-    <div ng-if="!isOnline">
-      <div class="bar bar-subheader bar-assertive">
-        <h2 class="title">You are not connected to the internet</h2>
+  <ion-content class="overflow-scroll" scroll="true">
+    <div class="box1">
+      <div ng-if="!isOnline">
+        <div class="bar bar-subheader bar-assertive">
+          <h2 class="title">You are not connected to the internet</h2>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
       </div>
-      <br>
-      <br>
-      <br>
-      <br>
-      <br>
-    </div>
-    <br><br><br>
-    <p style="text-align:center">A venture by IIT Madras students, we aim to save the world of food courts and outlets from the
+      <div ng-if="isMobile">
+        <br><br><br>
+        <div class="row">
+          <div class="col col-10"></div>
+          <div class="col col-80">
+              <p style="font-size: 20px; color: #FF6502; text-align: center"><b>ABOUT US</b></p>
+              <hr>
+            <p style="text-align:center">
+              <br><br>
+              We are an IIT Madras students’ initiative to change the way you order and have food!
+              <br><br>
+              Specifically designed to make dining a unique experience, sQippr is your next stop at an all in one food ordering solution. 
+              Operating mostly out of IT Parks, colleges and food courts at malls, it provides the ultimate pathway to get rid of queues!
+              <br>
+            </p>
+            <p style="text-align:center; color: #FF6502">
+              No more waiting at counters, order through sQippr, specify your time of delivery/take-away, be there and enjoy the meal you love!
+            </p>
+              <br>
+            <p style="text-align:center">
+              Unlike other food ordering apps, our services don’t just stop at the customer end. Through customised online portals being made for 
+              each food-court, we increase the efficiency and provide a huge value add to their business.
+              <br>
+            </p>            
+          </div>
+          <div class="col col-10"></div>
+        </div>
+        <div class="box7">
+          <br> <p style="color: #FFC300; font-size: 18px; font-weight: bold; text-align: center">Our prime features include</p>
+          <div class="row">
+            <div class="col col-50">
+               <div>
+                  <img src="img/tick.png" style="width: 30vw; height: 30vw">
+              </div>
+            </div>
+            <div class="col col-50 col-center">
+                 <p style="color: #FFC300; font-size: 18px; font-weight: bold">Pre-Ordering</p>
+            </div>
+          </div>
+          <br><hr><br>
+          <div class="row">
+            <div class="col col-50">
+               <div>
+                  <img src="img/tick.png" style="width: 30vw; height: 30vw">
+              </div>
+            </div>
+            <div class="col col-50 col-center">
+                 <p style="color: #FFC300; font-size: 18px; font-weight: bold">Multi-Caterer services</p>
+            </div>
+          </div>
+          <br><hr><br>
+          <div class="row">
+            <div class="col col-50">
+               <div>
+                  <img src="img/tick.png" style="width: 30vw; height: 30vw">
+              </div>
+            </div>
+            <div class="col col-50 col-center">
+                 <p style="color: #FFC300; font-size: 18px; font-weight: bold">Customised selections and ordering</p>
+            </div>
+          </div>
+          <br><hr><br>
+          <div class="row">
+            <div class="col col-50">
+               <div>
+                  <img src="img/tick.png" style="width: 30vw; height: 30vw">
+              </div>
+            </div>
+            <div class="col col-50 col-center">
+                 <p style="color: #FFC300; font-size: 18px; font-weight: bold">Dynamic Menu</p>
+            </div>
+          </div>
+          <br>
+        </div>
 
-painful parasite, that is long queues and waiting time.<br>
-
-Hassle free, queue less ordering is just a tap away!</p>
+      </div>
+      
+      <div ng-if="!isMobile">
+        <br><br><br>
+        <div class="row">
+          <div class="col col-25"></div>
+          <div class="col col-50">
+            <br><br>
+              <p style="font-size: 20px; color: #FF6502; text-align: center"><b>ABOUT US</b></p>
+              <hr>
+            <p style="text-align:center">
+              <br><br>
+              We are an IIT Madras students’ initiative to change the way you order and have food!
+              <br><br>
+              Specifically designed to make dining a unique experience, sQippr is your next stop at an all in one food ordering solution. 
+              Operating mostly out of IT Parks, colleges and food courts at malls, it provides the ultimate pathway to get rid of queues!
+              <br><br>
+            </p>
+            <p style="text-align:center; color: #FF6502">
+              No more waiting at counters, order through sQippr, specify your time of delivery/take-away, be there and enjoy the meal you love!
+            </p>
+              <br><br>
+            <p style="text-align:center">
+              Unlike other food ordering apps, our services don’t just stop at the customer end. Through customised online portals being made for 
+              each food-court, we increase the efficiency and provide a huge value add to their business.
+              <br><br>
+            </p>            
+          </div>
+          <div class="col col-25"></div>
+        </div>
+        <div class="box5">
+          <br>
+          <p style="color: #FFC300; font-size: 20px; font-weight: bold; text-align: center">Our prime features include</p>
+          <div class="row">
+            <div class="col col-20"></div>
+            <div class="col col-30">
+              <div>
+                      <img src="img/tick.png" style="width: 200px; height: 200px">
+              </div>
+            </div>
+            <div class="col col-30 text-right col-center">
+              <p style="color: #FFC300; font-size: 20px; font-weight: bold">Pre-Ordering</p>
+            </div>
+            <div class="col col-20"></div>
+          </div>
+          <br>
+          <hr>
+          <br>
+          <div class="row">
+            <div class="col col-20"></div>
+            <div class="col col-30 text-left col-center">
+               <p style="color: #FFC300; font-size: 20px; font-weight: bold">Multi-Caterer services</p>
+            </div>
+            <div class="col col-30 text-right">
+              <div style="text-align:right">
+                      <img src="img/tick.png" style="width: 200px; height: 200px">
+              </div>
+            </div>
+            <div class="col col-20"></div>
+          </div>
+          <br>
+          <hr>
+          <br>
+          <div class="row">
+            <div class="col col-20"></div>
+            <div class="col col-30">
+              <div>
+                      <img src="img/tick.png" style="width: 200px; height: 200px">
+              </div>
+            </div>
+            <div class="col col-30 text-right col-center">
+               <p style="color: #FFC300; font-size: 20px; font-weight: bold">Customised selections and ordering</p>
+            </div>
+            <div class="col col-20"></div>
+          </div>
+          <br>
+          <hr>
+          <br>
+          <div class="row">
+            <div class="col col-20"></div>
+            <div class="col col-30 text-left col-center">
+               <p style="color: #FFC300; font-size: 20px; font-weight: bold">Dynamic Menu</p>  
+            </div>
+            <div class="col col-30 text-right">
+              <div style="text-align:right">
+                      <img src="img/tick.png" style="width: 200px; height: 200px">
+              </div>
+            </div>
+            <div class="col col-20"></div>
+          </div>
+          
+          
+         
+         
+        </div>
+        <div class="box4">
+          <br>
+          <div class="row>">
+            <div class="col text-center"><p style="color:#FF6502; font-size: 14px">Our Associates</p></div>
+          </div>  
+          <div class="row">
+            <div class="col"></div>
+            <div class="col">
+              <img src="img/hasura.png" style="width: 15vw; height: 20vh;margin:auto; display:block; overflow: hidden">  
+            </div>
+            <div class="col">
+              <img src="img/payu.png" style="width: 20vw; height: 15vh;margin:auto; display:block; overflow: hidden">
+            </div>  
+            <div class="col">
+              <img src="img/zaitoon.png" style="width: 20vw; height: 20vh;margin:auto; display:block; overflow: hidden">
+            </div> 
+            <div class="col"></div>
+          </div>
+          <br>
+        </div>
+        <div class="box2">
+          <br><br>
+          <div class="row">
+            <div class="col"></div>
+            <div class="col"></div>
+            <div class="col">
+              <p style="text-align:center">
+                <a href="http://facebook.com/sqippr">
+                  <img src="img/facebook_orange.png" style="width: 60px; height: 60px;margin:auto; display:block">
+                </a>
+              </p>  
+            </div>
+            <div class="col">
+              <p style="text-align:center">
+                <a href="">
+                  <img src="img/playstore_orange.png" style="width: 60px; height: 60px;margin:auto; display:block">
+                </a>
+              </p>  
+            </div>
+            <div class="col">
+              <p style="text-align:center">
+                <a href="">
+                  <img src="img/twitter_orange.png" style="width: 60px; height: 60px;margin:auto; display:block">
+                </a>
+              </p>  
+            </div>
+            <div class="col"></div>
+            <div class="col"></div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col text-center"></div>
+            <div class="col text-center"><a class="button button-outline button-assertive-custom" href="#/tab/about">About Us</a></div>
+            <div class="col text-center"><a class="button button-outline button-assertive-custom" href="#/tab/contactUs">Contact Us</a></div>
+            <div class="col text-center"><a class="button button-outline button-assertive-custom" href="#/tab/inviteFriends">Invite Friends</a></div>
+            <div class="col text-center"></div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col text-center"></div>
+            <div class="col text-center"></div>
+            <div class="col text-center"></div>
+            <div class="col text-center"><a href="" style="text-decoration:none;"><p style="color:#e48912; font-size: 12px">Terms of Service</p></a></div>
+            <div class="col text-center"><p style="color:#e48912; font-size: 12px">|</p></div>
+            <div class="col text-center"><a href=""style="text-decoration:none;"><p style="color:#e48912; font-size: 12px">Privacy Policies</p></a></div>
+            <div class="col text-center"></div>
+            <div class="col text-center"></div>
+            <div class="col text-center"></div>
+          </div>
+        </div>
+        <div class="box3">
+          <br>
+          <p style="color: white; text-align: center"><b>WE BE SQIPPIN' 'N' FLIPPIN' WHILE THEY HAIR RIPPIN'</b></p>
+          <p style="color: white; text-align: center">&copy 2016 sQippr, All Rights Reserved</p>
+        </div>        
+      </div>
+  </div>
   </ion-content>
 </ion-view>

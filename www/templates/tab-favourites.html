@@ -3,42 +3,98 @@
   <!--  <h2 class="title">Sub Header</h2>-->
   <!--</div>  -->
 
-  <ion-content>
-    <div ng-if="!isOnline">
-      <div class="bar bar-subheader bar-assertive">
-        <h2 class="title">You are not connected to the internet</h2>
-      </div>
-      <br>
-      <br>
+  <ion-content class="overflow-scroll" scroll="true">
+    <!--<div ng-if="!isOnline">-->
+    <!--  <div class="bar bar-subheader bar-assertive">-->
+    <!--    <h2 class="title">You are not connected to the internet</h2>-->
+    <!--  </div>-->
+    <!--  <br>-->
+    <!--  <br>-->
+    <!--</div>-->
+    <!--<br>-->
+    <!--<br>-->
+  <div class="box1">
+    <div ng-if="isMobile">
+      <br><br>
+            <ion-list>
+                <div class="item"ng-repeat="object in favList">
+                  <div class = "row">
+                    <div class = "col"><p style="font-size:18px; text-align:left">{{ object.item.name }}</p></div>
+                    <div class = "col"><p style="font-size:18px; text-align:right">Rs. {{ object.item.price }}</p></div>
+                  </div>
+                  <div class = "row">
+                    <div class = "col col-80"><p> Min Time : {{ object.item.minTime }} min</p></div>
+                    <div class="col col-10">
+                      <a class="button button-icon icon  ion-ios-close-outline" ng-click="removeFromFav(object.id)">
+                       <!--<i class="iconMenuCustom ion-ios-close-outline"></i>-->
+                      </a>
+                    </div>
+                    <div class="col col-10">
+                      <a class="button button-icon icon  ion-ios-cart-outline" ng-click="fromFavToCart(object.item)">
+                       <!--<i class="iconMenuCustom ion-ios-cart-outline"></i>-->
+                      </a>
+                    </div>
+                    </div>
+                  </div>
+              </ion-list> 
+        <div ng-if="favourites_length == 0">
+          <p style="text-align:center"><img src="img/empty_icons-01.png" style="width: 100vw; height: 80vh;"></p>
+        </div>
     </div>
-    <br>
-    <br>
-    <div ng-if="favourites_length != 0">
-      <ion-list>
-        <div class="item"ng-repeat="object in favList">
-          <div class = "row">
-            <div class = "col"><p style="font-size:18px; text-align:left">{{ object.item.name }}</p></div>
-            <div class = "col"><p style="font-size:18px; text-align:right">Rs. {{ object.item.price }}</p></div>
+    <div ng-if="!isMobile">
+      <br><br>
+        <div class="row">
+          <div class="col col-25">
+            
           </div>
-          <div class = "row">
-            <div class = "col col-80"><p> Min Time : {{ object.item.minTime }} min</p></div>
-            <div class="col col-10">
-              <a class="button button-icon icon  ion-ios-close-outline" ng-click="removeFromFav(object.id)">
-               <!--<i class="iconMenuCustom ion-ios-close-outline"></i>-->
-              </a></div>
-            <div class="col col-10">
-              <a class="button button-icon icon  ion-ios-cart-outline" ng-click="fromFavToCart(object.item)">
-               <!--<i class="iconMenuCustom ion-ios-cart-outline"></i>-->
-              </a></div>
+          <div class="col col-50">
+            <div ng-if="favourites_length != 0">
+              <ion-list>
+                <div class="item"ng-repeat="object in favList">
+                  <div class = "row">
+                    <div class = "col"><p style="font-size:18px; text-align:left">{{ object.item.name }}</p></div>
+                    <div class = "col"><p style="font-size:18px; text-align:right">Rs. {{ object.item.price }}</p></div>
+                  </div>
+                  <div class = "row">
+                    <div class = "col col-80"><p> Min Time : {{ object.item.minTime }} min</p></div>
+                    <div class="col col-10">
+                      <a class="button button-icon icon  ion-ios-close-outline" ng-click="removeFromFav(object.id)">
+                       <!--<i class="iconMenuCustom ion-ios-close-outline"></i>-->
+                      </a>
+                    </div>
+                    <div class="col col-10">
+                      <a class="button button-icon icon  ion-ios-cart-outline" ng-click="fromFavToCart(object.item)">
+                       <!--<i class="iconMenuCustom ion-ios-cart-outline"></i>-->
+                      </a>
+                    </div>
+                    </div>
+                  </div>
+              </ion-list>
+            </div>
+          </div>
+          <div class="col col-25">
+            
+          </div>
+        </div>
+        
+        <div ng-if="favourites_length == 0">
+          <p style="text-align:center"><img src="img/empty_icons-01.png" style="width: 60vw; height: 100vh;"></p>
+        </div>
+    </div>
+  </div>
+  </ion-content>
+        <div class="bar bar-footer bar-assertive-custom" ng-if="!isMobile">
+          <div class="title">
+            <div class="row">
+              <div class="col"><p style="color: #ff7f12; font-size: 15px; "><b>Find us on: </b></p></div>
+              <div class="col col-center"><a href=""><img src="img/playstore.png" style="width: 40px; height: 40px"></a></div>
+              <div class="col col-center"><a href="http://facebook.com/sqippr"><img src="img/facebook.png" style="width: 40px; height: 40px"></a></div>
+              <div class="col col-center"><a href=""><img src="img/twitter.png" style="width: 40px; height: 40px"></a></div>
+              <div class="col col-center"><a href=""><img src="img/instagram.png" style="width: 40px; height: 40px"></a></div>
+              <div class="col col-center"><a href=""><img src="img/google-plus.png" style="width: 40px; height: 40px"></a></div>
+              <div class="col col-center"><a href=""><img src="img/mail-icon.png" style="width: 40px; height: 40px"></a></div>
+              <div class="col col-center">&copy 2016 Sqippr</div>
             </div>
           </div>
         </div>
-      </ion-list>
-    </div>
-    
-    <div ng-if="favourites_length == 0">
-      <p style="text-align:center"><img src="img/empty_icons-01.png" style="width: 100vw; height: 100vw;"></p>
-    </div>
-    
-  </ion-content>
 </ion-view>

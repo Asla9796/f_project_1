@@ -1,59 +1,151 @@
-<ion-view view-title="Order Summary" ng-controller=orderSummaryCtrl>
+<ion-view view-title="Order Summary" ng-controller="orderSummaryCtrl">
   <!--<div class="bar bar-subheader bar-energized bar-stable">-->
   <!--  <h2 class="title">Sub Header</h2>-->
   <!--</div>  -->
 
-  <ion-content>
-    <div ng-if="!isOnline">
-      <div class="bar bar-subheader bar-assertive">
-        <h2 class="title">You are not connected to the internet</h2>
+  <ion-content class="overflow-scroll" scroll="true">
+    <div class="box1">
+    <div ng-if="isMobile">
+      <div ng-if="!isOnline">
+        <div class="bar bar-subheader bar-assertive">
+          <h2 class="title">You are not connected to the internet</h2>
+        </div>
+        <br>
+        <br>
       </div>
+  
       <br>
       <br>
-    </div>
+      <br>
+      <ion-item class="item item-divider">
+        Order Details
+      </ion-item>
+      <ion-item class="item">
+        <p>Date : {{order.time}}</p>
+        <p>Token : {{order.token}}</p>
+        <p>Payment Status : {{order.paymentStatus}}</p>
+      </ion-item>
+      <ion-item class="item item-divider">
+        Order Summary
+      </ion-item>
+      <ion-item class='item'>
+        <div ng-repeat="item in orderSummary">
+          <div class = "row">
+            <div class = "col"><p style="font-size:18px; text-align:left">{{ item.name }}</p></div>
+            <div class = "col"><p style="font-size:18px; text-align:right">Rs. {{ item.price }}</p></div>
+          </div>
+          <div class = "row">
+              <div class = "col"><p> Min Time : {{ item.minTime }} min</p></div>
+              
+              <div class = "col col-20"><p style="text-align:right">{{ item.quantity }} qty</p></div>
+          </div>
+        </div>
+      </ion-item>
+        
+      <a class="button button-full button-energized" ng-if='isDelivery'>Delivery Time : {{ deliveryTime  }}</a>
+        
+      <ion-item class="item">
+        <div class = "row">
+          <div class = "col col-50"><p style="font-size:18px; text-align:left">Total Amount : </p></div>
+          <div class = "col col-50"><p style="font-size:18px; text-align:right">Rs. {{ totalAmount }} </p></div>
+        </div>        
+      </ion-item>
+      
+      <button class="button button-energized button-full" ng-if= "order.status == 'pending'">Pending</button>
+      <button class="button button-assertive-custom button-full" ng-if= "order.status == 'confirmed'"><p style="color:white; font-size: 18px">Confirmed</p></button>
+      <button class="button button-balanced button-full" ng-if= "order.status == 'delivered'">Delivered</button>
+      <button class="button button-balanced button-full" ng-if= "order.status == 'dispatched'">Dispatched</button>
+      <button class="button button-assertive button-full" ng-if= "order.status == 'canceled'">Canceled</button>
 
-    <br>
-    <br>
-    <br>
-    <ion-item class="item item-divider">
-      Order Details
-    </ion-item>
-    <ion-item class="item">
-      <p>Date : {{order.time}}</p>
-      <p>Token : {{order.token}}</p>
-      <p>Payment Status : {{order.paymentStatus}}</p>
-    </ion-item>
-    <ion-item class="item item-divider">
-      Order Summary
-    </ion-item>
-    <ion-item class='item'>
-      <div ng-repeat="item in orderSummary">
-        <div class = "row">
-          <div class = "col"><p style="font-size:18px; text-align:left">{{ item.name }}</p></div>
-          <div class = "col"><p style="font-size:18px; text-align:right">Rs. {{ item.price }}</p></div>
+    </div>
+    <div ng-if="!isMobile">
+      <div ng-if="!isOnline">
+        <div class="bar bar-subheader bar-assertive">
+          <h2 class="title">You are not connected to the internet</h2>
         </div>
-        <div class = "row">
-            <div class = "col"><p> Min Time : {{ item.minTime }} min</p></div>
-            
-            <div class = "col col-20"><p style="text-align:right">{{ item.quantity }} qty</p></div>
-        </div>
+        <br>
+        <br>
       </div>
-    </ion-item>
-      
-    <a class="button button-full button-energized" ng-if='isDelivery'>Delivery Time : {{ deliveryTime  }}</a>
-      
-    <ion-item class="item">
-      <div class = "row">
-        <div class = "col col-50"><p style="font-size:18px; text-align:left">Total Amount : </p></div>
-        <div class = "col col-50"><p style="font-size:18px; text-align:right">Rs. {{ totalAmount }} </p></div>
-      </div>        
-    </ion-item>
-    
-    <button class="button button-energized button-full" ng-if= "order.status == 'pending'">Pending</button>
-    <button class="button button-assertive-custom button-full" ng-if= "order.status == 'confirmed'"><p style="color:white; font-size: 18px">Confirmed</p></button>
-    <button class="button button-balanced button-full" ng-if= "order.status == 'delivered'">Delivered</button>
-    <button class="button button-balanced button-full" ng-if= "order.status == 'dispatched'">Dispatched</button>
-    <button class="button button-assertive button-full" ng-if= "order.status == 'canceled'">Canceled</button>
-      
+  
+      <br>
+      <br>
+      <br>
+      <div class="row">
+        <div class="col col-25"></div>
+        <div class="col col-50">
+          <ion-item class="item item-divider">
+            Order Details
+          </ion-item>
+          <ion-item class="item">
+            <p>Date : {{order.time}}</p>
+            <p>Token : {{order.token}}</p>
+            <p>Payment Status : {{order.paymentStatus}}</p>
+          </ion-item>
+          <ion-item class="item item-divider">
+            Order Summary
+          </ion-item>
+          <ion-item class='item'>
+            <div ng-repeat="item in orderSummary">
+              <div class = "row">
+                <div class = "col"><p style="font-size:18px; text-align:left">{{ item.name }}</p></div>
+                <div class = "col"><p style="font-size:18px; text-align:right">Rs. {{ item.price }}</p></div>
+              </div>
+              <div class = "row">
+                  <div class = "col"><p> Min Time : {{ item.minTime }} min</p></div>
+                  
+                  <div class = "col col-20"><p style="text-align:right">{{ item.quantity }} qty</p></div>
+              </div>
+            </div>
+          </ion-item>
+            
+          <a class="button button-full button-energized" ng-if='isDelivery'>Delivery Time : {{ deliveryTime  }}</a>
+            
+          <ion-item class="item">
+            <div class = "row">
+              <div class = "col col-50"><p style="font-size:18px; text-align:left">Bill Amount : </p></div>
+              <div class = "col col-50"><p style="font-size:18px; text-align:right">Rs. {{ billAmount }} </p></div>
+            </div>
+            <div class = "row">
+              <div class = "col col-50"><p style="font-size:18px; text-align:left">Packing Charge : </p></div>
+              <div class = "col col-50"><p style="font-size:18px; text-align:right">Rs. {{ packing_charge }} </p></div>
+            </div>
+            <div class = "row">
+              <div class = "col col-50"><p style="font-size:18px; text-align:left">Delivery Charge : </p></div>
+              <div class = "col col-50"><p style="font-size:18px; text-align:right">Rs. {{ delivery_charge }} </p></div>
+            </div>
+            <div class = "row">
+              <div class = "col col-50"><p style="font-size:18px; text-align:left">Convenience Charge : </p></div>
+              <div class = "col col-50"><p style="font-size:18px; text-align:right">Rs. {{ conv_charge }} </p></div>
+            </div>
+            <div class = "row">
+              <div class = "col col-50"><p style="font-size:18px; text-align:left">Total Amount : </p></div>
+              <div class = "col col-50"><p style="font-size:18px; text-align:right">Rs. {{ totalAmount }} </p></div>
+            </div>        
+          </ion-item>
+          
+          <button class="button button-energized button-full" ng-if= "order.status == 'pending'">Pending</button>
+          <button class="button button-assertive-custom button-full" ng-if= "order.status == 'confirmed'"><p style="color:white; font-size: 18px">Confirmed</p></button>
+          <button class="button button-balanced button-full" ng-if= "order.status == 'delivered'">Delivered</button>
+          <button class="button button-balanced button-full" ng-if= "order.status == 'dispatched'">Dispatched</button>
+          <button class="button button-assertive button-full" ng-if= "order.status == 'canceled'">Canceled</button>
+        </div>
+        <div class="col col-25"></div>
+      </div>
+    </div>
+    </div>
   </ion-content>
+        <div class="bar bar-footer bar-assertive-custom" ng-if="!isMobile">
+          <div class="title">
+            <div class="row">
+              <div class="col"><p style="color: #ff7f12; font-size: 15px; "><b>Find us on: </b></p></div>
+              <div class="col col-center"><a href=""><img src="img/playstore.png" style="width: 40px; height: 40px"></a></div>
+              <div class="col col-center"><a href="http://facebook.com/sqippr"><img src="img/facebook.png" style="width: 40px; height: 40px"></a></div>
+              <div class="col col-center"><a href=""><img src="img/twitter.png" style="width: 40px; height: 40px"></a></div>
+              <div class="col col-center"><a href=""><img src="img/instagram.png" style="width: 40px; height: 40px"></a></div>
+              <div class="col col-center"><a href=""><img src="img/google-plus.png" style="width: 40px; height: 40px"></a></div>
+              <div class="col col-center"><a href=""><img src="img/mail-icon.png" style="width: 40px; height: 40px"></a></div>
+              <div class="col col-center">&copy 2016 Sqippr</div>
+            </div>
+          </div>
+        </div>
 </ion-view>

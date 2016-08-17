@@ -1,27 +1,142 @@
 <ion-view view-title="Account" ng-controller='trialCtrl'>
   <ion-content>
-   <form name="payForm" id="payForm" method="POST" action="https://test.payu.in/_payment">
-          <input type="hidden" name="key" value="gtKFFx">
-          <input type="hidden" name="txnid" value= {{token}}>
-          <input type="hidden" name="amount" value= {{totalAmount}}>
-          <input type="hidden" name="productinfo" value= "food order">
-          <input type="hidden" name="firstname" value={{name}}>
-          <input type="hidden" name="email" value={{email}}>
-          <input type="hidden" name="phone" value={{phone}}>
-          <input type="hidden" name="surl" value="https://server.lingerie91.hasura-app.io/validate_payment">
-          <input type="hidden" name="furl" value="https://server.lingerie91.hasura-app.io/validate_payment">
-          <input type="hidden" name="curl" value="https://server.lingerie91.hasura-app.io/validate_payment">
-          <input type="hidden" name="hash" value= {{sha512}}>
-          
-          <button class="button button-full button-assertive-custom" ng-click="submit()">
-            <h4 style="color:white">Proceed to payment</h4>
-          </button>
-      </form >
+    
+    <div ng-if="isMobile">
+          <div ng-if="!isOnline">
+            <div class="bar bar-subheader bar-assertive">
+              <h2 class="title">You are not connected to the internet</h2>
+            </div>
+            <br>
+            <br>
+            <br>
+          </div>
+          <br>
+          <br>
+          <br>
+          <p style="text-align:center; color:grey">Time Remaining</p>
       
-      <button class="button button-full button-assertive" ng-click="sendEmail()">
-            <h4 style="color:white">send test mail</h4>
-          </button>
-      <div class="container">
+          <div class="container">
+              <div class="progress-wrapper">
+                  <div class="progress ng-cloak" ng-style="getStyle()">{{ time }}</div>
+      
+                      <round-progress
+                          max="120"
+                          current="minutesInSeconds"
+                          color="#ff7400"
+                          bgcolor="transparent"
+                          radius="{{ radius*1.5 }}"
+                          semi="isSemi"
+                          rounded="rounded"
+                          clockwise="anticlockwise"
+                          responsive="responsive"
+                          stroke="{{ stroke*1.5 }}"
+                          animation="{{ currentAnimation }}"
+                          offset="inherit">
+      
+      
+                          <round-progress
+                              max="59"
+                              current="seconds"
+                              color="#ffb400"
+                              bgcolor="transparent"
+                              radius="{{ radius*1.5 }}"
+                              semi="isSemi"
+                              rounded="rounded"
+                              clockwise="clockwise"
+                              responsive="responsive"
+                              stroke="{{ stroke*1.5 }}"
+                              animation="{{ currentAnimation }}"
+                              offset="inherit">
+                          </round-progress>
+                      </round-progress>
+                  </round-progress>
+              </div>
+          </div>
+      
+            <p style="text-align:center; color:grey">Please wait for<br>2 minutes<br>while we confirm your order</p>
+      
+    </div>
+    <div ng-if="!isMobile">
+          <div ng-if="!isOnline">
+            <div class="bar bar-subheader bar-assertive">
+              <h2 class="title">You are not connected to the internet</h2>
+            </div>
+            <br>
+            <br>
+            <br>
+          </div>
+      <div class="row">
+        <div class="col col-25"></div>
+        <div class="col col-50">
+          <div class="centered">
+            <p style="text-align:center; color:grey">Time Remaining</p>
+        
+            <div class="container">
+                <div class="progress-wrapper">
+                    <div class="progress ng-cloak" ng-style="getStyle()">{{ time }}</div>
+        
+                        <round-progress
+                            max="120"
+                            current="minutesInSeconds"
+                            color="#ff7400"
+                            bgcolor="transparent"
+                            radius="{{ radius*1.5 }}"
+                            semi="isSemi"
+                            rounded="rounded"
+                            clockwise="anticlockwise"
+                            responsive="responsive"
+                            stroke="{{ stroke*1.5 }}"
+                            animation="{{ currentAnimation }}"
+                            offset="inherit">
+        
+        
+                            <round-progress
+                                max="59"
+                                current="seconds"
+                                color="#ffb400"
+                                bgcolor="transparent"
+                                radius="{{ radius*1.5 }}"
+                                semi="isSemi"
+                                rounded="rounded"
+                                clockwise="clockwise"
+                                responsive="responsive"
+                                stroke="{{ stroke*1.5 }}"
+                                animation="{{ currentAnimation }}"
+                                offset="inherit">
+                            </round-progress>
+                        </round-progress>
+                    </round-progress>
+                </div>
+            </div>
+        
+              <p style="text-align:center; color:grey">Please wait for<br>2 minutes<br>while we confirm your order</p>            
+          </div>
+        </div>
+        <div class="col col-25"></div>
+      </div>  
+    </div>
+   <!--<form name="payForm" id="payForm" method="POST" action="https://test.payu.in/_payment">-->
+   <!--       <input type="hidden" name="key" value="gtKFFx">-->
+   <!--       <input type="hidden" name="txnid" value= {{token}}>-->
+   <!--       <input type="hidden" name="amount" value= {{totalAmount}}>-->
+   <!--       <input type="hidden" name="productinfo" value= "food order">-->
+   <!--       <input type="hidden" name="firstname" value={{name}}>-->
+   <!--       <input type="hidden" name="email" value={{email}}>-->
+   <!--       <input type="hidden" name="phone" value={{phone}}>-->
+   <!--       <input type="hidden" name="surl" value="https://server.lingerie91.hasura-app.io/validate_payment">-->
+   <!--       <input type="hidden" name="furl" value="https://server.lingerie91.hasura-app.io/validate_payment">-->
+   <!--       <input type="hidden" name="curl" value="https://server.lingerie91.hasura-app.io/validate_payment">-->
+   <!--       <input type="hidden" name="hash" value= {{sha512}}>-->
+          
+   <!--       <button class="button button-full button-assertive-custom" ng-click="submit()">-->
+   <!--         <h4 style="color:white">Proceed to payment</h4>-->
+   <!--       </button>-->
+   <!--   </form >-->
+      
+   <!--   <button class="button button-full button-assertive" ng-click="sendEmail()">-->
+   <!--         <h4 style="color:white">send test mail</h4>-->
+   <!--       </button>-->
+   <!--   <div class="container">-->
         
    <!--     <br><br><br><br><br><br><br><br>-->
    <!--     <p>Hello!</p>-->
