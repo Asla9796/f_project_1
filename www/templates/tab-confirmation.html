@@ -1,4 +1,4 @@
-<ion-view view-title="Confirmation" ng-controller="confirmationCtrl"  hide-back-button="true">
+<ion-view view-title="Account &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<img class='title-image' src='img/logo_white.png' />" ng-controller="confirmationCtrl"  hide-back-button="true">  
   <!--<div class="bar bar-subheader bar-energized bar-stable">-->
   <!--  <h2 class="title">Sub Header</h2>-->
   <!--</div>  -->
@@ -39,7 +39,7 @@
           </ion-item>
       </div>
         
-        <a class="button button-full button-energized" ng-if="isDelivery" ng-if = 'confirmedOrders.length != 0'>Delivery Time : {{ takeAwayTime }}</a>
+        <a class="button button-full button-energized" ng-if="isDelivery && !isCod" ng-if = 'confirmedOrders.length != 0'>Delivery Time : {{ takeAwayTime }}</a>
         <div class="item item-divider" ng-if = 'confirmedOrders.length != 0'>
          Payment Details
         </div>
@@ -76,12 +76,12 @@
           <a class="button button-full button-assertive" ng-click="returnToMenu()"><h4 style="color:white">Return to Menu</h4></a>
         </div>
         
-        <div ng-if="!check">
+        <div ng-if="isCod && confirmedOrders.length != 0">
           <p style="text-align:center; color:grey">Your order has been successfully placed. You can track your order status on Accounts >> Order History</p>
         </div>
         
         <form name="payForm" id="payForm" method="POST" action="https://test.payu.in/_payment">
-            <input type="hidden" name="key" value="gtKFFx">
+            <input type="hidden" name="key" value="KuUttQ">
             <input type="hidden" name="txnid" value= {{token}}>
             <input type="hidden" name="amount" value= {{totalAmount}}>
             <input type="hidden" name="productinfo" value= "food order">
@@ -89,7 +89,7 @@
             <input type="hidden" name="email" value={{email}}>
             <input type="hidden" name="phone" value={{phone}}>
             <input type="hidden" name="surl" value="https://server.lingerie91.hasura-app.io/validate_payment">
-            <input type="hidden" name="furl" value="https://ui.lingerie91.hasura-app.io/#/failedPayment">
+            <input type="hidden" name="furl" value="https://server.lingerie91.hasura-app.io/validate_payment">
             <input type="hidden" name="curl" value="https://ui.lingerie91.hasura-app.io/index.html">
             <input type="hidden" name="hash" value= {{sha512}}>
             
@@ -137,7 +137,7 @@
               </ion-item>
           </div>
             
-            <a class="button button-full button-energized" ng-if="isDelivery" ng-if = 'confirmedOrders.length != 0'>Delivery Time : {{ takeAwayTime }}</a>
+            <a class="button button-full button-energized" ng-if="isDelivery && !isCod" ng-if = 'confirmedOrders.length != 0'>Delivery Time : {{ takeAwayTime }}</a>
             <div class="item item-divider" ng-if = 'confirmedOrders.length != 0'>
              Payment Details
             </div>
@@ -174,12 +174,12 @@
               <a class="button button-full button-assertive" ng-click="returnToMenu()"><h4 style="color:white">Return to Menu</h4></a>
             </div>
             
-            <div ng-if="!check">
+            <div ng-if="isCod && confirmedOrders.length != 0">
               <p style="text-align:center; color:grey">Your order has been successfully placed. You can track your order status on Accounts >> Order History</p>
             </div>
             
-            <form name="payForm" id="payForm" method="POST" action="https://test.payu.in/_payment">
-                <input type="hidden" name="key" value="gtKFFx">
+            <form name="payForm" id="payForm" method="POST" action="https://secure.payu.in/_payment">
+                <input type="hidden" name="key" value="KuUttQ">
                 <input type="hidden" name="txnid" value= {{token}}>
                 <input type="hidden" name="amount" value= {{totalAmount}}>
                 <input type="hidden" name="productinfo" value= "food order">
@@ -187,7 +187,7 @@
                 <input type="hidden" name="email" value={{email}}>
                 <input type="hidden" name="phone" value={{phone}}>
                 <input type="hidden" name="surl" value="https://server.lingerie91.hasura-app.io/validate_payment">
-                <input type="hidden" name="furl" value="https://ui.lingerie91.hasura-app.io/#/failedPayment">
+                <input type="hidden" name="furl" value="https://server.lingerie91.hasura-app.io/validate_payment">
                 <input type="hidden" name="curl" value="https://ui.lingerie91.hasura-app.io/index.html">
                 <input type="hidden" name="hash" value= {{sha512}}>
                 
@@ -210,9 +210,6 @@
               <div class="col col-center"><a href=""><img src="img/playstore.png" style="width: 40px; height: 40px"></a></div>
               <div class="col col-center"><a href="http://facebook.com/sqippr"><img src="img/facebook.png" style="width: 40px; height: 40px"></a></div>
               <div class="col col-center"><a href=""><img src="img/twitter.png" style="width: 40px; height: 40px"></a></div>
-              <div class="col col-center"><a href=""><img src="img/instagram.png" style="width: 40px; height: 40px"></a></div>
-              <div class="col col-center"><a href=""><img src="img/google-plus.png" style="width: 40px; height: 40px"></a></div>
-              <div class="col col-center"><a href=""><img src="img/mail-icon.png" style="width: 40px; height: 40px"></a></div>
               <div class="col col-center">&copy 2016 Sqippr</div>
             </div>
           </div>

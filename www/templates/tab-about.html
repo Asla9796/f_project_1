@@ -1,5 +1,9 @@
-<ion-view view-title="About">
+<ion-view view-title="About &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<img class='title-image' src='img/logo_white.png' />">
   <ion-content class="overflow-scroll" scroll="true">
+  <ion-refresher
+    pulling-text="Pull to refresh..."
+    on-refresh="doRefresh()">
+  </ion-refresher>
     <div class="box1">
       <div ng-if="!isOnline">
         <div class="bar bar-subheader bar-assertive">
@@ -12,11 +16,11 @@
         <br>
       </div>
       <div ng-if="isMobile">
-        <br><br><br>
+        <br><br><br><br>
         <div class="row">
           <div class="col col-10"></div>
           <div class="col col-80">
-              <p style="font-size: 20px; color: #FF6502; text-align: center"><b>ABOUT US</b></p>
+              <p style="font-size: 40px; color: #FF6502; text-align: center; font-family: black_jackregular"><b>About Us</b></p>
               <hr>
             <p style="text-align:center">
               <br><br>
@@ -39,48 +43,57 @@
           <div class="col col-10"></div>
         </div>
         <div class="box7">
-          <br> <p style="color: #FFC300; font-size: 18px; font-weight: bold; text-align: center">Our prime features include</p>
+          <br> <p style="color: #FFC300; font-size: 20px; font-weight: bold; text-align: center; font-family: black_jackregular">Our prime features include</p>
           <div class="row">
-            <div class="col col-50">
+            <div class="col col-50 col-center">
                <div>
-                  <img src="img/tick.png" style="width: 30vw; height: 30vw">
+                  <img src="img/feat_1.png" style="width: 50vw; height: 50vw">
               </div>
             </div>
             <div class="col col-50 col-center">
-                 <p style="color: #FFC300; font-size: 18px; font-weight: bold">Pre-Ordering</p>
+                 <p style="color: #FFC300; font-size: 18px; font-family: tizaregular">Pre-Ordering</p>
+                  <p style="color:#ffd447; font-size: 15px">Order your favourite food and choose a time of delivery of your choice! Do not let 
+                  long, exasperating queues get in the of you and your food</p>
             </div>
           </div>
           <br><hr><br>
           <div class="row">
-            <div class="col col-50">
+            <div class="col col-50 col-center">
                <div>
-                  <img src="img/tick.png" style="width: 30vw; height: 30vw">
+                  <img src="img/feat_2.png" style="width: 50vw; height: 50vw">
               </div>
             </div>
             <div class="col col-50 col-center">
-                 <p style="color: #FFC300; font-size: 18px; font-weight: bold">Multi-Caterer services</p>
+                 <p style="color: #FFC300; font-size: 18px; font-family: tizaregular">Multi-Caterer services</p>
+                 <p style="color:#ffd447; font-size: 15px">Order from multiple caterers from a food court in a single cart and pay at once! Wait no more
+               to perform multiple transactions if you want to relish in your Tako Sushi and Green Apple Mojito combination</p>
             </div>
           </div>
           <br><hr><br>
           <div class="row">
-            <div class="col col-50">
+            <div class="col col-50 col-center">
                <div>
-                  <img src="img/tick.png" style="width: 30vw; height: 30vw">
+                  <img src="img/feat_3.png" style="width: 50vw; height: 50vw">
               </div>
             </div>
             <div class="col col-50 col-center">
-                 <p style="color: #FFC300; font-size: 18px; font-weight: bold">Customised selections and ordering</p>
+                 <p style="color: #FFC300; font-size: 18px; font-family: tizaregular">Customised selections and ordering</p>
+                 <p style="color:#ffd447; font-size: 15px">Do you like it spicy? Mild? Warm? Ice-cold? A little more paprika? Thyme? 
+               Worry not! You can give special instructions to your chef and have your food your way</p>
             </div>
           </div>
           <br><hr><br>
           <div class="row">
-            <div class="col col-50">
+            <div class="col col-50 col-center">
                <div>
-                  <img src="img/tick.png" style="width: 30vw; height: 30vw">
+                  <img src="img/feat_4.png" style="width: 50vw; height: 50vw">
               </div>
             </div>
             <div class="col col-50 col-center">
-                 <p style="color: #FFC300; font-size: 18px; font-weight: bold">Dynamic Menu</p>
+                 <p style="color: #FFC300; font-size: 18px; font-family: tizaregular">Dynamic Menu</p>
+                  <p style="color:#ffd447; font-size: 15px">Ever been in a situation when you were looking forward to have something which
+               sounded delicious only for your attendant to let you know that that item is not available? We know that feel too! With our dynamic menu,
+               you can always check the availability of your favourites dishes and never be disappointed</p>
             </div>
           </div>
           <br>
@@ -94,7 +107,7 @@
           <div class="col col-25"></div>
           <div class="col col-50">
             <br><br>
-              <p style="font-size: 20px; color: #FF6502; text-align: center"><b>ABOUT US</b></p>
+              <p style="font-size: 40px; color: #FF6502; text-align: center; font-family: black_jackregular"><b>About Us</b></p>
               <hr>
             <p style="text-align:center">
               <br><br>
@@ -118,16 +131,21 @@
         </div>
         <div class="box5">
           <br>
-          <p style="color: #FFC300; font-size: 20px; font-weight: bold; text-align: center">Our prime features include</p>
+          <br>
+            <p style="color: #FFC300; font-size: 40px; font-weight: bold; text-align: center; font-family: black_jackregular">Our prime features include</p>
+            <br>
           <div class="row">
             <div class="col col-20"></div>
-            <div class="col col-30">
+            <div class="col col-30 col-center">
               <div>
-                      <img src="img/tick.png" style="width: 200px; height: 200px">
+                      <img src="img/feat_1.png" style="width: 300px; height: 300px">
               </div>
             </div>
             <div class="col col-30 text-right col-center">
-              <p style="color: #FFC300; font-size: 20px; font-weight: bold">Pre-Ordering</p>
+              <p style="color: #FFC300; font-size: 20px; font-family: tizaregular">Pre-Ordering</p>
+              <br>
+              <p style="color:#ffd447; font-size: 16px">Order your favourite food and choose a time of delivery of your choice! Do not let 
+              long, exasperating queues get in the of you and your food</p>
             </div>
             <div class="col col-20"></div>
           </div>
@@ -137,11 +155,14 @@
           <div class="row">
             <div class="col col-20"></div>
             <div class="col col-30 text-left col-center">
-               <p style="color: #FFC300; font-size: 20px; font-weight: bold">Multi-Caterer services</p>
+               <p style="color: #FFC300; font-size: 20px; font-family: tizaregular">Multi-Caterer services</p>
+               <br>
+               <p style="color:#ffd447; font-size: 16px">Order from multiple caterers from a food court in a single cart and pay at once! Wait no more
+               to perform multiple transactions if you want to relish in your Tako Sushi and Green Apple Mojito combination</p>
             </div>
-            <div class="col col-30 text-right">
+            <div class="col col-30 text-right col-center">
               <div style="text-align:right">
-                      <img src="img/tick.png" style="width: 200px; height: 200px">
+                      <img src="img/feat_2.png" style="width: 300px; height: 300px">
               </div>
             </div>
             <div class="col col-20"></div>
@@ -151,13 +172,16 @@
           <br>
           <div class="row">
             <div class="col col-20"></div>
-            <div class="col col-30">
+            <div class="col col-30 col-center">
               <div>
-                      <img src="img/tick.png" style="width: 200px; height: 200px">
+                      <img src="img/feat_3.png" style="width: 300px; height: 300px">
               </div>
             </div>
             <div class="col col-30 text-right col-center">
-               <p style="color: #FFC300; font-size: 20px; font-weight: bold">Customised selections and ordering</p>
+               <p style="color: #FFC300; font-size: 20px; font-family: tizaregular">Customised selections and ordering</p>
+               <br>
+               <p style="color:#ffd447; font-size: 16px">Do you like it spicy? Mild? Warm? Ice-cold? A little more paprika? Thyme? 
+               Worry not! You can give special instructions to your chef and have your food your way</p>
             </div>
             <div class="col col-20"></div>
           </div>
@@ -167,11 +191,15 @@
           <div class="row">
             <div class="col col-20"></div>
             <div class="col col-30 text-left col-center">
-               <p style="color: #FFC300; font-size: 20px; font-weight: bold">Dynamic Menu</p>  
+               <p style="color: #FFC300; font-size: 20px; font-family: tizaregular">Dynamic Menu</p>
+               <br>
+               <p style="color:#ffd447; font-size: 16px">Ever been in a situation when you were looking forward to have something which
+               sounded delicious only for your attendant to let you know that that item is not available? We know that feel too! With our dynamic menu,
+               you can always check the availability of your favourites dishes and never be disappointed</p>
             </div>
-            <div class="col col-30 text-right">
+            <div class="col col-30 text-right col-center">
               <div style="text-align:right">
-                      <img src="img/tick.png" style="width: 200px; height: 200px">
+                      <img src="img/feat_4.png" style="width: 300px; height: 300px">
               </div>
             </div>
             <div class="col col-20"></div>

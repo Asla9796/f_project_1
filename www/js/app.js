@@ -111,15 +111,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     }
   })
   
-    .state('tab.accountSettings', {
-    url: '/accountSettings',
-    views: {
-      'tab-account': {
-        templateUrl: 'templates/tab-accountSettings.html',
-      }
-    }
-  })
-  
     .state('tab.orderHistory', {
     url: '/orderHistory',
     views: {
@@ -173,6 +164,15 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
       }
     }
   })
+  
+  .state('tab.termsOfUse', {
+    url: '/termsOfUse',
+    views: {
+      'tab-account': {
+        templateUrl: 'templates/tab-termsOfUse.html',
+      }
+    }
+  })  
   
   .state('tab.awaitingConfirmation', {
     url: '/awaitingConfirmation',

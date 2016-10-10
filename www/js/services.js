@@ -78,14 +78,28 @@ angular.module('starter.services', [])
     return timestamp;
   };
   
+  var progress = false;
+  var getProgress = function(){
+    console.log(progress);
+    return progress;
+  };
+  
+  var addProgress = function(newProgress){
+    progress = newProgress;
+    console.log(progress);
+  }
+  ;
   return {
     getOrders: getOrders,
     addOrders: addOrders,
     addTimeStamp: addTimeStamp,
-    getTimeStamp: getTimeStamp
+    getTimeStamp: getTimeStamp,
+    addProgress: addProgress,
+    getProgress: getProgress
   };  
   
 }])
+
 .factory('outlets', [ function() {
   
   var outlet = {};
@@ -140,7 +154,6 @@ angular.module('starter.services', [])
 .factory('favourites', function($http, $window) {
   
   var addToFavourites = function(newFavItem) {
-    console.log(newFavItem);
         var addFav = function(newItem){
           var addToFavReq = {
             method: 'POST',
@@ -172,7 +185,12 @@ angular.module('starter.services', [])
               "name": "item",
               "columns" : ["*"]
             }],
-            "where": { "userId": parseInt(window.localStorage['currentUserId'])}
+            "where": { 
+              "$and": [
+                {"userId": parseInt(window.localStorage['currentUserId'])},
+                {"itemId": newFavItem.id}
+              ]
+            }
           },
             headers: {
               'Authorization': 'Hasura ' + window.localStorage['token']
@@ -185,14 +203,6 @@ angular.module('starter.services', [])
           if(response.data.length === 0){
             addFav(newFavItem);
           }
-          else{
-            for(i=0; i< response.data.length; i++){
-              if(response.data[i].id !== newFavItem.id){
-                addFav(newFavItem);
-              }
-            } 
-          }
-          
         }, function(response){
             console.log(response);
         });
@@ -220,9 +230,19 @@ angular.module('starter.services', [])
     
   };
   
+  var favList = [];
+  var addCurrentFav = function(newFavList){
+    favList = newFavList;
+  };
+  var getCurrentFav = function(){
+    return favList;
+  };
+  
   return {
     addToFavourites: addToFavourites,
-    removeFavourites: removeFavourites
+    removeFavourites: removeFavourites,
+    addCurrentFav: addCurrentFav,
+    getCurrentFav: getCurrentFav
   };
   
 })

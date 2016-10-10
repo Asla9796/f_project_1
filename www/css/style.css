@@ -5,9 +5,9 @@
 }
 }
 
-.bar.button.button-icon.icon-right.ion-logo:before {
-  content: url('logo_white.png') !important;
-}
+/*.bar.button.button-icon.icon-right.ion-logo:before {*/
+/*  content: url('logo_white.png') !important;*/
+/*}*/
 
 .float-icon {
    
@@ -21,7 +21,7 @@
   font-size: 40px;
   position: fixed;
   bottom: 5%; /* Adjust height */
-  right: 5%; /* Adjust position */
+  right: 2%; /* Adjust position */
   z-index: 1000;
 }
  
@@ -41,6 +41,39 @@
   color: white;
 }
 
+.float-alert {
+   
+  background-color:  #4fec00;
+  opacity: 0.9;
+  transition: opacity 1s;
+  color: white;
+  border-radius: 50%;
+  /*border-radius:15% 0 0 0;*/
+  width: 30px;
+  padding: 25px;
+  font-size: 40px;
+  position: fixed;
+  top: 10%; /* Adjust height */
+  right: 2%; /* Adjust position */
+  z-index: 1000;
+}
+ 
+.float-alert .height_fix {
+  margin-top: 100%;
+  border: 1px solid red;
+}
+ 
+.float-alert .content {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  height: 100%;
+  width: 100%;
+  text-align: center;
+  margin-top: -20px;
+  color: white;
+}
+
 .float-button {
  
   background-color: white;
@@ -48,8 +81,8 @@
   color: white;
   /*border-radius:15% 0 0 0;*/
   width: 24vw;
-  height: 100vh;
-  padding: 25px;
+  height: 118vh;
+  padding: 10px;
   position: fixed;
   bottom: 10%; 
   /*left: 5px; */
@@ -59,6 +92,10 @@
 .float-button .height_fix {
   margin-top: 50%;
   border: 1px solid red;
+}
+
+.sidebar{
+    width: 100%;
 }
  
 .float-button .content {
@@ -106,21 +143,36 @@
   width: 100%;
 }
 
+
 .box2{
   height: 280px;
   background-color: #1b1b1b;
   border-top: solid #FF6502;
 }
 
-.box5{
-  height: 1100px;
+.box9{
+  height: 35vw;
   background: url('box.jpg');
   background-position: center;
   border-top: solid #FF6502;
 }
 
+.box5{
+  height: 1500px;
+  background: url('box.jpg');
+  background-position: center;
+  border-top: solid #FF6502;
+}
+
+.box10{
+  height: 80px;
+  background: url('box.jpg');
+  background-position: center;
+  border: solid #FF6502;
+}
+
 .box7{
-  height: 190vw;
+  height: 190vh;
   background: url('box.jpg');
   background-position: center;
   border-top: solid #FF6502;
@@ -201,7 +253,6 @@ hr {
   background-size:contain;
 }
 
-
 div.container {
     height: 10em;
     position: relative }
@@ -214,9 +265,9 @@ div.container img {
     margin-right: -50%;
     transform: translate(-50%, -50%) }
 
-/*.ion-logo:after {*/
-/*  content: url('../img/logo_white.png') !important;*/
-/*} */
+.ion-logo:after {
+  content: url('../img/logo_white.png') !important;
+} 
 
 .list .item.item-accordion {
   line-height: 38px;
@@ -569,4 +620,4 @@ div.container img {
  width: 100%;
  background-image: url('img/logo_white.png');
  background-size:cover;
- 
+\00

@@ -1,4 +1,4 @@
-<ion-view view-title="Account">
+<ion-view view-title="Account &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<img class='title-image' src='img/logo_white.png' />">
   <ion-content class="overflow-scroll" scroll="true">
     <div class="box1">
       <div ng-if="!isOnline">
@@ -55,8 +55,12 @@
           </a>           
           <a class="item item-icon-right" href="#/tab/shippingPolicy">
             <i class="icon ion-ios-arrow-right"></i>
-            Policies and Terms of Use
+            Privacy Policies
           </a> 
+          <a class="item item-icon-right" href="#/tab/termsOfUse">
+            <i class="icon ion-ios-arrow-right"></i>
+            Terms of Use
+          </a>           
           <a class="item item-icon-right" ng-click="logout()"ng-if=returnToken()>
             <i class="icon ion-ios-arrow-right"></i>
           Logout

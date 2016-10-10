@@ -1,109 +1,219 @@
-<ion-view view-title="Policies and Terms of Use">
+<ion-view view-title="Terms of Use &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<img class='title-image' src='img/logo_white.png' />"ng-controller="inviteFriendsCtrl">
   <ion-content class="overflow-scroll" scroll="true">
     <div class="box1">
-    
     <div ng-if="!isOnline">
       <div class="bar bar-subheader bar-assertive">
         <h2 class="title">You are not connected to the internet</h2>
       </div>
       <br>
       <br>
+      <br>
     </div>
+    
     <br><br>
-    <h3 style="text-align:center">Shipping and Delivery Policies</h3>
-    <p style="text-align:justify">Your meal will be ready at the precise time set by you. The meal will be held at the counter for not
+    <div ng-if="isMobile">
+                <div class="row">
+                  <div class="col col-10"></div>
+                  <div class="col col-80">
+                    <br>
+                <p style="font-size: 20px; color: #FF6502; text-align: center"><b>PRIVACY POLICIES</b></p>
+                <hr>
+                <br>
+                
+                  <p style="text-align:justify">Your meal will be ready at the precise time set by you. The meal will be held at the counter for not
+              
+                    more than 30 mins.<br>Any loss of order due to the time lapse from your end will not be accounted for.</p>
+                      <br>
+          
+                  </div>
+                  <div class="col col-10"></div>
+                </div>
+                <br>
+                <p style="font-size: 20px; color: #FF6502; text-align: center"><b>RETURN, REFUND & CANCELLATION</b></p>
+                <hr>
+                <br>
+                <div class="row">
+                  <div class="col col-10"></div>
+                  <div class="col col-80">
+                    <p style="text-align:justify">After placing the order customer can cancel the order within 15mins if he/she wish to provided
+                    
+                    there is a difference of minimum 30 minutes between the time of cancellation and order
+                    
+                    delivery/pick-up time specified initially. Being a food item we do not entertain Return.
+                    
+                    In case of any loss of order due to lapse from the caterer end, the consumer shall be refunded in not
+                    
+                    more than 10 days through NEFT.</p>
+                    <br>
+                  </div>
+                  <div class="col col-10"></div>
+                </div>
+    
+                <br>
+                <p style="font-size: 20px; color: #FF6502; text-align: center"><b>SECURE ONLINE PAYMENT</b></p>
+                <hr>
+                <br>
+                <div class="row">
+                  <div class="col col-10"></div>
+                  <div class="col col-80">
+                    <p style="text-align:justify">The visitor on our website please take a note that your name, email address and other personal
+                    
+                    information submitted on our website may be stored with us and may also appear on the
+                    
+                    website. Like other platforms our server log files also receives general information such as IP
+                    
+                    address of the visitor, cookie etc. For the financial transactions FORAYS TECH uses a 3rd party secure
+                    
+                    payment gateway provided by “PayU” and customer details are ‘not stored’ with FORAYS TECH.
+                    
+                    Instead the information is securely stored and encrypted with Visa/MasterCard.</p>       
+                    <br>
+                  </div>
+                  <div class="col col-10"></div>
+                </div>
+        </div>        
+    <div ng-if="!isMobile">
+        <div class="row">
+          <div class="col col-25">
+            
+          </div>
+          <div class="col col-50">
+                <br>
+                <p style="font-size: 20px; color: #FF6502; text-align: center"><b>PRIVACY POLICIES</b></p>
+                <hr>
+                <br>
+                <p style="text-align:justify">Your meal will be ready at the precise time set by you. The meal will be held at the counter for not
+            
+                  more than 30 mins.<br>Any loss of order due to the time lapse from your end will not be accounted for.</p>
+                  <br>
+                    <p style="font-size: 20px; color: #FF6502; text-align: center"><b>RETURN, REFUND & CANCELLATION</b></p>
+                <hr>
+                    <br>
+                    
+                    <p style="text-align:justify">After placing the order customer can cancel the order within 15mins if he/she wish to provided
+                  
+                  there is a difference of minimum 30 minutes between the time of cancellation and order
+                  
+                  delivery/pick-up time specified initially. Being a food item we do not entertain Return.
+                  
+                  In case of any loss of order due to lapse from the caterer end, the consumer shall be refunded in not
+                  
+                  more than 10 days through NEFT.</p>
+                  
+                  <br>
+                <p style="font-size: 20px; color: #FF6502; text-align: center"><b>SECURE ONLINE PAYMENT</b></p>
+                <hr>
+                <br>
+                <p style="text-align:justify">The visitor on our website please take a note that your name, email address and other personal
+                
+                information submitted on our website may be stored with us and may also appear on the
+                
+                website. Like other platforms our server log files also receives general information such as IP
+                
+                address of the visitor, cookie etc. For the financial transactions FORAYS TECH uses a 3rd party secure
+                
+                payment gateway provided by “PayU” and customer details are ‘not stored’ with FORAYS TECH.
+                
+                Instead the information is securely stored and encrypted with Visa/MasterCard.</p>     
+                <br>
 
-more than 30 mins.<br>Any loss of order due to the time lapse from your end will not be accounted for.</p>
-  <br><br>
-  <h3 style="text-align:center">Return, Refund and Cancellation Policies</h3>
-  <p style="text-align:justify">After placing the order customer can cancel the order within 15mins if he/she wish to provided
+          </div>
+          <div class="col col-25">
+            
+          </div>
+        </div>
+        <div class="box4">
+          <br>
+          <div class="row>">
+            <div class="col text-center"><p style="color:#FF6502; font-size: 14px">Our Associates</p></div>
+          </div>  
+          <div class="row">
+            <div class="col"></div>
+            <div class="col">
+              <img src="img/hasura.png" style="width: 15vw; height: 20vh;margin:auto; display:block; overflow: hidden">  
+            </div>
+            <div class="col">
+              <img src="img/payu.png" style="width: 20vw; height: 15vh;margin:auto; display:block; overflow: hidden">
+            </div>  
+            <div class="col">
+              <img src="img/zaitoon.png" style="width: 20vw; height: 20vh;margin:auto; display:block; overflow: hidden">
+            </div> 
+            <div class="col"></div>
+          </div>
+          <br>
+        </div>
+        <div class="box2">
+          <br><br>
+          <div class="row">
+            <div class="col"></div>
+            <div class="col"></div>
+            <div class="col">
+              <p style="text-align:center">
+                <a href="http://facebook.com/sqippr">
+                  <img src="img/facebook_orange.png" style="width: 60px; height: 60px;margin:auto; display:block">
+                </a>
+              </p>  
+            </div>
+            <div class="col">
+              <p style="text-align:center">
+                <a href="">
+                  <img src="img/playstore_orange.png" style="width: 60px; height: 60px;margin:auto; display:block">
+                </a>
+              </p>  
+            </div>
+            <div class="col">
+              <p style="text-align:center">
+                <a href="">
+                  <img src="img/twitter_orange.png" style="width: 60px; height: 60px;margin:auto; display:block">
+                </a>
+              </p>  
+            </div>
+            <div class="col"></div>
+            <div class="col"></div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col text-center"></div>
+            <div class="col text-center"><a class="button button-outline button-assertive-custom" href="#/tab/about">About Us</a></div>
+            <div class="col text-center"><a class="button button-outline button-assertive-custom" href="#/tab/contactUs">Contact Us</a></div>
+            <div class="col text-center"><a class="button button-outline button-assertive-custom" href="#/tab/inviteFriends">Invite Friends</a></div>
+            <div class="col text-center"></div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col text-center"></div>
+            <div class="col text-center"></div>
+            <div class="col text-center"></div>
+            <div class="col text-center"><a href="" style="text-decoration:none;"><p style="color:#e48912; font-size: 12px">Terms of Service</p></a></div>
+            <div class="col text-center"><p style="color:#e48912; font-size: 12px">|</p></div>
+            <div class="col text-center"><a href=""style="text-decoration:none;"><p style="color:#e48912; font-size: 12px">Privacy Policies</p></a></div>
+            <div class="col text-center"></div>
+            <div class="col text-center"></div>
+            <div class="col text-center"></div>
+          </div>
+        </div>
+        <div class="box3">
+          <br>
+          <p style="color: white; text-align: center"><b>WE BE SQIPPIN' 'N' FLIPPIN' WHILE THEY HAIR RIPPIN'</b></p>
+          <p style="color: white; text-align: center">&copy 2016 sQippr, All Rights Reserved</p>
+        </div>        
 
-there is a difference of minimum 30 minutes between the time of cancellation and order
+     </div>
+     </div>
+      <!--<a class="item" href="#">-->
+      <!--  <p>Password</p>-->
+      <!--  <h2 style="color: #ff5733">{{ user.password }} </h2>-->
+      <!--</a>-->
+      <!--<a class="item" href="#">-->
+      <!--  <p>Location</p>-->
+      <!--  <h2 style="color: #ff5733">Location </h2>-->
+      <!--</a>-->
+      <!--<a class="item item-icon-right item-icon-left" href="#">-->
+      <!--  <i class="icon ion-ios-plus-outline" ng-click=addAccount()></i>-->
+      <!--  <p>Registered Accounts</p>-->
+      <!--  <i class="icon ion-ios-help-outline" ng-click=showAlert()></i>-->
+      <!--</a>-->
 
-delivery/pick-up time specified initially. Being a food item we do not entertain Return.
-
-In case of any loss of order due to lapse from the caterer end, the consumer shall be refunded in not
-
-more than 10 days through NEFT.</p>
-<br><br>
-  <h3 style="text-align:center">Terms of Use</h3>
-  <p style="text-align:justify">www.sqippr.com is owned and operated by FORAYS TECH, an IIT Madras start-up.<br>
-
-Your use of the Website and services and tools are governed by the following terms and conditions
-
-as applicable to the Website including the applicable policies which are incorporated herein by way
-
-of reference. If you transact on the Website, you shall be subject to the policies that are
-
-applicable to the Website for such transaction. By mere use of the Website, you shall be contracting
-
-with FORAYS TECH and these terms and conditions including the policies constitute your binding
-
-obligations, with FORAYS TECH. For the purpose of these Terms of Use, wherever the context so
-
-requires shall mean any natural or legal person who has agreed to become a buyer on the Website
-
-by providing Registration Data while registering on the Website as Registered User using the
-
-computer systems.  www.sqippr.com allows the user to surf the Website without registering on the
-
-Website. When You use any of the services provided by Us through the Website, including but not
-
-limited to, (e.g. Product Reviews, Seller Reviews), You will be subject to the rules, guidelines,
-
-policies, terms, and conditions applicable to such service, and they shall be deemed to be
-
-incorporated into this Terms of Use and shall be considered as part and parcel of this Terms of Use.
-
-We reserve the right, at our sole discretion, to change, modify, add or remove portions of these
-
-Terms of Use, at any time without any prior written notice to you. It is your responsibility to review
-
-these Terms of Use periodically for updates / changes. Your continued use of the Website following
-
-the posting of changes will mean that you accept and agree to the revisions. As long as you comply
-
-with these Terms of Use, we grant you a personal, non-exclusive, non-transferable, limited privilege
-
-to enter and use the Website.</p>
-
-<br> <br>
-
-<h3 style="text-align:center">Privacy Policy</h3>
-<p style="text-align:justify">For us privacy for our valued customer is very important. We strongly believe that the personal
-
-information of our customers should not be shared with the third party without the prior consent
-
-or request from the customer. Privacy is the right of an individual and at FORAYS TECH the
-
-information of the customer such as contact no., email, addresses etc. is used only for the
-
-internal purpose and not for sale. Your contact information is stored in our database and is only
-
-used to contact you during the course of your stay with us for sharing the status of your room
-
-bookings with us and then after for announcement of our latest deals and news etc. We at
-
-FORAYS TECH condemn the unauthorized reach and misuse and/or discloser of the personal
-
-information of the customer and we have strict guidelines and high security features to prevent the
-
-same. Any changes in our ‘Privacy Policy’ will be posted here on the website.</p>
-
-<br><br>
-
-<h3 style="text-align:center">Secure Online Payment</h3>
-<p style="text-align:justify">The visitor on our website please take a note that your name, email address and other personal
-
-information submitted on our website may be stored with us and may also appear on the
-
-website. Like other platforms our server log files also receives general information such as IP
-
-address of the visitor, cookie etc. For the financial transactions FORAYS TECH uses a 3rd party secure
-
-payment gateway provided by “PayU” and customer details are ‘not stored’ with FORAYS TECH.
-
-Instead the information is securely stored and encrypted with Visa/MasterCard.</p>
-</div>
   </ion-content>
 </ion-view>
+
