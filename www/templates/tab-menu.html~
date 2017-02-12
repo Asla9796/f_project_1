@@ -1,5 +1,5 @@
 <ion-view view-title="">
-  <ion-content padding="true" scrollbar-y="true">
+  <ion-content padding="true">
    <ion-list>
         <div ng-controller=" MenuCtrl" ng-repeat="group in groups">
           <ion-item class="item-stable"

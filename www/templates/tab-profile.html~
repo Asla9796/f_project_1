@@ -97,7 +97,7 @@
             </a>
             <div class="item">
               <div class="row" ng-repeat = "account in accounts">
-              	 <div class="col col-10" ng-click=deleteRegAccount(account)> 
+              	 <div class="col col-10" ng-controller="ProfileCtrl" ng-click=deleteRegAccount(account)> 
                 	<i class="icon ion-ios-close"></i>
                 </div>
                 <div class="col">{{account.regEmail}}</div>

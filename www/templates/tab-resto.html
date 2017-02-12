@@ -174,7 +174,7 @@
   <!--          </div>-->
           </div>
           <div class="col col-50">
-            <br>
+            
             <ion-list>
               
               <div ng-repeat="group in groups">
@@ -276,13 +276,18 @@
     <div class="float-button" ng-if="!isMobile && !isEmpty">
       <span class="height-fix">
         <a class="content">
-          <br><br><br><br><br><br><br><br><br><br><br><br><br>
-            <ion-scroll direction="y" class="sidebar" overflow-scroll="true">
+          <!--<br><br><br><br><br><br><br><br><br><br><br><br><br>-->
+          <ion-content direction="y" padding="true">
+          	<ion-list ng-repeat="group in groups">
+            	<button ng-click="scrollTo(group.id)" class="button button-small button-assertive-custom"><p style="color: white; font-size: 16px">{{group.type}}</p></button>
+             </ion-list> 
+          </ion-content>
+          <!--  <ion-scroll direction="y" class="sidebar" overflow-scroll="true">
                 <ion-list ng-repeat="group in groups">
                   <button ng-click="scrollTo(group.id)" class="button button-small button-assertive-custom"><p style="color: white; font-size: 16px">{{group.type}}</p></button>
                 </ion-list> 
              <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-            </ion-scroll>
+            </ion-scroll>-->
             
         </a>
       </span>

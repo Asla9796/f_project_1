@@ -1,4 +1,4 @@
-var server = "https://data.lingerie91.hasura-app.io/api/";
+var server = "https://data.sqippr.com/api/";
 
 angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services', 
                                         'angular-svg-round-progressbar', 'starter.directives', 
@@ -47,7 +47,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
   		
       var loginReq = {
        method: 'POST',
-       url: 'https://auth.lingerie91.hasura-app.io/login',
+       url: 'https://auth.sqippr.com/login',
        data : data
       // transformR,equest: function(obj) {
       //   var str = [];
@@ -151,7 +151,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
       });
     var forgotPassReq = {
       method: 'POST',
-      url: 'https://auth.lingerie91.hasura-app.io/password/forgot',
+      url: 'https://auth.sqippr.com/password/forgot',
       data: {
         "email": email
       }
@@ -245,7 +245,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
       
       var resetPassReq = {
         method: 'POST',
-        url: 'https://auth.lingerie91.hasura-app.io/password/reset',
+        url: 'https://auth.sqippr.com/password/reset',
         data: {
           "token": token,
           "password": user.password
@@ -296,7 +296,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
   var addUser = function(newUser, id){
       var addUserReq = {
             method: 'POST',
-            url: 'https://server.lingerie91.hasura-app.io/add_user',
+            url: 'https://server.sqippr.com/add_user',
             data: {
                 'id': id,
                 'name': newUser.username,
@@ -336,7 +336,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
   		
       var signUpReq = {
         method: 'POST',
-        url: 'https://auth.lingerie91.hasura-app.io/signup',
+        url: 'https://auth.sqippr.com/signup',
         data : data
       };
       console.log(data, parseInt(data.mobile));
@@ -1187,7 +1187,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
               var deleteAccountReq = {
                 
               method: 'POST',
-              url: 'https://auth.lingerie91.hasura-app.io/user/account/delete',
+              url: 'https://auth.sqippr.com/user/account/delete',
               data: {
               "password": res.password
               },
@@ -1220,7 +1220,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
           if(res) {
             var logoutReq = {
               method: 'GET',
-              url: 'https://auth.lingerie91.hasura-app.io/user/logout',
+              url: 'https://auth.sqippr.com/user/logout',
               headers: {
                 'Authorization': 'Hasura ' + window.localStorage['token']
               }
@@ -1955,7 +1955,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
         $scope.isMobile = false;
     }
   });  
-  console.log(parseInt(window.localStorage['currentUserId']));
+  console.log(parseInt(window.localStorage['token']));
    var userReq = {
             method: 'POST',
             url: server + '1/table/users/select',
@@ -2081,13 +2081,13 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
                   // console.log(response.data);
                   var emailReq = {
                     method: 'POST',
-                    url: 'https://server.lingerie91.hasura-app.io/email',
+                    url: 'https://server.sqippr.com/email',
                     data: {
                       email: "contactus@sqippr.com",
                       subject: "sQippr || Verify your registered account",
                       recipient: regEmail,
                       userId: parseInt(window.localStorage['currentUserId']),
-                      html:"<div style='width: 100%; background-color: white'><br><p style='text-align: right; font-size: 30px'>s<span style='color: #F39C12; font-size: 35px'>Q</span>ippr</p><hr style='color: #F39C12; height: 2px; width: 100%; background-color: #F39C12'><h3 style='color: #F39C12'>Greetings from the sQippr team!</h3> Thank you for signing up with sQippr. Please click on  https://ui.lingerie91.hasura-app.io/activateAccount.html and enter the token : {{token}} to verify your registered account<br><br><div style='background-color: #1b1b1b;width: 100%'><br><a href='https://www.sqippr.com' style='text-decoration:none'><p style='color: #F39C12; text-align:center'>www.sqippr.com</p></a><table style='width: 100%'><tr><td style='width: 20%; text-align:center;'><a href='https://www.facebook.com/sqippr' style='text-decoration:none'><p style='color: #F39C12'>Facebook</p></a></td><td style='width: 20%; text-align:center;'><p style='color: #F39C12'>|</p></td><td style='width: 20%; text-align:center;'><a href='https://www.twitter.com' style='text-decoration:none'><p style='color: #F39C12'>Twitter</p></a></td><td style='width: 20%; text-align:center;'><p style='color: #F39C12'>|</p></td><td style='width: 20%; text-align:center;'><a href='https://www.google.com' style='text-decoration:none'><p style='color: #F39C12'>Google Playstore</p></a></td></tr></table></div><div style='background-color: #F39C12;width: 100%'><br><p style='color: white; text-align: center'><b>WE BE SQIPPIN' 'N' FLIPPIN' WHILE THEY HAIR RIPPIN'</b></p><p style='color: white; text-align: center'>&copy 2016 sQippr, All Rights Reserved</p><br></div><p style='text-align: center'>*****Please do not respond to this mail*****</p>div>"
+                      html:"<div style='width: 100%; background-color: white'><br><p style='text-align: right; font-size: 30px'>s<span style='color: #F39C12; font-size: 35px'>Q</span>ippr</p><hr style='color: #F39C12; height: 2px; width: 100%; background-color: #F39C12'><h3 style='color: #F39C12'>Greetings from the sQippr team!</h3> Thank you for signing up with sQippr. Please click on  https://ui.sqippr.com/activateAccount.html and enter the token : {{token}} to verify your registered account<br><br><div style='background-color: #1b1b1b;width: 100%'><br><a href='https://www.sqippr.com' style='text-decoration:none'><p style='color: #F39C12; text-align:center'>www.sqippr.com</p></a><table style='width: 100%'><tr><td style='width: 20%; text-align:center;'><a href='https://www.facebook.com/sqippr' style='text-decoration:none'><p style='color: #F39C12'>Facebook</p></a></td><td style='width: 20%; text-align:center;'><p style='color: #F39C12'>|</p></td><td style='width: 20%; text-align:center;'><a href='https://www.twitter.com' style='text-decoration:none'><p style='color: #F39C12'>Twitter</p></a></td><td style='width: 20%; text-align:center;'><p style='color: #F39C12'>|</p></td><td style='width: 20%; text-align:center;'><a href='https://www.google.com' style='text-decoration:none'><p style='color: #F39C12'>Google Playstore</p></a></td></tr></table></div><div style='background-color: #F39C12;width: 100%'><br><p style='color: white; text-align: center'><b>WE BE SQIPPIN' 'N' FLIPPIN' WHILE THEY HAIR RIPPIN'</b></p><p style='color: white; text-align: center'>&copy 2016 sQippr, All Rights Reserved</p><br></div><p style='text-align: center'>*****Please do not respond to this mail*****</p>div>"
                     }
                   };
                   $http(emailReq).then(function(response){
@@ -2111,6 +2111,41 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
           }
         }     
       });
+    };
+    
+    $scope.deleteRegAccount = function(account){
+    	console.log("calling delete");
+    	console.log(account);
+    	var confirmPopup = $ionicPopup.confirm({
+          title: 'Delete Registered Account',
+          template: 'Are you sure you want to delete your registered account?'
+        });
+      
+        confirmPopup.then(function(res) {
+          if(res) {
+            /**var deleteAccountReq = {
+              method: 'POST',
+              url: server + '1/table/account/delete',
+              data: {
+              	"where": [regEmail: account.regEmail]
+              },
+              headers: {
+                'Authorization': 'Hasura ' + window.localStorage['token']
+              }
+            };
+                    
+            $http(deleteAccountReq).then(function(response){
+					console.log(response.data);
+              },
+                function(response){
+                console.log(response);
+            });**/
+            console.log('You are sure');
+          } else {
+            console.log('You are not sure');
+          }
+        });
+    	
     };
     
     $scope.showInfo = function(){
@@ -2853,7 +2888,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
 
      var emailReq = {
         method: 'POST',
-        url: 'https://server.lingerie91.hasura-app.io/email',
+        url: 'https://server.sqippr.com/email',
         data: {
             email: "contactus@sqippr.com",
             subject: "Verify your registered account",
@@ -2901,7 +2936,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
       });
         var emailReq = {
           method: 'POST',
-          url:'https://server.lingerie91.hasura-app.io/email_receipt',
+          url:'https://server.sqippr.com/email_receipt',
           data: {
             email: "contactus@sqippr.com",
             subject: "sQippr || You are invited !",
@@ -2978,7 +3013,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
       if( res.check == 1){
        var changePasswordReq = {
         method: 'POST',
-          url: 'https://auth.lingerie91.hasura-app.io/user/password/change',
+          url: 'https://auth.sqippr.com/user/password/change',
           data: {
             'password': changePassword[0],
             'new_password': changePassword[1],
