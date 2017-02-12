@@ -1,3 +1,5 @@
+var server = "https://data.sqippr.com/api/";
+
 angular.module('starter.services', [])
 
 .factory('userDetails', [ function() {

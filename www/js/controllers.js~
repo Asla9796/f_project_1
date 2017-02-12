@@ -536,24 +536,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
   });
   
   
-        var getTagsReq = {
-        method: 'POST',
-        url: server + '1/table/tags/select',
-        data: {
-          "columns": [""],
-           "where": {"outletId": 20}
-         },
-         headers: {
-           'Authorization': 'Hasura ' + window.localStorage['token']
-          }
-        };
-        
-      $http(getTagsReq).then(function(response){
-            console.log(response.data);
-            $scope.tags = response.data;
-       },function(response){
-           console.log(response);
-       });
+  
 
   $scope.images = [{"url": "img/1.jpg"}, {"url": "img/2.jpg"}];
   $scope.current = 0;
