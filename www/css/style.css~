@@ -81,7 +81,7 @@
   color: white;
   /*border-radius:15% 0 0 0;*/
   width: 24vw;
-  height: 120vh;
+  height: 118vh;
   padding: 10px;
   position: fixed;
   bottom: 10%; 
@@ -172,7 +172,7 @@
 }
 
 .box7{
-  height: 190vh;
+  height: 200vh;
   background: url('box.jpg');
   background-position: center;
   border-top: solid #FF6502;

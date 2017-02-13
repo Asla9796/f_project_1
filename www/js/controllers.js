@@ -1955,7 +1955,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
         $scope.isMobile = false;
     }
   });  
-  console.log(parseInt(window.localStorage['token']));
+  console.log(parseInt(window.localStorage['currentUserId']));
    var userReq = {
             method: 'POST',
             url: server + '1/table/users/select',
@@ -2123,11 +2123,11 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
       
         confirmPopup.then(function(res) {
           if(res) {
-            /**var deleteAccountReq = {
+            var deleteAccountReq = {
               method: 'POST',
               url: server + '1/table/account/delete',
               data: {
-              	"where": [regEmail: account.regEmail]
+              	"where": {"regEmail": account.regEmail}
               },
               headers: {
                 'Authorization': 'Hasura ' + window.localStorage['token']
@@ -2139,7 +2139,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
               },
                 function(response){
                 console.log(response);
-            });**/
+            });
             console.log('You are sure');
           } else {
             console.log('You are not sure');
