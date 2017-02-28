@@ -7,7 +7,7 @@
         </a>
         <a class="item item-icon-right" href="#/tab/profile" ng-if=returnToken()>
           <i class="icon ion-ios-arrow-right"></i>
-          Profile
+          Profiles
         </a>
         <a class="item item-icon-right" href="#/tab/orderHistory" ng-if=returnToken()>
           <i class="icon ion-ios-arrow-right"></i>

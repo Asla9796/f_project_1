@@ -687,6 +687,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
                 });
                  
                 accountPopup9.then(function(res) {
+                	location.href = '#/tab/profile';
                 });                 
               }
               else{

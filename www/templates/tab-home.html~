@@ -248,7 +248,7 @@
             <img src="img/payu.png" style="width: 20vw; height: 15vh;margin-top:15px; display:block; overflow: hidden">
           </div>  
           <div class="col">
-            <img src="img/zaitoon.png" style="width: 20vw; height: 20vh;margin:auto; display:block; overflow: hidden">
+            <img src="img/zaitoon.png" style="width: 20vw; height: 30vh;margin:auto; display:block; overflow: hidden">
           </div> 
           <div class="col"></div>
         </div>
