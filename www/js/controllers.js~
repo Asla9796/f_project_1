@@ -2081,7 +2081,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
                   // console.log(response.data);
                   var emailReq = {
                     method: 'POST',
-                    url: 'https://server.sqippr.com/email',
+                    url: 'https://server.sqippr.com/regemail',
                     data: {
                       email: "contactus@sqippr.com",
                       subject: "sQippr || Verify your registered account",
@@ -2114,7 +2114,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
     };
     
     $scope.deleteRegAccount = function(account){
-    	console.log("calling delte");
+    	console.log("calling delete");
     	console.log(account);
     	var confirmPopup = $ionicPopup.confirm({
           title: 'Delete Registered Account',
