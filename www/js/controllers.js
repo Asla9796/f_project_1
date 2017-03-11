@@ -204,7 +204,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
     }
   
   $scope.resetPass = function(user){
-    console.log(user);
     if(user.password === user.password2){
       $ionicLoading.show({
         content: 'Loading',
@@ -228,7 +227,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
         return b;
       })(window.location.search.substr(1).split('&'));
       var token = qs['token'];
-      console.log(token, 'awesome');
       
       var resetPassReq = {
         method: 'POST',
@@ -324,7 +322,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
         url: 'https://auth.sqippr.com/signup',
         data : data
       };
-      console.log(data, parseInt(data.mobile));
       $http( signUpReq ).then(function(response) {
           window.localStorage.setItem('currentUserId', response.data.hasura_id);
           addUser(data, response.data.hasura_id);
@@ -432,7 +429,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
     }
   
   $scope.verify = function(regEmail, token){
-    console.log(regEmail, token);
     var verifyReq = {
       method: 'POST',
       url: server + '1/table/account/select',
@@ -442,7 +438,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
       }
     };
     $http(verifyReq).then(function(response){
-      console.log(response.data);
       if(response.data[0].token == token){
         
       var alertPopup = $ionicPopup.alert({
@@ -584,7 +579,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
               }
             };
             $http(accountsReq).then(function(response){
-              console.log(response.data, object);
               if(response.data.length === 0){
                 var accountPopup9 = $ionicPopup.show({
                   template : '<p> Please add your smail account in the profile section</p>',
@@ -745,7 +739,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
            }];
         
         var funcMenu = function(){
-          console.log('works');
           var menuReq = {
                   method: 'POST',
                   url: server + '1/table/items/select',
@@ -914,7 +907,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
     else{
       $scope.isOnline = false;
     } 
-    console.log($scope.isOnline);
     var screenWidth = $window.innerWidth;
     
     if (screenWidth < 700){
@@ -941,7 +933,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
   $scope.leftButtons = [{
     type: 'button-icon icon ion-navicon',
     tap: function(e) {
-      console.log('Going back!');
     }
   }];
     
@@ -995,7 +986,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
            if( res.check === 0){
            }
            else if (res.check === 1 ){
-            console.log(res.check, res.password);
               var deleteAccountReq = {
                 
               method: 'POST',
@@ -1009,7 +999,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
             };
                     
             $http(deleteAccountReq).then(function(response){
-                console.log(response); 
                 window.localStorage('token','');
                 window.localStorage.setItem('currentUser', '');
                 window.localStorage.setItem('currentUserId', '');
@@ -1038,7 +1027,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
               }
             };
             $http(logoutReq).then(function(response){
-                console.log(response); 
                 window.localStorage.setItem('token', '');
                 window.localStorage.setItem('currentUser', '');
                 window.localStorage.setItem('currentUserId', '');
@@ -1084,7 +1072,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
               $scope.orderedOutlets[i] = {};
               $scope.orderedOutlets[i].outletId = cartList[i].outletId;
           }
-          console.log($scope.orderedOutlets);
           
           for( i=0; i< $scope.orderedOutlets.length; i++){
             for( j=0; j< $scope.orderedOutlets.length; j++){
@@ -1112,7 +1099,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
           var timestamp = new Date();
           
           orders.addTimeStamp(timestamp);
-          console.log(timestamp);
           for(i=0; i<$scope.orderedOutlets.length; i++){
             $scope.separatedList(customize_order, $scope.orderedOutlets[i], paymentMethod, isParcel, isDelivery, takeAwayHour, takeAwayMinute, address, timestamp, isImmediate);
           }
@@ -1206,8 +1192,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
                       dummyCartItem.isAvailable = true;
                       insertCart.push(dummyCartItem);
                     }
-                    
-                    console.log(insertCart);
                     
                     //split cartlist such that it is usable by orderedItemsReq
                     var orderedItemsReq = {
@@ -1520,7 +1504,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
                       alertPopup.then(function(res) {
                       });
                     }
-                      console.log('order can be placed');
                   }  
                 }
          
@@ -1795,7 +1778,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
           var regEmail = userDetails.getAccountEmail();
           var str = regEmail.split('').reverse().join('');
           var verification = str.substring(0, 11);
-          console.log(verification);
           
           if(verification != "ni.ca.mtii."){
             var alertPopup = $ionicPopup.alert({
@@ -1883,10 +1865,9 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
             };
                     
             $http(deleteAccountReq).then(function(response){
-					console.log(response.data);
               },
                 function(response){
-                console.log(response);
+                console.log(response.data);
             });
           } else {
           }
@@ -1998,8 +1979,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
             
             var awaitingConfirmation = function(){
                 var date = new Date();
-                // var hours = date.getHours();
-                console.log('running');
                 minutesInSeconds -= 1;
                 if( seconds === 0){
                   seconds = 60;
@@ -2145,7 +2124,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
   
   $http(confirmationOrdersReq).then(function(response){
     var user = userDetails.getUser();
-    console.log(user);
     $scope.name = user.name;
     $scope.email = user.email;
     $scope.mobile = user.mobile;
@@ -2165,7 +2143,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
       $scope.isCoD = true;
     }
     $scope.cancel_reason = orders[0].cancel_reason;
-    console.log($scope.cancel_reason);
     
     var i;
     $scope.total = 0;
@@ -2312,8 +2289,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
             $http(orderHistoryReq).then(function(response){
               $scope.orders = [];
               var i, j;
-              
-              console.log(outlets);
               var monthNames = [
                 "January", "February", "March",
                 "April", "May", "June", "July",
@@ -2376,7 +2351,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
   });
     $scope.user = userDetails.getUser();
     var order = orders.getOrders(order);
-    console.log(order);
     $scope.order = order;
     var itemsSummaryReq = {
       method: 'POST',
@@ -2390,7 +2364,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
     };
                         
     $http(itemsSummaryReq).then(function(response){
-      console.log(response.data);
       var items = response.data;
       
             var orderSummaryReq = {
@@ -2432,7 +2405,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
                 };
                         
                 $http(orderedItemsSummaryReq).then(function(response){
-                  console.log(response); 
                   var i, j;
                   $scope.orderSummary = [];
                   
@@ -2617,7 +2589,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
         // });
       // };    
     $scope.sendEmail = function(){
-      console.log('i work');
 
      var emailReq = {
         method: 'POST',
@@ -2631,10 +2602,9 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
             }
                   };
                   $http(emailReq).then(function(response){
-                    console.log(response.data);
                 },
                   function(response){
-                    console.log(response);
+                    console.log(response.data);
         });    
     } ;
       
