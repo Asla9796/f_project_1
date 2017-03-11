@@ -49,21 +49,10 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
        method: 'POST',
        url: 'https://auth.sqippr.com/login',
        data : data
-      // transformR,equest: function(obj) {
-      //   var str = [];
-      //   for(var p in obj)
-      //   str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-      //   return str.join("&");
-      //   },
     };
-    // console.log(data);
       $http( loginReq).
           then(function(response) {
-          // this callback will be called asynchronously
-          // when the response is availa 
-          console.log(response);
           var user = response.data;
-         
 
           window.localStorage.setItem('data', response.data);
           window.localStorage.setItem('token', response.data.auth_token);
@@ -72,8 +61,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
           location.replace('index.html');
         },
          function(response) {
-          console.log("Error");
-          console.log(response);
+          console.log(response.data);
           var Popup = (response.data.message);
           $ionicLoading.hide();
           var alertPopup = $ionicPopup.alert({
@@ -157,12 +145,11 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
       }
     };
     $http(forgotPassReq).then(function(response){
-      console.log(response);
       location.replace('forgotPass2.html');
       
     }, function(response){
       $ionicLoading.hide();
-      console.log(response);
+      console.log(response.data);
       
     });
   };
@@ -252,11 +239,10 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
         }
       };
       $http(resetPassReq).then(function(response){
-        console.log(response);
         location.replace('forgotPass2.html');
         
       }, function(response){
-        console.log(response);
+        console.log(response.data);
         $ionicLoading.hide();
       });
       
@@ -268,7 +254,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
        });
     
        alertPopup.then(function(res) {
-         console.log('passwords do not match');
        });
     }
     
@@ -308,7 +293,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
             location.href = 'signUp2.html';
               },
             function(response){
-                console.log(response);
+                console.log(response.data);
         });
   };
   
@@ -341,16 +326,11 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
       };
       console.log(data, parseInt(data.mobile));
       $http( signUpReq ).then(function(response) {
-          // this callback will be called asynchronously
-          // when the response is availa 
-          console.log(response);
-         
           window.localStorage.setItem('currentUserId', response.data.hasura_id);
           addUser(data, response.data.hasura_id);
         },
         function(response) {
-          console.log("Error");
-          console.log(response);
+          console.log(response.data);
           var Popup = (response.data.message);
           $ionicLoading.hide();
           var alertPopup = $ionicPopup.alert({
@@ -369,7 +349,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
       });
     
       alertPopup.then(function(res) {
-        console.log('passwords do not match');
       });
     }
 
@@ -421,7 +400,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
       scope: $scope,
     }).then(function(popover) {
       $scope.popover = popover;
-      console.log('working');
     });
     
     $scope.goToHome = function(){
@@ -486,7 +464,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
             location.replace('login.html');
             
           }, function(response){
-            console.log(response);
+            console.log(response.data);
           });
         });
       }
@@ -501,7 +479,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
       }
       },
       function(response){
-        console.log(response);
+        console.log(response.data);
         var alert3Popup = $ionicPopup.alert({
           title: 'Error!',
           template: 'Invalid token! Please check and try again'
@@ -515,9 +493,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
 //Controller for home tab
 .controller('HomeCtrl', function($scope, $http, outlets, $window, userDetails, $location, $ionicPopup, $ionicPopover, cart) {
         
-  console.log(window.localStorage['token']);
-  console.log(window.localStorage['currentUserId']);
-  
   $scope.$on('$ionicView.enter', function() {
     if(navigator.onLine) {
       $scope.isOnline = true;
@@ -541,26 +516,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
   $scope.images = [{"url": "img/1.jpg"}, {"url": "img/2.jpg"}];
   $scope.current = 0;
   
-  // var userReq = {
-  //           method: 'POST',
-  //           url: server + '1/table/users/select',
-  //           data: {
-  //             'columns': ['*'],
-  //             'where': {'id': parseInt(window.localStorage['currentUserId'])}
-  //           },
-  //           headers: {
-  //             'Authorization': 'Hasura ' + window.localStorage['token']
-  //           }
-  //         };
-  //         $http(userReq).then(function(response){
-  //           console.log(response.data);
-  //           userDetails.addUser(response.data[0]);
-  //           $scope.user = userDetails.getUser();
-  //       },
-  //         function(response){
-  //           console.log(response);
-  //   });
-  
   var outletsReq = {
       method: 'POST',
       url: server + '1/table/outlets/select',
@@ -569,13 +524,12 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
       }
     };
     $http(outletsReq).then(function(response){
-          console.log(response.data);
           $scope.$evalAsync(function(){
             $scope.outletsList = response.data;  
           });
         },
       function(response){
-          console.log(response);
+          console.log(response.data);
         });
     
     $scope.openOutlet = function(object) {
@@ -587,34 +541,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
         else{
           
             outlets.addOutlet(object); 
-            // var accountPopup = $ionicPopup.show({
-            //   templateUrl : 'templates/accountPopup.html',
-            //   title:'Please choose your account:',
-            //   scope: $scope,
-            //   buttons: [
-            //     { text: 'Cancel',
-            //       onTap: function(e) {
-            //         var check = 0;
-            //         return {
-            //           check: check
-            //         };
-            //       }
-            //     },
-            //     {
-            //       text: '<b>OK</b>',
-            //       type: 'button-assertive',
-            //       onTap: function(e) {
-            //         var check = 1;
-            //         return {
-            //           check: check
-            //         };
-            //       }
-            //     },
-            //   ]
-            // });
-             
-            // accountPopup.then(function(res) {
-            // });
     if(window.localStorage['token'] === '' || window.localStorage['token'] === undefined){
             var accountPopup = $ionicPopup.show({
               template : '<p> You are not authorized to access this! Please log in</p>',
@@ -654,7 +580,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
                "where": {"userId": parseInt(window.localStorage['currentUserId'])}
               },
               headers: {
-                'Authorization': 'Hasura ' + window.localStorage['token']
+                'Authorization': 'Bearer ' + window.localStorage['token']
               }
             };
             $http(accountsReq).then(function(response){
@@ -687,6 +613,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
                 });
                  
                 accountPopup9.then(function(res) {
+                	location.href = '#/tab/profile';
                 });                 
               }
               else{
@@ -732,96 +659,14 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
                      
                     accountPopup.then(function(res) {
                     });                
-                  }
-                  // $scope.accounts = [];
-                  // if(response.data.length !== 0){
-                  //   $scope.check = true;
-                  //   for(i=0; i<response.data.length; i++){
-                  //       $scope.accounts[i] = {};
-                  //       $scope.accounts[i].regEmail = response.data[i].regEmail;
-                  //       $scope.accounts[i].id = response.data[i].id;
-                  //       $scope.accounts[i].isChosen = false;
-                  //     }
-        
-                  //   $scope.noOfAccounts = response.data.length;              
-                  // }
-                  // else{
-                  //   $scope.check = false;
-                  // }  
+                  } 
               }
             
   
           },
             function(response){
-              console.log(response);
-      });  
-      
-  //   $scope.choose = function(account){
-  //     var object = outlets.getOutlet();
-  //     console.log(account, object);
-  //                 var isActiveAccountReq = {
-  //                     method: 'POST',
-  //                     url: server+'1/table/account/select',
-  //                     data: {
-  //                     "columns": ["isActive", "authKey"],
-  //                     "where": {
-  //                         "id": parseInt(account.id)
-  //                     }
-  //                     },
-  //                     headers: {
-  //                         'Authorization': 'Hasura ' + window.localStorage['token']
-  //                       }
-  //                   };
-  //                   $http(isActiveAccountReq).then(function(response){
-  //                     var check = 0;
-  //                     console.log(response);
-                      
-  //                     if(response.data.length !== 0){
-  //                       if(response.data[0].isActive === true){
-                          
-  //                           if(response.data[0].authKey == object.key){
-  //                             console.log('success');
-  //                             outlets.addOutlet(object); 
-  //                             location.href = "#/tab/resto";  
-  //                           }
-  //                           else{
-  //                                 var alert3Popup = $ionicPopup.alert({
-  //                                     title: 'Unauthorized!',
-  //                                     template: 'You are not authorized to access this outlet\'s details'
-  //                                   });
-                                  
-  //                                   alert3Popup.then(function(res) {
-  //                                     location.replace('index.html');
-  //                                   });
-  //                           }                         
-  //                       }
-  //                       else{
-  //                         var alertPopup = $ionicPopup.alert({
-  //                               title: 'Unauthorized!',
-  //                               template: 'You have not activated your account yet. Please check your smail and follow the activation link'
-  //                             });
-                            
-  //                             alertPopup.then(function(res) {
-  //                               location.replace('index.html');
-  //                             });
-  //                       }
-  //                     }
-  
-  //                 },
-  //                   function(response){
-  //                     console.log(response);
-  //                         var alert2Popup = $ionicPopup.alert({
-  //                               title: 'Unauthorized!',
-  //                               template: 'You have not activated your account yet. Please check your smail and follow the activation link'
-  //                             });
-                            
-  //                             alert2Popup.then(function(res) {
-  //                               location.replace('index.html');
-  //                             });
-  //                 });
-    
-  // };                
-      
+              console.log(response.data);
+      });       
     }
             }
           };
@@ -922,13 +767,13 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
                     }
                   },
                   headers: {
-                    'Authorization': 'Hasura ' + window.localStorage['token']
+                    'Authorization': 'Bearer ' + window.localStorage['token']
                   }
                 };
                 $http(favReq).then(function(response){
                   favourites.addCurrentFav(response.data);
                 }, function(response){
-                  console.log(response);
+                  console.log(response.data);
                 });
               }
               
@@ -958,8 +803,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
                     }
                 }
               }
-              console.log($scope.groups);
-  
               
               var fav = favourites.getCurrentFav();
               var k;
@@ -983,7 +826,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
               }
             },
           function(response){
-              console.log(response);
+              console.log(response.data);
             });
         };
             
@@ -1013,13 +856,11 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
                 document.getElementById('alert').style.display = 'none';
               }, 2000);
             $scope.currentOutlet = outlets.getOutlet();
-            console.log($scope.currentOutlet);
             outlets.addminTimes($scope.currentOutlet.minPrepTime);
             var count = cart.addToCart(item, $scope.currentOutlet.id);
             
             $scope.$evalAsync(function(){
               $scope.itemsNo = count;
-              console.log($scope.itemsNo);
             });
             if(count == 1){
               // var alertCart = $ionicPopup.alert({
@@ -1032,13 +873,11 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
               
             }  
           }
-          // console.log('item sent to cart');
         };
         
         $scope.removeFromCart = function(item) {
           $scope.currentOutlet = outlets.getOutlet();
           cart.removeFromCart(item, $scope.currentOutlet.id);
-          console.log('item sent to remove from cart');
         };
         
         $scope.deleteFromCart = function(item) {
@@ -1085,8 +924,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
     }
   });
     $scope.user = userDetails.getUser();
-    
-    console.log(window.localStorage['currentUserId']);
     $scope.returnToken = function() {
       var check, token = window.localStorage['token'];
       if(token !== undefined){
@@ -1097,7 +934,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
           check = true;
         }
       }
-      // console.log(check, token);
       return check;
     };
   
@@ -1108,23 +944,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
       console.log('Going back!');
     }
   }];
-  
-
-    $scope.showConfirm = function() {
-      
-      // var confirmPopup = $ionicPopup.confirm({
-      //   title: 'Consume Ice Cream',
-      //   template: 'Are you sure you want to eat this ice cream?'
-      // });
-       
-      // confirmPopup.then(function(res) {
-      //   if(res) {
-      //     console.log('You are sure');
-      //   } else {
-      //     console.log('You are not sure');
-      //   }
-      // });
-    };
     
     $scope.showConfirm = function() {
       
@@ -1136,11 +955,8 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
         confirmPopup.then(function(res) {
           if(res) {
             $scope.showPopup();
-            console.log('You are sure');
-          } else {
-            console.log('You are not sure');
           }
-        });
+         });
     };
     
     $scope.deleteAccount = { password: 'password'};   
@@ -1148,7 +964,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
     $scope.showPopup = function() {
        $scope.data = {};
     
-       // An elaborate, custom popup
        var myPopup = $ionicPopup.show({
          templateUrl : 'templates/popUp.html',
          title:'Re-enter your password',
@@ -1157,7 +972,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
            { text: 'Cancel',
              onTap: function(e) {
                var check = 0;
-              // alert($scope.deleteAccount.password);
                return {
                  check: check
                };
@@ -1168,7 +982,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
              type: 'button-assertive',
              onTap: function(e) {
                var check = 1;
-              // alert($scope.deleteAccount.password);
                return {
                  check: check,
                  password: $scope.deleteAccount.password
@@ -1180,7 +993,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
        
        myPopup.then(function(res) {
            if( res.check === 0){
-             console.log('okay will not delete');
            }
            else if (res.check === 1 ){
             console.log(res.check, res.password);
@@ -1192,7 +1004,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
               "password": res.password
               },
               headers: {
-                'Authorization': 'Hasura ' + window.localStorage['token']
+                'Authorization': 'Bearer ' + window.localStorage['token']
               }
             };
                     
@@ -1203,7 +1015,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
                 window.localStorage.setItem('currentUserId', '');
               },
                 function(response){
-                console.log(response);
+                console.log(response.data);
             });
           }
        });
@@ -1222,7 +1034,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
               method: 'GET',
               url: 'https://auth.sqippr.com/user/logout',
               headers: {
-                'Authorization': 'Hasura ' + window.localStorage['token']
+                'Authorization': 'Bearer ' + window.localStorage['token']
               }
             };
             $http(logoutReq).then(function(response){
@@ -1233,10 +1045,9 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
                 location.replace('index.html');
           },
             function(response){
-                console.log(response);
+                console.log(response.data);
               });
           } else {
-            console.log('not logged out');
           }
         });
       };
@@ -1246,10 +1057,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
 .controller('CartCtrl', [ '$scope', 'cart', '$http', '$window', '$ionicPopup', '$location', 'orders', 'userDetails', 'outlets',
   
   function($scope, cart, $http, $window, $ionicPopup, $location, orders, userDetails, outlets) {
-    
-    // if(window.localStorage['token'] === '' | window.localStorage['token'] === undefined){
-    //   location.replace('login.html');
-    // }
+
   $scope.$on('$ionicView.enter', function() {
     if(navigator.onLine) {
       $scope.isOnline = true;
@@ -1269,8 +1077,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
     
       $scope.placeOrder = function(cartList, paymentMethod, isParcel, isDelivery, takeAwayHour, takeAwayMinute, address, isImmediate, customize_order) {
 
-        console.log('order placing');
-        console.log(cartList);
         $scope.orderedOutlets = [];
         var i,j;
           
@@ -1287,7 +1093,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
               }
             }
           }
-          console.log($scope.orderedOutlets);
           
           for( i=0; i<$scope.orderedOutlets.length; i++){
             $scope.orderedOutlets[i].items = [];
@@ -1297,7 +1102,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
               }
             }
           }
-          console.log($scope.orderedOutlets);
           
           for( i=0; i< $scope.orderedOutlets.length; i++){
             $scope.orderedOutlets[i].billAmount = 0;
@@ -1305,19 +1109,16 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
               $scope.orderedOutlets[i].billAmount += $scope.orderedOutlets[i].items[j].price*$scope.orderedOutlets[i].items[j].quantity;
             }
           }
-          console.log($scope.orderedOutlets);
           var timestamp = new Date();
           
           orders.addTimeStamp(timestamp);
           console.log(timestamp);
           for(i=0; i<$scope.orderedOutlets.length; i++){
-            console.log('called');
             $scope.separatedList(customize_order, $scope.orderedOutlets[i], paymentMethod, isParcel, isDelivery, takeAwayHour, takeAwayMinute, address, timestamp, isImmediate);
           }
     };
     
     $scope.separatedList = function(customize_order, cartList, paymentMethod, isParcel, isDelivery, takeAwayHour, takeAwayMinute, address, timestamp, isImmediate){
-      console.log(cartList.items);
       
           var orderReq = {
             method: 'POST',
@@ -1350,12 +1151,10 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
               "returning" : ["id"]
             },
             headers: {
-              'Authorization': 'Hasura ' + window.localStorage['token']
+              'Authorization': 'Bearer ' + window.localStorage['token']
             }
           };
         $http(orderReq).then(function(response){
-            console.log(response); 
-            console.log('order placed');
             cart.addCurrentOrder(response.data.returning[0].id);
             $scope.addItems(response.data.returning[0].id, cartList.items, paymentMethod, timestamp);
             
@@ -1375,20 +1174,19 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
                         "where": {"id": response.data.returning[0].id}
                       },
                       headers: {
-                        'Authorization': 'Hasura ' + window.localStorage['token']
+                        'Authorization': 'Bearer ' + window.localStorage['token']
                       }
                     };
                   
                   $http(updateTokenReq).then(function(response){
-                      console.log(response); 
                     },
                     function(response){
-                        console.log(response);
+                        console.log(response.data);
                   });
 
             },
           function(response){
-              console.log(response);
+              console.log(response.data);
         });
         };
             
@@ -1419,16 +1217,15 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
                         "objects": insertCart
                       },
                       headers: {
-                        'Authorization': 'Hasura ' + window.localStorage['token']
+                        'Authorization': 'Bearer ' + window.localStorage['token']
                       }
                     };
                   
                   $http(orderedItemsReq).then(function(response){
-                      console.log(response); 
                        location.href ='#/tab/awaitingConfirmation'; 
                     },
                     function(response){
-                        console.log(response);
+                        console.log(response.data);
                       });
             };   
     
@@ -1518,7 +1315,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
            { text: 'Cancel',
              onTap: function(e) {
                var check = 0;
-              // alert($scope.deleteAccount.password);
                return {
                  check: check
                };
@@ -1530,8 +1326,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
              onTap: function(e) {
                var check = 1;
                choice = $scope.choice;
-               console.log(choice);
-              // alert($scope.deleteAccount.password);
                return {
                  check: check,
                  choice: $scope.choice
@@ -1544,7 +1338,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
        deliveryPopup.then(function(res) {
 
            if( res.check === 0){
-             console.log('payment canceled');
            }
            else if (res.check === 1 ){
              
@@ -1556,7 +1349,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
                  { text: 'Cancel',
                    onTap: function(e) {
                      var check = 0;
-                    // alert($scope.deleteAccount.password);
                      return {
                        check: check
                      };
@@ -1567,8 +1359,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
                    type: 'button-assertive',
                    onTap: function(e) {
                      var check = 1;
-                     console.log(choice);
-                    // alert($scope.deleteAccount.password);
                      return {
                        check: check
                      };
@@ -1579,7 +1369,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
              
              deliveryAddressPopup.then(function(res){
                if(res.check ===0 ){
-                 console.log('no address');
                }
                else if(res.check === 1){
                 var choice = cart.getChoice();
@@ -1592,7 +1381,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
                       });
                     
                       alertChoice.then(function(res) {
-                        // console.log('Thank you for not eating my delicious ice cream cone');
                       });
                 }
               else{
@@ -1603,7 +1391,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
                      });
                   
                      alertAddressPopup.then(function(res) {
-                      console.log('empty address');
                      });                  
                 }
                 else{
@@ -1634,7 +1421,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
            { text: 'Cancel',
              onTap: function(e) {
                var check = 0;
-              // alert($scope.deleteAccount.password);
                return {
                  check: check
                };
@@ -1645,7 +1431,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
              type: 'button-assertive',
              onTap: function(e) {
                var check = 1;
-              // alert($scope.deleteAccount.password);
                return {
                  check: check
                };
@@ -1657,7 +1442,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
        takeAwayPopup.then(function(res) {
          
            if( res.check === 0){
-             console.log('payment canceled');
            }
            else if (res.check === 1 ){
             
@@ -1669,7 +1453,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
                  { text: 'Cancel',
                    onTap: function(e) {
                      var check = 0;
-                    // alert($scope.deleteAccount.password);
                      return {
                        check: check
                      };
@@ -1703,37 +1486,27 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
                       });
                     
                       alertChoice.then(function(res) {
-                        // console.log('Thank you for not eating my delicious ice cream cone');
                       });
                 }
                 else{
                   if( res.check === 0){
-                    console.log('payment canceled');
                   }
                   else if (res.check === 1 ){
                     
                     if( ((takeAwayHour - minHour)<3) && ((takeAwayHour - minHour)>0) ){
                       if( choice == 'dineIn'){
-                        console.log('being placed');
-                        // $scope.checkfn();
                           $scope.placeOrder( cartList, 'onlinePayment', false, false, takeAwayHour, takeAwayMinute, '', false, customize_order);
                         }
                         else if( choice == 'parcel'){
-                          console.log('being placed');
-                          // $scope.checkfn();
                           $scope.placeOrder( cartList, 'onlinePayment', true, false, takeAwayHour, takeAwayMinute, '', false, customize_order);
                         }
                     }
                     else if( takeAwayHour == minHour){
                       if( takeAwayMinute >= minMinute){
                         if( choice == 'dineIn'){
-                          console.log('being placed');
-                          // $scope.checkfn();
                             $scope.placeOrder( cartList, 'onlinePayment', false, false, takeAwayHour, takeAwayMinute, '', false, customize_order);
                           }
                           else if( choice == 'parcel'){
-                            console.log('being placed');
-                            // $scope.checkfn();
                             $scope.placeOrder( cartList, 'onlinePayment', true, false, takeAwayHour, takeAwayMinute, '', false, customize_order);
                           }
                       }
@@ -1745,7 +1518,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
                       });
                     
                       alertPopup.then(function(res) {
-                        // console.log('Thank you for not eating my delicious ice cream cone');
                       });
                     }
                       console.log('order can be placed');
@@ -1769,7 +1541,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
            { text: 'Cancel',
              onTap: function(e) {
                var check = 0;
-              // alert($scope.deleteAccount.password);
                return {
                  check: check
                };
@@ -1780,7 +1551,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
              type: 'button-assertive',
              onTap: function(e) {
                var check = 1;
-              // alert($scope.deleteAccount.password);
                return {
                  check: check
                };
@@ -1801,23 +1571,17 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
                       });
                     
                       alertChoice.then(function(res) {
-                        // console.log('Thank you for not eating my delicious ice cream cone');
                       });
         }
         else{
           if( res.check === 0){
-             console.log('payment canceled');
            }
            else if (res.check === 1 ){
                   
                       if( choice == 'dineIn'){
-                        console.log('being placed');
-                        // $scope.checkfn();
                           $scope.placeOrder( cartList, 'onlinePayment', false, false, takeAwayHour, takeAwayMinute, '', true, customize_order);
                         }
                         else if( choice == 'parcel'){
-                          console.log('being placed');
-                          // $scope.checkfn();
                           $scope.placeOrder( cartList, 'onlinePayment', true, false, takeAwayHour, takeAwayMinute, '', true, customize_order);
                         }
           }
@@ -1832,10 +1596,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
 .controller('FavouritesCtrl', [ '$scope', 'favourites', '$http', 'outlets', 'cart', '$ionicPopup', '$interval', '$rootScope', '$window', 
   
   function($scope, favourites, $http, outlets, cart, $ionicPopup, $interval, $rootScope, $window) {
-    
-    // if(window.localStorage['token'] === '' | window.localStorage['token'] === undefined){
-    //   location.replace('login.html');
-    // }
+
     $scope.$on('$ionicView.enter', function() {
     if(navigator.onLine) {
       $scope.isOnline = true;
@@ -1864,19 +1625,18 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
             "where": { "userId": parseInt(window.localStorage['currentUserId'])}
           },
             headers: {
-              'Authorization': 'Hasura ' + window.localStorage['token']
+              'Authorization': 'Bearer ' + window.localStorage['token']
           }
         };
                     
         $http(favouritesReq).then(function(response){
-          // console.log(response); 
           $scope.$evalAsync(function(){
             $scope.favList = response.data;
             $scope.favourites_length = response.data.length;
           });
           
         }, function(response){
-            console.log(response);
+            console.log(response.data);
         });
       };
       
@@ -1897,12 +1657,11 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
           "where": {"id": id}
         },
         headers: {
-          'Authorization': 'Hasura ' + window.localStorage['token']
+          'Authorization': 'Bearer ' + window.localStorage['token']
         }
       };
                   
       $http(removeFromFavReq).then(function(response){
-        // console.log(response); 
         var i;
         for(i=0; i<$scope.favList.length; i++){
           if($scope.favList.id == id){
@@ -1910,7 +1669,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
           }
         }
       }, function(response){
-          console.log(response);
+          console.log(response.data);
       });
     };
     
@@ -1918,8 +1677,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
       $scope.currentOutlet = outlets.getOutlet();
       
       var count = cart.addToCart(item, $scope.currentOutlet.id);
-      
-      // console.log(count);
       
       if(count == 1){
         var alertCart = $ionicPopup.alert({
@@ -1955,7 +1712,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
         $scope.isMobile = false;
     }
   });  
-  console.log(parseInt(window.localStorage['currentUserId']));
    var userReq = {
             method: 'POST',
             url: server + '1/table/users/select',
@@ -1967,16 +1723,15 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
               'where': {'id': parseInt(window.localStorage['currentUserId'])}
             },
             headers: {
-              'Authorization': 'Hasura ' + window.localStorage['token']
+              'Authorization': 'Bearer ' + window.localStorage['token']
             }
           };
           $http(userReq).then(function(response){
-            console.log(response.data);
             userDetails.addUser(response.data[0]);
             $scope.user = userDetails.getUser();
         },
           function(response){
-            console.log(response);
+            console.log(response.data);
     });
     
     var accountsfn = function(){
@@ -1988,14 +1743,14 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
                 'where': {'userId': parseInt(window.localStorage['currentUserId'])}
               },
               headers: {
-                'Authorization': 'Hasura ' + window.localStorage['token']
+                'Authorization': 'Bearer ' + window.localStorage['token']
               }
             };
             $http(accountsReq).then(function(response){
               $scope.accounts = response.data;
           },
             function(response){
-              console.log(response);
+              console.log(response.data);
       });      
     };
     
@@ -2011,13 +1766,11 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
       var addAccount = $ionicPopup.confirm({
         templateUrl: 'templates/addAccount.html',
         title: 'Registered Account :',
-        // subTitle: 'Please use normal things',
         scope: $scope,
         buttons: [
              { text: 'Cancel',
                onTap: function(e) {
                  var check = 0;
-                // alert($scope.deleteAccount.password);
                  return {
                    check: check
                  };
@@ -2028,7 +1781,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
                type: 'button-assertive',
                onTap: function(e) {
                  var check = 1;
-                // alert($scope.deleteAccount.password);
                  return {
                    check: check
                  };
@@ -2067,7 +1819,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
                     }]
                   },
                   headers: {
-                    'Authorization': 'Hasura ' + window.localStorage['token']
+                    'Authorization': 'Bearer ' + window.localStorage['token']
                   }
                 };
                 $http(accountReq).then(function(response){
@@ -2078,7 +1830,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
                 
                    alertPopup.then(function(res) {
                    }); 
-                  // console.log(response.data);
                   var emailReq = {
                     method: 'POST',
                     url: 'https://server.sqippr.com/email',
@@ -2091,15 +1842,14 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
                     }
                   };
                   $http(emailReq).then(function(response){
-                    console.log(response.data);
                 },
                   function(response){
-                    console.log(response);
+                    console.log(response.data);
         }); 
                   
               },
                 function(response){
-                  console.log(response);
+                  console.log(response.data);
                   var alertPopup = $ionicPopup.alert({
                      title: 'Error!',
                      template: 'Account already exists'
@@ -2114,8 +1864,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
     };
     
     $scope.deleteRegAccount = function(account){
-    	console.log("calling delete");
-    	console.log(account);
     	var confirmPopup = $ionicPopup.confirm({
           title: 'Delete Registered Account',
           template: 'Are you sure you want to delete your registered account?'
@@ -2130,7 +1878,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
               	"where": {"regEmail": account.regEmail}
               },
               headers: {
-                'Authorization': 'Hasura ' + window.localStorage['token']
+                'Authorization': 'Bearer ' + window.localStorage['token']
               }
             };
                     
@@ -2140,9 +1888,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
                 function(response){
                 console.log(response);
             });
-            console.log('You are sure');
           } else {
-            console.log('You are not sure');
           }
         });
     	
@@ -2155,7 +1901,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
       });
       
       alertPopup.then(function(res) {
-        console.log('can not order');
       });
     };
 }])
@@ -2264,7 +2009,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
                   seconds -= 1; 
                 }
 
-                // $scope.hours = hours;
                 $scope.minutesInSeconds = minutesInSeconds;
                 $scope.minutes = minutes;
                 $scope.seconds = seconds;
@@ -2284,7 +2028,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
                   "where": {'id': cart.getCurrentOrder()}
                 },
                 headers: {
-                  'Authorization': 'Hasura ' + window.localStorage['token']
+                  'Authorization': 'Bearer ' + window.localStorage['token']
                 }
               };
                       
@@ -2295,7 +2039,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
                   $interval.cancel(promiseConfirm);  
                 }
               }, function(response){
-                console.log(response);
+                console.log(response.data);
               });
             };
             
@@ -2332,14 +2076,13 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
               "where": {'id': cart.getCurrentOrder()}
             },
             headers: {
-              'Authorization': 'Hasura ' + window.localStorage['token']
+              'Authorization': 'Bearer ' + window.localStorage['token']
             }
           };
           
           $http(updateOrderReq).then(function(response){
-            console.log(response);
           }, function(response){
-            console.log(response);
+            console.log(response.data);
           });
           location.replace('index.html');
         } else {
@@ -2365,11 +2108,10 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
               'where': {'id': parseInt(window.localStorage['currentUserId'])}
             },
             headers: {
-              'Authorization': 'Hasura ' + window.localStorage['token']
+              'Authorization': 'Bearer ' + window.localStorage['token']
             }
           };
           $http(userReq).then(function(response){
-            console.log(response.data);
             userDetails.addUser(response.data[0]);
   var confirmationOrdersReq = {
     method: 'POST',
@@ -2397,12 +2139,11 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
         }
     },
     headers: {
-        'Authorization': 'Hasura ' + window.localStorage['token']
+        'Authorization': 'Bearer ' + window.localStorage['token']
       }
   };
   
   $http(confirmationOrdersReq).then(function(response){
-    console.log(response);
     var user = userDetails.getUser();
     console.log(user);
     $scope.name = user.name;
@@ -2455,8 +2196,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
         $scope.check = true;
       }
     }
-    console.log('KuUttQ'+'|'+$scope.token+'|'+$scope.totalAmount+'|'+'food order'+'|'+$scope.name+
-                      '|'+$scope.email+'|||||||||||'+'rbCbgBzB');
     $scope.sha512 = sha512('KuUttQ'+'|'+$scope.token+'|'+$scope.totalAmount+'|'+'food order'+'|'+$scope.name+
                       '|'+$scope.email+'|||||||||||'+'rbCbgBzB');
     
@@ -2469,22 +2208,21 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
             "where": {"timestamp": timestamp}
           },
           headers: {
-            'Authorization': 'Hasura ' + window.localStorage['token']
+            'Authorization': 'Bearer ' + window.localStorage['token']
           }
         };
         
         $http(updateHashReq).then(function(response){
-          console.log(response);
         }, function(response){
-          console.log(response);
+          console.log(response.data);
         });
     
   }, function(response){
-    console.log(response);
+    console.log(response.data);
   });
         },
           function(response){
-            console.log(response);
+            console.log(response.data);
     });
   $scope.$on('$ionicView.enter', function() {
     if(navigator.onLine) {
@@ -2543,7 +2281,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
   });
   
     $scope.scrollToTop = function(){
-      console.log('works');
       $ionicScrollDelegate.scrollTop();
     };
     
@@ -2558,7 +2295,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
       };
       
       $http(outletsReq).then(function(response){
-            // console.log(response.data);
             var outlets = response.data;
             
             var orderHistoryReq = {
@@ -2569,7 +2305,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
                 "where": { 'userId': parseInt(window.localStorage['currentUserId'])}
               },
               headers: {
-                'Authorization': 'Hasura ' + window.localStorage['token']
+                'Authorization': 'Bearer ' + window.localStorage['token']
               }
             };
                     
@@ -2605,15 +2341,12 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
                     } 
                 }
               }
-              
-              // console.log(response); 
-              // console.log($scope.orders);
             },function(response){
-                console.log(response);
+                console.log(response.data);
             });
 
           },function(response){
-            console.log(response);
+            console.log(response.data);
       });
       
       $scope.openOrderSummary = function(order){
@@ -2652,7 +2385,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
         "columns": ['*']
       },
       headers: {
-        'Authorization': 'Hasura ' + window.localStorage['token']
+        'Authorization': 'Bearer ' + window.localStorage['token']
       }
     };
                         
@@ -2668,7 +2401,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
                 "where": { 'id': order.id}
               },
               headers: {
-                'Authorization': 'Hasura ' + window.localStorage['token']
+                'Authorization': 'Bearer ' + window.localStorage['token']
               }
             };
                     
@@ -2677,7 +2410,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
                 var getPadded = function(val){
                   return val < 10 ? ('0' + val) : val;
                 };
-                // console.log(response); 
                 
                 $scope.isDelivery = response.data[0].isDelivery;
                 $scope.deliveryTime = getPadded(response.data[0].takeAwayHour)+':'+getPadded(response.data[0].takeAwayMinute);
@@ -2695,7 +2427,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
                     "where": { 'orderId': order.id}
                   },
                   headers: {
-                    'Authorization': 'Hasura ' + window.localStorage['token']
+                    'Authorization': 'Bearer ' + window.localStorage['token']
                   }
                 };
                         
@@ -2719,17 +2451,16 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
                       }
                     }
                   }
-                  console.log($scope.orderSummary);
                   
                 },function(response){
-                    console.log(response);
+                    console.log(response.data);
                 });
               
             },function(response){
-                console.log(response);
+                console.log(response.data);
             });
     },function(response){
-      console.log(response);
+      console.log(response.data);
     });
     
 }])
@@ -2825,7 +2556,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
     $scope.address = '';
     $scope.$watch('address', function(newValues, oldValues, scope) {
       cart.addAddress($scope.address);
-      console.log($scope.address);
     });
     
 }])
@@ -2833,9 +2563,12 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
 .controller('changePassPopupCtrl', ['$scope', 'userDetails',
 
   function($scope, userDetails){
-    // $scope.$watch('choice', function(newValues, oldValues, scope) {
-    //   userDetails.addChangePassword([$scope.oldPassword, $scope.newPassword]);
-    // });
+    $scope.$watchGroup(['oldPassword', 'newPassword'], function(newValues, oldValues, scope) {
+    	var temparray = [];
+    	temparray[0] = $scope.oldPassword;
+    	temparray[1] = $scope.newPassword;
+      userDetails.addChangePassword(temparray);
+    }, true);
     
 }])
 
@@ -2873,7 +2606,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
         //     "where": {"timestamp": $scope.timestamp}
         //   },
         //   headers: {
-        //     'Authorization': 'Hasura ' + window.localStorage['token']
+        //     'Authorization': 'Bearer ' + window.localStorage['token']
         //   }
         // };
         
@@ -2950,9 +2683,8 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
           $ionicLoading.hide();
           $scope.check = true;
           location.href = 'index.html';
-          // location.replace();
         }, function(response){
-            console.log(response);
+            console.log(response.data);
         }) ; 
   };
 }])
@@ -2981,13 +2713,11 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
      var changePasswordPopup = $ionicPopup.confirm({
       templateUrl: 'templates/changePasswordPopup.html',
       title: 'Change Password :',
-      // subTitle: 'Please use normal things',
       scope: $scope,
       buttons: [
            { text: 'Cancel',
              onTap: function(e) {
                var check = 0;
-              // alert($scope.deleteAccount.password);
                return {
                  check: check
                };
@@ -2998,7 +2728,6 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
              type: 'button-assertive',
              onTap: function(e) {
                var check = 1;
-              // alert($scope.deleteAccount.password);
                return {
                  check: check
                };
@@ -3006,9 +2735,9 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
            },
          ]
     });
-    var changePassword = userDetails.getChangePassword;
     
     changePasswordPopup.then(function(res) {
+    	var changePassword = userDetails.getChangePassword();
       
       if( res.check == 1){
        var changePasswordReq = {
@@ -3019,14 +2748,13 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
             'new_password': changePassword[1],
           },
             headers: {
-              'Authorization': 'Hasura ' + window.localStorage['token']
+              'Authorization': 'Bearer ' + window.localStorage['token']
           }
         };
                     
         $http(changePasswordReq).then(function(response){
-          console.log(response); 
         }, function(response){
-            console.log(response);
+            console.log(response.data);
         }) ;
       }
       
