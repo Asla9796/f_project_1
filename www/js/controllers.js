@@ -61,7 +61,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
           location.replace('index.html');
         },
          function(response) {
-          console.log(response.data);
+          console.log(response);
           var Popup = (response.data.message);
           $ionicLoading.hide();
           var alertPopup = $ionicPopup.alert({
@@ -149,7 +149,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
       
     }, function(response){
       $ionicLoading.hide();
-      console.log(response.data);
+      console.log(response);
       
     });
   };
@@ -240,7 +240,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
         location.replace('forgotPass2.html');
         
       }, function(response){
-        console.log(response.data);
+        console.log(response);
         $ionicLoading.hide();
       });
       
@@ -291,7 +291,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
             location.href = 'signUp2.html';
               },
             function(response){
-                console.log(response.data);
+                console.log(response);
         });
   };
   
@@ -327,7 +327,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
           addUser(data, response.data.hasura_id);
         },
         function(response) {
-          console.log(response.data);
+          console.log(response);
           var Popup = (response.data.message);
           $ionicLoading.hide();
           var alertPopup = $ionicPopup.alert({
@@ -459,7 +459,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
             location.replace('login.html');
             
           }, function(response){
-            console.log(response.data);
+            console.log(response);
           });
         });
       }
@@ -474,7 +474,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
       }
       },
       function(response){
-        console.log(response.data);
+        console.log(response);
         var alert3Popup = $ionicPopup.alert({
           title: 'Error!',
           template: 'Invalid token! Please check and try again'
@@ -524,7 +524,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
           });
         },
       function(response){
-          console.log(response.data);
+          console.log(response);
         });
     
     $scope.openOutlet = function(object) {
@@ -659,7 +659,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
   
           },
             function(response){
-              console.log(response.data);
+              console.log(response);
       });       
     }
             }
@@ -766,7 +766,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
                 $http(favReq).then(function(response){
                   favourites.addCurrentFav(response.data);
                 }, function(response){
-                  console.log(response.data);
+                  console.log(response);
                 });
               }
               
@@ -819,7 +819,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
               }
             },
           function(response){
-              console.log(response.data);
+              console.log(response);
             });
         };
             
@@ -1004,7 +1004,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
                 window.localStorage.setItem('currentUserId', '');
               },
                 function(response){
-                console.log(response.data);
+                console.log(response);
             });
           }
        });
@@ -1033,7 +1033,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
                 location.replace('index.html');
           },
             function(response){
-                console.log(response.data);
+                console.log(response);
               });
           } else {
           }
@@ -1167,12 +1167,12 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
                   $http(updateTokenReq).then(function(response){
                     },
                     function(response){
-                        console.log(response.data);
+                        console.log(response);
                   });
 
             },
           function(response){
-              console.log(response.data);
+              console.log(response);
         });
         };
             
@@ -1209,7 +1209,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
                        location.href ='#/tab/awaitingConfirmation'; 
                     },
                     function(response){
-                        console.log(response.data);
+                        console.log(response);
                       });
             };   
     
@@ -1619,7 +1619,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
           });
           
         }, function(response){
-            console.log(response.data);
+            console.log(response);
         });
       };
       
@@ -1652,7 +1652,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
           }
         }
       }, function(response){
-          console.log(response.data);
+          console.log(response);
       });
     };
     
@@ -1714,7 +1714,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
             $scope.user = userDetails.getUser();
         },
           function(response){
-            console.log(response.data);
+            console.log(response);
     });
     
     var accountsfn = function(){
@@ -1733,7 +1733,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
               $scope.accounts = response.data;
           },
             function(response){
-              console.log(response.data);
+              console.log(response);
       });      
     };
     
@@ -1826,12 +1826,12 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
                   $http(emailReq).then(function(response){
                 },
                   function(response){
-                    console.log(response.data);
+                    console.log(response);
         }); 
                   
               },
                 function(response){
-                  console.log(response.data);
+                  console.log(response);
                   var alertPopup = $ionicPopup.alert({
                      title: 'Error!',
                      template: 'Account already exists'
@@ -1867,7 +1867,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
             $http(deleteAccountReq).then(function(response){
               },
                 function(response){
-                console.log(response.data);
+                console.log(response);
             });
           } else {
           }
@@ -2018,7 +2018,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
                   $interval.cancel(promiseConfirm);  
                 }
               }, function(response){
-                console.log(response.data);
+                console.log(response);
               });
             };
             
@@ -2061,7 +2061,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
           
           $http(updateOrderReq).then(function(response){
           }, function(response){
-            console.log(response.data);
+            console.log(response);
           });
           location.replace('index.html');
         } else {
@@ -2191,15 +2191,15 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
         
         $http(updateHashReq).then(function(response){
         }, function(response){
-          console.log(response.data);
+          console.log(response);
         });
     
   }, function(response){
-    console.log(response.data);
+    console.log(response);
   });
         },
           function(response){
-            console.log(response.data);
+            console.log(response);
     });
   $scope.$on('$ionicView.enter', function() {
     if(navigator.onLine) {
@@ -2317,11 +2317,11 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
                 }
               }
             },function(response){
-                console.log(response.data);
+                console.log(response);
             });
 
           },function(response){
-            console.log(response.data);
+            console.log(response);
       });
       
       $scope.openOrderSummary = function(order){
@@ -2425,14 +2425,14 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
                   }
                   
                 },function(response){
-                    console.log(response.data);
+                    console.log(response);
                 });
               
             },function(response){
-                console.log(response.data);
+                console.log(response);
             });
     },function(response){
-      console.log(response.data);
+      console.log(response);
     });
     
 }])
@@ -2604,7 +2604,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
                   $http(emailReq).then(function(response){
                 },
                   function(response){
-                    console.log(response.data);
+                    console.log(response);
         });    
     } ;
       
@@ -2654,7 +2654,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
           $scope.check = true;
           location.href = 'index.html';
         }, function(response){
-            console.log(response.data);
+            console.log(response);
         }) ; 
   };
 }])
@@ -2731,7 +2731,7 @@ angular.module('starter.controllers', ['ionic','ngStorage', 'starter.services',
      			alertPopup.then(function(res) {
       		});
         }, function(response){
-            console.log(response.data);
+            console.log(response);
         }) ;
       }
       

@@ -82,13 +82,11 @@ angular.module('starter.services', [])
   
   var progress = false;
   var getProgress = function(){
-    console.log(progress);
     return progress;
   };
   
   var addProgress = function(newProgress){
     progress = newProgress;
-    console.log(progress);
   }
   ;
   return {
@@ -172,7 +170,6 @@ angular.module('starter.services', [])
             }
           };
         $http(addToFavReq).then(function(response){
-            console.log(response);
             },
           function(response){
               console.log(response);
@@ -200,7 +197,6 @@ angular.module('starter.services', [])
         };
                     
         $http(favouritesReq).then(function(response){
-          console.log(response.data);
           var i;
           if(response.data.length === 0){
             addFav(newFavItem);
@@ -224,7 +220,6 @@ angular.module('starter.services', [])
             }
           };
         $http(removeFavReq).then(function(response){
-            console.log(response);
             },
           function(response){
               console.log(response);
@@ -260,8 +255,6 @@ angular.module('starter.services', [])
     count += 1;
     var i, check = false;
     var index;
-
-    // console.log(cartList.length);
     
     for( i=0; i<cartList.length; i++) {
       if( newCartItem.name == cartList[i].name) {
@@ -278,7 +271,6 @@ angular.module('starter.services', [])
       dummyItem.minTime = newCartItem.minTime;
       dummyItem.outletId = outletId;
       dummyItem.quantity = 1;
-      // console.log(dummyItem);
       cartList.push(dummyItem);
     }
     else {
@@ -288,11 +280,8 @@ angular.module('starter.services', [])
       dummyItem.minTime = newCartItem.minTime;
       dummyItem.quantity = cartList[index].quantity + 1;
       dummyItem.outletId = outletId;
-      // console.log(dummyItem);
       cartList.splice(index, 1, dummyItem);
     }
-    // console.log(cartList);
-    // console.log('new item added to cart');
         return inCount;
   };
   
@@ -321,9 +310,6 @@ angular.module('starter.services', [])
       else {
         cartList.splice(index, 1, dummyItem);  
       }
-    
-    // console.log(cartList);
-    // console.log('new item added to cart');
   };
   
   var deleteFromCart = function(deleteItem) {
@@ -338,7 +324,6 @@ angular.module('starter.services', [])
     }
     
     cartList.splice(deleteIndex, 1);
-    console.log('delete from cart succesfully');
   };
 
   var hour = 0, minutes = 0, minHour = 0, minMinutes = 0, minTime = 0;
@@ -390,10 +375,8 @@ angular.module('starter.services', [])
   var choice = '';
   var addChoice = function(newChoice){
     choice = newChoice;
-    console.log(choice, 'works');
   };
   var getChoice = function(){
-    console.log(choice, 'alls awesome');
     return choice;
   };
   
