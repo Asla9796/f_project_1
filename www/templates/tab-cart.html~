@@ -12,6 +12,17 @@
       <br>
       <br>
     </div>
+    <!--<ion-list>-->
+    <!--  <ion-item ng-repeat="playlist in playlists" href="#/app/playlists/{{playlist.id}}">-->
+    <!--    {{playlist.title}}-->
+    <!--  </ion-item>-->
+    <!--</ion-list>-->
+    	<!--<div class="row_image_func" ng-style="{'background-image': 'url({})'};-->
+    	<!--                                    width: 100%;-->
+     <!--                                     height: 400px;-->
+     <!--                                     background-size: 100% 100%;">-->
+     
+     <!-- </div>-->
   <div ng-if="isMobile">
     <div ng-show="!isCartEmpty()">
       <div class="bar bar-subheader bar-assertive" ng-show="isOnline">

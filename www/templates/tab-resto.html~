@@ -173,7 +173,7 @@
               <!--</ion-list> -->
   <!--          </div>-->
   				
-  				<button class="button button-block button-energized" ng-repeat="group in groups" ng-click="scrollTo(group.id)>{{group.type}}</button>
+  				<button class="button button-block button-energized" ng-repeat="group in groups" ng-click="scrollTo(group.id)">{{group.type}}</button>
          </div>
           <div class="col col-50">
             

@@ -1,4 +1,8 @@
 <ion-view hide-back-button="true" view-title="Awaiting Confirmation &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<img class='title-image' src='img/logo_white.png' />">  
+  <!--<div class="bar bar-subheader bar-energized bar-stable">-->
+  <!--  <h2 class="title">Awaiting Confirmation</h2>-->
+  <!--</div>  -->
+
   <ion-content>
     <div class="box1">
     <div ng-if="isMobile">

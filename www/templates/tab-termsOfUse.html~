@@ -194,6 +194,19 @@
 
      </div>
      </div>
+      <!--<a class="item" href="#">-->
+      <!--  <p>Password</p>-->
+      <!--  <h2 style="color: #ff5733">{{ user.password }} </h2>-->
+      <!--</a>-->
+      <!--<a class="item" href="#">-->
+      <!--  <p>Location</p>-->
+      <!--  <h2 style="color: #ff5733">Location </h2>-->
+      <!--</a>-->
+      <!--<a class="item item-icon-right item-icon-left" href="#">-->
+      <!--  <i class="icon ion-ios-plus-outline" ng-click=addAccount()></i>-->
+      <!--  <p>Registered Accounts</p>-->
+      <!--  <i class="icon ion-ios-help-outline" ng-click=showAlert()></i>-->
+      <!--</a>-->
 
   </ion-content>
 </ion-view>

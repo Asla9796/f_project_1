@@ -1,5 +1,20 @@
 <ion-view view-title="Favourites &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<img class='title-image' src='img/logo_white.png' />">
 
+  <!--<div class="bar bar-subheader bar-assertive-custom2 bar-stable">-->
+  <!--  <h2 class="title">Sub Header</h2>-->
+  <!--</div>  -->
+
+  <ion-content class="overflow-scroll" scroll="true">
+    <!--<div ng-if="!isOnline">-->
+    <!--  <div class="bar bar-subheader bar-assertive">-->
+    <!--    <h2 class="title">You are not connected to the internet</h2>-->
+    <!--  </div>-->
+    <!--  <br>-->
+    <!--  <br>-->
+    <!--</div>-->
+    <!--<br>-->
+    <!--<br>-->
+  <div class="box1">
     <div ng-if="isMobile">
       <br><br>
             <ion-list>

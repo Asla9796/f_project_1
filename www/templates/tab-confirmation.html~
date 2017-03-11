@@ -178,7 +178,7 @@
               <p style="text-align:center; color:grey">Your order has been successfully placed. You can track your order status on Accounts >> Order History</p>
             </div>
             
-            <form name="payForm" id="payForm" method="POST" action="https://test.payu.in/_payment">
+            <form name="payForm" id="payForm" method="POST" action="https://secure.payu.in/_payment">
                 <input type="hidden" name="key" value="KuUttQ">
                 <input type="hidden" name="txnid" value= {{token}}>
                 <input type="hidden" name="amount" value= {{totalAmount}}>

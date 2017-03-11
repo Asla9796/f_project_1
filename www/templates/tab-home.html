@@ -20,25 +20,6 @@
             <img ng-src="{{image.url}}" style="height:30vh;width:100vw;margin:auto;display:block" >
           </ion-slide>
         </ion-slide-box>
-     <!--  <div class="container-gral">-->
-     <!--  <div class="container" >-->
-    	<!--		<div class="slider" create-slider urls='["img/download.jpg","img/download.jpg","img/download.jpg"]' current="current" time="3"></div>-->
-    	<!--	</div>-->
-    	<!--</div>-->
-      <!--<p style="text-align:center"><img src="img/logo.png" style="width: 300px; height: 200px;"></p>-->
-      
-      <!--<ion-list>-->
-      <!--    <ion-item menu-close href="#/tab/resto" ng-click=openOutlet(object) ng-repeat="object in outletsList">-->
-      <!--      {{ object.name }}-->
-      <!--    </ion-item>-->
-      <!--</ion-list>-->
-    <!--</div>-->
-      <!--<div class="row row-wrap">-->
-      <!--  <div class="col col-50" ng-click=openOutlet(object) ng-repeat="object in outletsList">-->
-      <!--    <p style="text-align:center"><img src="img/{{object.id}}.jpg" style="width: 195px; height: 195px;margin:auto; display:block"></p>-->
-          
-      <!--  </div>-->
-      <!--</div>-->
               <div class="card" ng-repeat="object in outletsList">
                 <div class="item item-divider">
                   <div class="row">
@@ -90,16 +71,6 @@
               {{ detail.title }}
             </ion-item>
             <ion-item class="item-accordion" ng-show="isDetailShown(detail)">
-              <!--<div ng-if="detail.title == 'Contact Us'">-->
-              <!--  <p style="text-align:center">www.sqippr.com</p>-->
-              <!--  <p style="text-align:center"><a href="#/tab/contactUs">For more details, click here</a></p>-->
-              <!--  <br>-->
-              <!--  <div class="row">-->
-              <!--    <div class="col col-center"><a href=""><img src="img/playstore.png" style="width: 30px; height: 30px"></a></div>-->
-              <!--    <div class="col col-center"><a href="http://facebook.com/sqippr"><img src="img/facebook.png" style="width: 30px; height: 30px"></a></div>-->
-              <!--    <div class="col col-center"><a href=""><img src="img/twitter.png" style="width: 30px; height: 30px"></a></div>-->
-              <!--  </div>-->
-              <!--</div> -->
               <div ng-if="detail.title == 'About Us'">
                     <p style="text-align:center">We are an IIT Madras students’ initiative <br>to change the way you order and have food! 
                     Specifically designed to make dining ...<br><a href="#/tab/about">Read More</a></p>
@@ -313,18 +284,4 @@
       </div>
       
     </ion-content>
-        <!--<div class="bar bar-footer bar-assertive-custom" ng-if="!isMobile">-->
-        <!--  <div class="title">-->
-        <!--    <div class="row">-->
-        <!--      <div class="col"><p style="color: #ff7f12; font-size: 15px; "><b>Find us on: </b></p></div>-->
-        <!--      <div class="col col-center"><a href=""><img src="img/playstore.png" style="width: 40px; height: 40px"></a></div>-->
-        <!--      <div class="col col-center"><a href="http://facebook.com/sqippr"><img src="img/facebook.png" style="width: 40px; height: 40px"></a></div>-->
-        <!--      <div class="col col-center"><a href=""><img src="img/twitter.png" style="width: 40px; height: 40px"></a></div>-->
-        <!--      <div class="col col-center"><a href=""><img src="img/instagram.png" style="width: 40px; height: 40px"></a></div>-->
-        <!--      <div class="col col-center"><a href=""><img src="img/google-plus.png" style="width: 40px; height: 40px"></a></div>-->
-        <!--      <div class="col col-center"><a href=""><img src="img/mail-icon.png" style="width: 40px; height: 40px"></a></div>-->
-        <!--      <div class="col col-center">&copy 2016 Sqippr</div>-->
-        <!--    </div>-->
-        <!--  </div>-->
-        <!--</div>-->
 </ion-view>
